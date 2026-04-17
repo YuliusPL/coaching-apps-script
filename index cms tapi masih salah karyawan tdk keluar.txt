@@ -1,0 +1,4115 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Coaching Monitoring System</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+<style>
+:root {
+  --primary: #1e3a5f;
+  --primary-light: #2c5282;
+  --primary-dark: #152a45;
+  --accent: #3b82f6;
+  --success: #10b981;
+  --warning: #f59e0b;
+  --danger: #ef4444;
+  --info: #06b6d4;
+  --gray-50: #f9fafb;
+  --gray-100: #f3f4f6;
+  --gray-200: #e5e7eb;
+  --gray-300: #d1d5db;
+  --gray-400: #9ca3af;
+  --gray-500: #6b7280;
+  --gray-600: #4b5563;
+  --gray-700: #374151;
+  --gray-800: #1f2937;
+  --gray-900: #111827;
+  --white: #ffffff;
+  --shadow-sm: 0 1px 2px 0 rgba(0,0,0,0.05);
+  --shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
+  --shadow-xl: 0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04);
+  --radius-sm: 8px;
+  --radius: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--gray-50);
+  color: var(--gray-800);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* Loading Screen Premium */
+.loading-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  transition: opacity 0.5s ease;
+}
+
+.loading-screen.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.spinner-container {
+  position: relative;
+  width: 80px;
+  height: 80px;
+}
+
+.spinner {
+  width: 80px;
+  height: 80px;
+  border: 4px solid rgba(255,255,255,0.1);
+  border-top-color: var(--white);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+.spinner-inner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 40px;
+  height: 40px;
+  border: 3px solid rgba(255,255,255,0.2);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin-reverse 1.5s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes spin-reverse {
+  to { transform: rotate(-360deg); }
+}
+
+.loading-text {
+  margin-top: 24px;
+  color: var(--white);
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+
+.loading-subtext {
+  margin-top: 8px;
+  color: rgba(255,255,255,0.7);
+  font-size: 13px;
+}
+
+/* Login Page Premium */
+.login-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 50%, var(--primary-light) 100%);
+  padding: 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.login-container::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255,255,255,0.05) 1px, transparent 1px);
+  background-size: 50px 50px;
+  opacity: 0.5;
+}
+
+.login-card {
+  background: var(--white);
+  border-radius: var(--radius-xl);
+  padding: 48px;
+  width: 100%;
+  max-width: 440px;
+  box-shadow: var(--shadow-xl);
+  text-align: center;
+  position: relative;
+  z-index: 1;
+  animation: slideUp 0.6s ease;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.login-logo {
+  width: 88px;
+  height: 88px;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+  border-radius: var(--radius-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 28px;
+  box-shadow: 0 8px 24px rgba(30, 58, 95, 0.3);
+}
+
+.login-logo .material-icons-round {
+  font-size: 44px;
+  color: var(--white);
+}
+
+.login-title {
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--gray-900);
+  margin-bottom: 8px;
+}
+
+.login-subtitle {
+  font-size: 15px;
+  color: var(--gray-500);
+  margin-bottom: 36px;
+}
+
+.form-group {
+  margin-bottom: 24px;
+  text-align: left;
+}
+
+.form-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--gray-700);
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.form-label .material-icons-round {
+  font-size: 16px;
+  color: var(--primary);
+}
+
+.form-input {
+  width: 100%;
+  padding: 16px 18px;
+  border: 2px solid var(--gray-200);
+  border-radius: var(--radius);
+  font-size: 15px;
+  transition: var(--transition);
+  background: var(--gray-50);
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: var(--accent);
+  background: var(--white);
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+}
+
+.form-input-icon {
+  position: relative;
+}
+
+.form-input-icon .material-icons-round {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--gray-400);
+  font-size: 20px;
+}
+
+.form-input-icon input {
+  padding-left: 48px;
+}
+
+/* Buttons Premium */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 24px;
+  border: none;
+  border-radius: var(--radius);
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  text-decoration: none;
+}
+
+.btn .material-icons-round {
+  font-size: 20px;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+  color: var(--white);
+  width: 100%;
+  box-shadow: 0 4px 12px rgba(30, 58, 95, 0.3);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(30, 58, 95, 0.4);
+}
+
+.btn-secondary {
+  background: var(--gray-100);
+  color: var(--gray-700);
+}
+
+.btn-secondary:hover {
+  background: var(--gray-200);
+  transform: translateY(-1px);
+}
+
+.btn-success {
+  background: linear-gradient(135deg, var(--success) 0%, #059669 100%);
+  color: var(--white);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+.btn-success:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(16, 185, 129, 0.4);
+}
+
+.btn-danger {
+  background: linear-gradient(135deg, var(--danger) 0%, #dc2626 100%);
+  color: var(--white);
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+}
+
+.btn-warning {
+  background: linear-gradient(135deg, var(--warning) 0%, #d97706 100%);
+  color: var(--white);
+}
+
+.btn-info {
+  background: linear-gradient(135deg, var(--info) 0%, #0891b2 100%);
+  color: var(--white);
+}
+
+.btn-sm {
+  padding: 8px 16px;
+  font-size: 13px;
+}
+
+.btn-sm .material-icons-round {
+  font-size: 16px;
+}
+
+.btn-lg {
+  padding: 16px 28px;
+  font-size: 16px;
+}
+
+/* Layout */
+.app-container {
+  display: none;
+  min-height: 100vh;
+}
+
+.app-container.active {
+  display: flex;
+}
+
+/* Sidebar Premium */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 280px;
+  height: 100vh;
+  background: var(--white);
+  border-right: 1px solid var(--gray-200);
+  z-index: 1000;
+  transition: var(--transition);
+  overflow-y: auto;
+  box-shadow: var(--shadow-lg);
+}
+
+.sidebar-header {
+  padding: 24px;
+  border-bottom: 1px solid var(--gray-100);
+  background: linear-gradient(135deg, var(--gray-50) 0%, var(--white) 100%);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.brand-icon {
+  width: 48px;
+  height: 48px;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+  border-radius: var(--radius);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--white);
+  box-shadow: 0 4px 12px rgba(30, 58, 95, 0.3);
+}
+
+.brand-icon .material-icons-round {
+  font-size: 28px;
+}
+
+.brand-text {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--gray-900);
+  line-height: 1.2;
+}
+
+.brand-sub {
+  font-size: 12px;
+  color: var(--gray-500);
+  font-weight: 500;
+}
+
+.user-profile {
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--gray-100);
+  background: var(--gray-50);
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.user-avatar {
+  width: 52px;
+  height: 52px;
+  background: linear-gradient(135deg, var(--primary-light) 0%, var(--accent) 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--white);
+  font-weight: 700;
+  font-size: 18px;
+  box-shadow: 0 4px 12px rgba(30, 58, 95, 0.2);
+  border: 3px solid var(--white);
+}
+
+.user-details h4 {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--gray-900);
+  margin-bottom: 2px;
+}
+
+.user-details p {
+  font-size: 12px;
+  color: var(--gray-500);
+  font-weight: 500;
+}
+
+.nav-menu {
+  padding: 16px 12px;
+}
+
+.nav-section {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--gray-400);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  padding: 20px 16px 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.nav-section .material-icons-round {
+  font-size: 14px;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 18px;
+  margin: 4px 8px;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: var(--transition);
+  color: var(--gray-600);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.nav-item:hover {
+  background: var(--gray-50);
+  color: var(--primary);
+  transform: translateX(4px);
+}
+
+.nav-item.active {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+  color: var(--white);
+  box-shadow: 0 4px 12px rgba(30, 58, 95, 0.3);
+}
+
+.nav-item .material-icons-round {
+  font-size: 22px;
+}
+
+.nav-badge {
+  margin-left: auto;
+  background: var(--danger);
+  color: var(--white);
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 20px;
+  min-width: 20px;
+  text-align: center;
+}
+
+/* Main Content */
+.main-content {
+  flex: 1;
+  margin-left: 280px;
+  transition: var(--transition);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.top-bar {
+  position: sticky;
+  top: 0;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--gray-200);
+  padding: 16px 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 100;
+  box-shadow: var(--shadow-sm);
+}
+
+.page-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--gray-900);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.page-title .material-icons-round {
+  color: var(--primary);
+  font-size: 28px;
+}
+
+.top-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.icon-btn {
+  width: 44px;
+  height: 44px;
+  border: none;
+  background: var(--gray-100);
+  border-radius: var(--radius);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: var(--transition);
+  color: var(--gray-600);
+  position: relative;
+}
+
+.icon-btn:hover {
+  background: var(--primary);
+  color: var(--white);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(30, 58, 95, 0.3);
+}
+
+.icon-btn .material-icons-round {
+  font-size: 22px;
+}
+
+.icon-btn-badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  background: var(--danger);
+  color: var(--white);
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 20px;
+  border: 2px solid var(--white);
+}
+
+.menu-toggle {
+  display: none;
+}
+
+.content-area {
+  padding: 28px;
+  flex: 1;
+}
+
+/* Cards Premium */
+.card {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  transition: var(--transition);
+  border: 1px solid var(--gray-100);
+}
+
+.card:hover {
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-2px);
+}
+
+.card-header {
+  padding: 24px 28px;
+  border-bottom: 1px solid var(--gray-100);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: linear-gradient(135deg, var(--gray-50) 0%, var(--white) 100%);
+}
+
+.card-title {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--gray-900);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.card-title .material-icons-round {
+  color: var(--primary);
+  font-size: 22px;
+}
+
+.card-body {
+  padding: 28px;
+}
+
+/* Filter Section Premium */
+.filter-section {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  padding: 20px 24px;
+  box-shadow: var(--shadow);
+  margin-bottom: 28px;
+  border: 1px solid var(--gray-100);
+}
+
+.filter-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.filter-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--gray-700);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.filter-label .material-icons-round {
+  font-size: 18px;
+  color: var(--primary);
+}
+
+.filter-select {
+  min-width: 220px;
+}
+
+.period-badge {
+  margin-left: auto;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+  color: var(--white);
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 0 4px 12px rgba(30, 58, 95, 0.2);
+}
+
+.period-badge .material-icons-round {
+  font-size: 16px;
+}
+
+/* KPI Cards Premium */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 24px;
+  margin-bottom: 32px;
+}
+
+.kpi-card {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  padding: 28px;
+  box-shadow: var(--shadow);
+  transition: var(--transition);
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--gray-100);
+}
+
+.kpi-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-xl);
+}
+
+.kpi-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 5px;
+  height: 100%;
+}
+
+.kpi-card.total::before { background: linear-gradient(180deg, var(--accent) 0%, var(--primary) 100%); }
+.kpi-card.warning::before { background: linear-gradient(180deg, var(--warning) 0%, #d97706 100%); }
+.kpi-card.success::before { background: linear-gradient(180deg, var(--success) 0%, #059669 100%); }
+.kpi-card.danger::before { background: linear-gradient(180deg, var(--danger) 0%, #dc2626 100%); }
+.kpi-card.info::before { background: linear-gradient(180deg, var(--info) 0%, #0891b2 100%); }
+
+.kpi-label {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--gray-500);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.kpi-value {
+  font-size: 36px;
+  font-weight: 800;
+  color: var(--gray-900);
+  margin-bottom: 8px;
+  line-height: 1;
+}
+
+.kpi-desc {
+  font-size: 13px;
+  color: var(--gray-500);
+  font-weight: 500;
+}
+
+.kpi-icon {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.15;
+}
+
+.kpi-card.total .kpi-icon { background: var(--accent); color: var(--accent); }
+.kpi-card.warning .kpi-icon { background: var(--warning); color: var(--warning); }
+.kpi-card.success .kpi-icon { background: var(--success); color: var(--success); }
+.kpi-card.danger .kpi-icon { background: var(--danger); color: var(--danger); }
+.kpi-card.info .kpi-icon { background: var(--info); color: var(--info); }
+
+.kpi-icon .material-icons-round {
+  font-size: 32px;
+}
+
+/* Status Badges Premium */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.badge .material-icons-round {
+  font-size: 14px;
+}
+
+.badge-success {
+  background: rgba(16, 185, 129, 0.12);
+  color: var(--success);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.badge-warning {
+  background: rgba(245, 158, 11, 0.12);
+  color: var(--warning);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+.badge-danger {
+  background: rgba(239, 68, 68, 0.12);
+  color: var(--danger);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.badge-info {
+  background: rgba(6, 182, 212, 0.12);
+  color: var(--info);
+  border: 1px solid rgba(6, 182, 212, 0.3);
+}
+
+.badge-primary {
+  background: rgba(30, 58, 95, 0.12);
+  color: var(--primary);
+  border: 1px solid rgba(30, 58, 95, 0.3);
+}
+
+.badge-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.badge-success .badge-dot { background: var(--success); }
+.badge-warning .badge-dot { background: var(--warning); }
+.badge-danger .badge-dot { background: var(--danger); }
+.badge-info .badge-dot { background: var(--info); }
+
+/* Coaching Status Badges */
+.status-open { background: rgba(59, 130, 246, 0.12); color: var(--accent); border: 1px solid rgba(59, 130, 246, 0.3); }
+.status-on-progress { background: rgba(245, 158, 11, 0.12); color: var(--warning); border: 1px solid rgba(245, 158, 11, 0.3); }
+.status-done { background: rgba(16, 185, 129, 0.12); color: var(--success); border: 1px solid rgba(16, 185, 129, 0.3); }
+.status-overdue { background: rgba(239, 68, 68, 0.12); color: var(--danger); border: 1px solid rgba(239, 68, 68, 0.3); }
+
+/* Data Table Premium */
+.table-container {
+  overflow-x: auto;
+  border-radius: var(--radius);
+  border: 1px solid var(--gray-100);
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.data-table th {
+  background: linear-gradient(135deg, var(--gray-50) 0%, var(--white) 100%);
+  padding: 16px;
+  text-align: left;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--gray-700);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: 2px solid var(--gray-200);
+  white-space: nowrap;
+  cursor: pointer;
+  transition: var(--transition);
+  user-select: none;
+}
+
+.data-table th:hover {
+  background: var(--gray-100);
+  color: var(--primary);
+}
+
+.data-table th .material-icons-round {
+  font-size: 16px;
+  vertical-align: middle;
+  margin-left: 4px;
+  opacity: 0.5;
+  transition: var(--transition);
+}
+
+.data-table th.sort-asc .material-icons-round,
+.data-table th.sort-desc .material-icons-round {
+  opacity: 1;
+  color: var(--primary);
+}
+
+.data-table th.sort-asc .material-icons-round::after {
+  content: 'arrow_upward';
+}
+
+.data-table th.sort-desc .material-icons-round::after {
+  content: 'arrow_downward';
+}
+
+.data-table td {
+  padding: 16px;
+  border-bottom: 1px solid var(--gray-100);
+  color: var(--gray-700);
+  font-weight: 500;
+}
+
+.data-table tr:hover td {
+  background: var(--gray-50);
+}
+
+.data-table tr:last-child td {
+  border-bottom: none;
+}
+
+/* Global Search Premium */
+.global-search {
+  position: relative;
+  max-width: 450px;
+  width: 100%;
+}
+
+.global-search .material-icons-round {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--gray-400);
+  font-size: 22px;
+  transition: var(--transition);
+}
+
+.global-search input {
+  width: 100%;
+  padding: 14px 16px 14px 50px;
+  border: 2px solid var(--gray-200);
+  border-radius: var(--radius);
+  font-size: 15px;
+  transition: var(--transition);
+  background: var(--white);
+}
+
+.global-search input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+}
+
+.global-search input:focus + .material-icons-round,
+.global-search.has-text .material-icons-round {
+  color: var(--primary);
+}
+
+.global-search-clear {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: var(--gray-400);
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 50%;
+  display: none;
+}
+
+.global-search.has-text .global-search-clear {
+  display: flex;
+}
+
+.global-search-clear:hover {
+  background: var(--gray-100);
+  color: var(--danger);
+}
+
+/* Empty State Premium */
+.empty-state {
+  text-align: center;
+  padding: 80px 20px;
+}
+
+.empty-icon {
+  width: 100px;
+  height: 100px;
+  background: linear-gradient(135deg, var(--gray-100) 0%, var(--gray-50) 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 24px;
+  color: var(--gray-300);
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.empty-icon .material-icons-round {
+  font-size: 48px;
+}
+
+.empty-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--gray-700);
+  margin-bottom: 8px;
+}
+
+.empty-desc {
+  font-size: 15px;
+  color: var(--gray-500);
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+/* Toast Notifications Premium */
+.toast-container {
+  position: fixed;
+  top: 24px;
+  right: 24px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 400px;
+}
+
+.toast {
+  background: var(--white);
+  border-radius: var(--radius);
+  padding: 18px 22px;
+  box-shadow: var(--shadow-xl);
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  animation: slideInRight 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  border-left: 5px solid;
+  position: relative;
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%) scale(0.9);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0) scale(1);
+    opacity: 1;
+  }
+}
+
+.toast.success { border-left-color: var(--success); }
+.toast.error { border-left-color: var(--danger); }
+.toast.warning { border-left-color: var(--warning); }
+.toast.info { border-left-color: var(--info); }
+
+.toast-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.toast.success .toast-icon { background: rgba(16, 185, 129, 0.12); color: var(--success); }
+.toast.error .toast-icon { background: rgba(239, 68, 68, 0.12); color: var(--danger); }
+.toast.warning .toast-icon { background: rgba(245, 158, 11, 0.12); color: var(--warning); }
+.toast.info .toast-icon { background: rgba(6, 182, 212, 0.12); color: var(--info); }
+
+.toast-icon .material-icons-round {
+  font-size: 24px;
+}
+
+.toast-content h4 {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--gray-900);
+  margin-bottom: 4px;
+}
+
+.toast-content p {
+  font-size: 13px;
+  color: var(--gray-500);
+  line-height: 1.5;
+}
+
+.toast-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: none;
+  border: none;
+  color: var(--gray-400);
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 50%;
+  transition: var(--transition);
+}
+
+.toast-close:hover {
+  background: var(--gray-100);
+  color: var(--gray-700);
+}
+
+.toast-close .material-icons-round {
+  font-size: 18px;
+}
+
+/* Modal Premium */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  opacity: 0;
+  visibility: hidden;
+  transition: var(--transition);
+  padding: 20px;
+}
+
+.modal-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.modal {
+  background: var(--white);
+  border-radius: var(--radius-xl);
+  width: 100%;
+  max-width: 650px;
+  max-height: 90vh;
+  overflow-y: auto;
+  transform: scale(0.9) translateY(20px);
+  transition: var(--transition);
+  box-shadow: var(--shadow-xl);
+}
+
+.modal-overlay.active .modal {
+  transform: scale(1) translateY(0);
+}
+
+.modal-header {
+  padding: 24px 28px;
+  border-bottom: 1px solid var(--gray-100);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: linear-gradient(135deg, var(--gray-50) 0%, var(--white) 100%);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.modal-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--gray-900);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.modal-title .material-icons-round {
+  color: var(--primary);
+  font-size: 24px;
+}
+
+.modal-close {
+  width: 36px;
+  height: 36px;
+  border: none;
+  background: var(--gray-100);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--gray-500);
+  transition: var(--transition);
+}
+
+.modal-close:hover {
+  background: var(--danger);
+  color: var(--white);
+  transform: rotate(90deg);
+}
+
+.modal-body {
+  padding: 28px;
+}
+
+.modal-footer {
+  padding: 20px 28px;
+  border-top: 1px solid var(--gray-100);
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  background: var(--gray-50);
+  position: sticky;
+  bottom: 0;
+}
+
+/* Timeline Premium */
+.timeline {
+  position: relative;
+  padding-left: 40px;
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 12px;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: linear-gradient(180deg, var(--accent) 0%, var(--primary) 100%);
+  border-radius: 3px;
+}
+
+.timeline-item {
+  position: relative;
+  margin-bottom: 28px;
+}
+
+.timeline-item:last-child {
+  margin-bottom: 0;
+}
+
+.timeline-dot {
+  position: absolute;
+  left: -34px;
+  top: 4px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--white);
+  border: 3px solid var(--accent);
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+}
+
+.timeline-dot .material-icons-round {
+  font-size: 12px;
+  color: var(--accent);
+}
+
+.timeline-content {
+  background: var(--white);
+  border-radius: var(--radius);
+  padding: 24px;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--gray-100);
+  transition: var(--transition);
+}
+
+.timeline-content:hover {
+  box-shadow: var(--shadow-lg);
+  transform: translateX(4px);
+}
+
+.timeline-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.timeline-week {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--primary);
+  background: rgba(30, 58, 95, 0.08);
+  padding: 6px 14px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.timeline-week .material-icons-round {
+  font-size: 16px;
+}
+
+.timeline-date {
+  font-size: 13px;
+  color: var(--gray-500);
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.timeline-date .material-icons-round {
+  font-size: 14px;
+}
+
+.timeline-body {
+  font-size: 14px;
+  color: var(--gray-700);
+  line-height: 1.7;
+}
+
+.timeline-section {
+  margin-bottom: 16px;
+  padding-bottom: 16px;
+  border-bottom: 1px dashed var(--gray-200);
+}
+
+.timeline-section:last-child {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.timeline-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--gray-400);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.timeline-label .material-icons-round {
+  font-size: 14px;
+}
+
+.timeline-value {
+  font-size: 14px;
+  color: var(--gray-800);
+  font-weight: 500;
+}
+
+/* Forms Premium */
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+}
+
+textarea.form-input {
+  min-height: 120px;
+  resize: vertical;
+  font-family: inherit;
+}
+
+.select-wrapper {
+  position: relative;
+}
+
+.select-wrapper::after {
+  content: 'expand_more';
+  font-family: 'Material Icons Round';
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--gray-500);
+  pointer-events: none;
+  font-size: 20px;
+}
+
+select.form-input {
+  appearance: none;
+  cursor: pointer;
+  padding-right: 48px;
+}
+
+/* Action Buttons */
+.action-btn {
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.action-btn .material-icons-round {
+  font-size: 18px;
+}
+
+.action-btn.edit {
+  background: rgba(59, 130, 246, 0.12);
+  color: var(--accent);
+}
+
+.action-btn.edit:hover {
+  background: var(--accent);
+  color: var(--white);
+  transform: scale(1.1);
+}
+
+.action-btn.delete {
+  background: rgba(239, 68, 68, 0.12);
+  color: var(--danger);
+}
+
+.action-btn.delete:hover {
+  background: var(--danger);
+  color: var(--white);
+  transform: scale(1.1);
+}
+
+.action-btn.view {
+  background: rgba(16, 185, 129, 0.12);
+  color: var(--success);
+}
+
+.action-btn.view:hover {
+  background: var(--success);
+  color: var(--white);
+  transform: scale(1.1);
+}
+
+.table-actions {
+  display: flex;
+  gap: 8px;
+}
+
+/* Monitoring List */
+.monitoring-section {
+  margin-top: 32px;
+}
+
+.monitoring-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--gray-900);
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.monitoring-title .material-icons-round {
+  color: var(--warning);
+  font-size: 22px;
+}
+
+.monitoring-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 20px;
+}
+
+.monitoring-card {
+  background: var(--white);
+  border-radius: var(--radius);
+  padding: 20px;
+  border-left: 4px solid var(--warning);
+  box-shadow: var(--shadow);
+  transition: var(--transition);
+}
+
+.monitoring-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+.monitoring-card.danger {
+  border-left-color: var(--danger);
+}
+
+.monitoring-card-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.monitoring-avatar {
+  width: 44px;
+  height: 44px;
+  background: var(--gray-100);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--gray-500);
+  font-weight: 700;
+  font-size: 16px;
+}
+
+.monitoring-info h4 {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--gray-900);
+  margin-bottom: 2px;
+}
+
+.monitoring-info p {
+  font-size: 12px;
+  color: var(--gray-500);
+}
+
+.monitoring-meta {
+  display: flex;
+  gap: 12px;
+  margin-top: 12px;
+  flex-wrap: wrap;
+}
+
+.monitoring-meta-item {
+  font-size: 12px;
+  color: var(--gray-600);
+  background: var(--gray-50);
+  padding: 4px 10px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* Conditional Form States */
+.form-state-header {
+  display: none;
+}
+
+.form-state-header.active {
+  display: block;
+  animation: fadeIn 0.4s ease;
+}
+
+.form-state-update {
+  display: none;
+}
+
+.form-state-update.active {
+  display: block;
+  animation: fadeIn 0.4s ease;
+}
+
+.active-coaching-banner {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.08) 0%, rgba(30, 58, 95, 0.08) 100%);
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  border-radius: var(--radius);
+  padding: 20px;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.active-coaching-icon {
+  width: 56px;
+  height: 56px;
+  background: linear-gradient(135deg, var(--accent) 0%, var(--primary) 100%);
+  border-radius: var(--radius);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--white);
+  box-shadow: 0 4px 12px rgba(30, 58, 95, 0.3);
+}
+
+.active-coaching-icon .material-icons-round {
+  font-size: 28px;
+}
+
+.active-coaching-info h4 {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--gray-900);
+  margin-bottom: 4px;
+}
+
+.active-coaching-info p {
+  font-size: 13px;
+  color: var(--gray-600);
+}
+
+/* Hide/Show utilities */
+.hidden {
+  display: none !important;
+}
+
+.page {
+  display: none;
+  animation: fadeIn 0.4s ease;
+}
+
+.page.active {
+  display: block;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Error Message */
+.error-message {
+  background: rgba(239, 68, 68, 0.08);
+  color: var(--danger);
+  padding: 14px 18px;
+  border-radius: var(--radius);
+  margin-top: 16px;
+  font-size: 14px;
+  font-weight: 500;
+  display: none;
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.error-message.show {
+  display: flex;
+}
+
+.error-message .material-icons-round {
+  font-size: 20px;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .sidebar {
+    transform: translateX(-100%);
+  }
+  
+  .sidebar.active {
+    transform: translateX(0);
+  }
+  
+  .main-content {
+    margin-left: 0;
+  }
+  
+  .menu-toggle {
+    display: flex;
+  }
+  
+  .kpi-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .login-card {
+    padding: 32px 24px;
+  }
+  
+  .kpi-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .content-area {
+    padding: 16px;
+  }
+  
+  .filter-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .global-search {
+    max-width: 100%;
+  }
+  
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .timeline {
+    padding-left: 28px;
+  }
+  
+  .timeline-dot {
+    left: -30px;
+    width: 18px;
+    height: 18px;
+  }
+}
+
+/* Animations */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--gray-100);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--gray-300);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--gray-400);
+}
+</style>
+</head>
+<body>
+<!-- Loading Screen -->
+<div class="loading-screen" id="loadingScreen">
+  <div class="spinner-container">
+    <div class="spinner"></div>
+    <div class="spinner-inner"></div>
+  </div>
+  <p class="loading-text">Memuat aplikasi...</p>
+  <p class="loading-subtext">Coaching Monitoring System v4.0</p>
+</div>
+
+<!-- Login Container -->
+<div class="login-container" id="loginContainer">
+  <div class="login-card">
+    <div class="login-logo">
+      <span class="material-icons-round">psychology</span>
+    </div>
+    <h1 class="login-title">Coaching Monitoring</h1>
+    <p class="login-subtitle">Sistem Monitoring Coaching Karyawan</p>
+    <form id="loginForm">
+      <div class="form-group">
+        <label class="form-label">
+          <span class="material-icons-round">badge</span>
+          NPK
+        </label>
+        <div class="form-input-icon">
+          <span class="material-icons-round">person</span>
+          <input type="text" class="form-input" id="loginNPK" placeholder="Masukkan NPK Anda" required>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary">
+        <span class="material-icons-round">login</span>
+        Masuk ke Sistem
+      </button>
+      <div class="error-message" id="loginError">
+        <span class="material-icons-round">error</span>
+        <span id="loginErrorText"></span>
+      </div>
+    </form>
+  </div>
+</div>
+<!-- App Container -->
+<div class="app-container" id="appContainer">
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <div class="brand">
+        <div class="brand-icon">
+          <span class="material-icons-round">psychology</span>
+        </div>
+        <div>
+          <div class="brand-text">Coaching</div>
+          <div class="brand-sub">Monitoring System</div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="user-profile">
+      <div class="user-info">
+        <div class="user-avatar" id="userAvatar">U</div>
+        <div class="user-details">
+          <h4 id="userName">User</h4>
+          <p id="userRole">Role</p>
+        </div>
+      </div>
+    </div>
+    
+    <nav class="nav-menu">
+      <div class="nav-section">
+        <span class="material-icons-round">dashboard</span>
+        Menu Utama
+      </div>
+      <a href="#" class="nav-item active" data-page="dashboard" onclick="navigateTo('dashboard')">
+        <span class="material-icons-round">dashboard</span>
+        <span class="nav-text">Dashboard</span>
+        <span class="nav-badge hidden" id="dashboardBadge">0</span>
+      </a>
+      <a href="#" class="nav-item" data-page="input" onclick="navigateTo('input')">
+        <span class="material-icons-round">add_circle</span>
+        <span class="nav-text">Input Coaching</span>
+      </a>
+      
+      <div class="nav-section">
+        <span class="material-icons-round">folder</span>
+        Master Data
+      </div>
+      <a href="#" class="nav-item" data-page="masterUser" onclick="navigateTo('masterUser')">
+        <span class="material-icons-round">manage_accounts</span>
+        <span class="nav-text">Master User</span>
+      </a>
+      <a href="#" class="nav-item" data-page="masterKaryawan" onclick="navigateTo('masterKaryawan')">
+        <span class="material-icons-round">badge</span>
+        <span class="nav-text">Master Karyawan</span>
+      </a>
+      
+      <div class="nav-section">
+        <span class="material-icons-round">settings</span>
+        Sistem
+      </div>
+      <a href="#" class="nav-item" onclick="logout()">
+        <span class="material-icons-round">logout</span>
+        <span class="nav-text">Logout</span>
+      </a>
+    </nav>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content" id="mainContent">
+    <!-- Top Bar -->
+    <div class="top-bar">
+      <button class="icon-btn menu-toggle" id="menuToggle" onclick="toggleSidebar()">
+        <span class="material-icons-round">menu</span>
+      </button>
+      <h2 class="page-title" id="pageTitle">
+        <span class="material-icons-round">dashboard</span>
+        Dashboard
+      </h2>
+      <div class="top-actions">
+        <div class="global-search" id="globalSearch">
+          <span class="material-icons-round">search</span>
+          <input type="text" id="searchInput" placeholder="Cari NPK, Nama, Jabatan, Cabang, Status..." onkeyup="handleGlobalSearch()">
+          <button class="global-search-clear" onclick="clearSearch()">
+            <span class="material-icons-round">close</span>
+          </button>
+        </div>
+        <button class="icon-btn" onclick="refreshData()" title="Refresh Data">
+          <span class="material-icons-round">refresh</span>
+        </button>
+        <button class="icon-btn" onclick="showNotifications()" title="Notifikasi">
+          <span class="material-icons-round">notifications</span>
+          <span class="icon-btn-badge hidden" id="notifBadge">0</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Content Area -->
+    <div class="content-area">
+      <!-- Dashboard Page -->
+      <div class="page active" id="page-dashboard">
+        <!-- Filter Section -->
+        <div class="filter-section">
+          <div class="filter-row">
+            <span class="filter-label">
+              <span class="material-icons-round">filter_list</span>
+              Filter Cabang:
+            </span>
+            <div class="select-wrapper filter-select">
+              <select class="form-input" id="dashboardCabangFilter" onchange="loadDashboardData()">
+                <option value="">Semua Cabang</option>
+              </select>
+            </div>
+            <span class="period-badge" id="periodBadge">
+              <span class="material-icons-round">calendar_today</span>
+              <span id="periodText">Minggu Ini</span>
+            </span>
+          </div>
+        </div>
+
+        <!-- KPI Cards -->
+        <div class="kpi-grid" id="kpiCards">
+          <div class="kpi-card total">
+            <div class="kpi-label">
+              <span class="material-icons-round">groups</span>
+              Total Coaching Aktif
+            </div>
+            <div class="kpi-value" id="kpiTotal">0</div>
+            <div class="kpi-desc">Karyawan dalam proses coaching</div>
+            <div class="kpi-icon">
+              <span class="material-icons-round">groups</span>
+            </div>
+          </div>
+          
+          <div class="kpi-card warning">
+            <div class="kpi-label">
+              <span class="material-icons-round">pending_actions</span>
+              Sudah Coaching Belum Update
+            </div>
+            <div class="kpi-value" id="kpiBelumUpdate">0</div>
+            <div class="kpi-desc">Perlu update mingguan</div>
+            <div class="kpi-icon">
+              <span class="material-icons-round">pending_actions</span>
+            </div>
+          </div>
+          
+          <div class="kpi-card success">
+            <div class="kpi-label">
+              <span class="material-icons-round">check_circle</span>
+              Sudah Coaching Sudah Update
+            </div>
+            <div class="kpi-value" id="kpiSudahUpdate">0</div>
+            <div class="kpi-desc">Update mingguan sudah dilakukan</div>
+            <div class="kpi-icon">
+              <span class="material-icons-round">check_circle</span>
+            </div>
+          </div>
+          
+          <div class="kpi-card danger">
+            <div class="kpi-label">
+              <span class="material-icons-round">person_off</span>
+              Belum Coaching
+            </div>
+            <div class="kpi-value" id="kpiBelumCoaching">0</div>
+            <div class="kpi-desc">Belum memiliki coaching aktif</div>
+            <div class="kpi-icon">
+              <span class="material-icons-round">person_off</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Employee Table -->
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">
+              <span class="material-icons-round">people</span>
+              Daftar Karyawan
+            </h3>
+            <button class="btn btn-primary btn-sm" onclick="exportDashboard()">
+              <span class="material-icons-round">download</span>
+              Export
+            </button>
+          </div>
+          <div class="card-body">
+            <div class="table-container">
+              <table class="data-table" id="dashboardEmployeeTable">
+                <thead>
+                  <tr>
+                    <th onclick="sortTable('npk')">
+                      NPK
+                      <span class="material-icons-round">unfold_more</span>
+                    </th>
+                    <th onclick="sortTable('nama')">
+                      Nama
+                      <span class="material-icons-round">unfold_more</span>
+                    </th>
+                    <th onclick="sortTable('jabatan')">
+                      Jabatan
+                      <span class="material-icons-round">unfold_more</span>
+                    </th>
+                    <th onclick="sortTable('cabang')">
+                      Cabang
+                      <span class="material-icons-round">unfold_more</span>
+                    </th>
+                    <th onclick="sortTable('status')">
+                      Status
+                      <span class="material-icons-round">unfold_more</span>
+                    </th>
+                    <th>Coaching Status</th>
+                    <th>Aksi</th>
+                  </tr>
+                </thead>
+                <tbody id="dashboardEmployeeTableBody">
+                  <!-- Dynamic -->
+                </tbody>
+              </table>
+            </div>
+            <div class="empty-state hidden" id="emptyDashboardEmployees">
+              <div class="empty-icon">
+                <span class="material-icons-round">search_off</span>
+              </div>
+              <h3 class="empty-title">Tidak ada data</h3>
+              <p class="empty-desc">Tidak ditemukan karyawan untuk filter ini</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Monitoring Section - Belum Coaching -->
+        <div class="monitoring-section" id="monitoringBelumCoaching">
+          <h3 class="monitoring-title">
+            <span class="material-icons-round">error_outline</span>
+            Perlu Perhatian: Belum Coaching
+          </h3>
+          <div class="monitoring-grid" id="belumCoachingGrid">
+            <!-- Dynamic -->
+          </div>
+        </div>
+
+        <!-- Monitoring Section - Belum Update -->
+        <div class="monitoring-section" id="monitoringBelumUpdate">
+          <h3 class="monitoring-title">
+            <span class="material-icons-round">notification_important</span>
+            Perlu Perhatian: Belum Update Mingguan
+          </h3>
+          <div class="monitoring-grid" id="belumUpdateGrid">
+            <!-- Dynamic -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Coaching Detail Page -->
+      <div class="page" id="page-coaching-detail">
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <h3 class="card-title" id="detailCoacheeName">
+                <span class="material-icons-round">psychology</span>
+                Detail Coaching
+              </h3>
+              <p style="font-size:13px;color:var(--gray-500);margin-top:6px;" id="detailCoacheeInfo">
+                <span class="material-icons-round" style="font-size:14px;vertical-align:middle;">info</span>
+                -
+              </p>
+            </div>
+            <div style="display:flex;gap:12px;">
+              <button class="btn btn-secondary btn-sm" onclick="navigateTo('dashboard')">
+                <span class="material-icons-round">arrow_back</span>
+                Kembali
+              </button>
+              <button class="btn btn-success btn-sm hidden" id="btnCompleteCoaching" onclick="completeCurrentCoaching()">
+                <span class="material-icons-round">check_circle</span>
+                Selesaikan Coaching
+              </button>
+            </div>
+          </div>
+          <div class="card-body">
+            <!-- Coaching Info Banner -->
+            <div style="margin-bottom:28px;">
+              <h4 style="font-size:14px;font-weight:700;color:var(--gray-700);margin-bottom:16px;display:flex;align-items:center;gap:8px;">
+                <span class="material-icons-round">info</span>
+                Informasi Coaching
+              </h4>
+              <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;background:linear-gradient(135deg,var(--gray-50) 0%,var(--white) 100%);padding:24px;border-radius:var(--radius);border:1px solid var(--gray-100);">
+                <div>
+                  <div class="timeline-label">
+                    <span class="material-icons-round">person</span>
+                    Coach
+                  </div>
+                  <div class="timeline-value" id="detailCoach">-</div>
+                </div>
+                <div>
+                  <div class="timeline-label">
+                    <span class="material-icons-round">flag</span>
+                    Root Cause
+                  </div>
+                  <div class="timeline-value" id="detailRootCause">-</div>
+                </div>
+                <div>
+                  <div class="timeline-label">
+                    <span class="material-icons-round">topic</span>
+                    Topic
+                  </div>
+                  <div class="timeline-value" id="detailTopic">-</div>
+                </div>
+                <div>
+                  <div class="timeline-label">
+                    <span class="material-icons-round">label</span>
+                    Status Coaching
+                  </div>
+                  <div id="detailStatus">-</div>
+                </div>
+                <div>
+                  <div class="timeline-label">
+                    <span class="material-icons-round">event</span>
+                    Target Date
+                  </div>
+                  <div class="timeline-value" id="detailTargetDate">-</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Timeline -->
+            <h4 style="font-size:14px;font-weight:700;color:var(--gray-700);margin-bottom:20px;display:flex;align-items:center;gap:8px;">
+              <span class="material-icons-round">timeline</span>
+              Timeline Coaching
+            </h4>
+            <div class="timeline" id="coachingTimeline">
+              <!-- Dynamic -->
+            </div>
+            <div class="empty-state hidden" id="emptyTimeline">
+              <div class="empty-icon">
+                <span class="material-icons-round">timeline</span>
+              </div>
+              <h3 class="empty-title">Belum ada update</h3>
+              <p class="empty-desc">Coaching ini belum memiliki riwayat update mingguan</p>
+              <button class="btn btn-primary btn-sm" style="margin-top:16px;" onclick="navigateTo('input')">
+                <span class="material-icons-round">add</span>
+                Tambah Update
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Input Coaching Page -->
+      <div class="page" id="page-input">
+        <!-- Conditional: Active Coaching Banner -->
+        <div class="active-coaching-banner hidden" id="activeCoachingBanner">
+          <div class="active-coaching-icon">
+            <span class="material-icons-round">psychology</span>
+          </div>
+          <div class="active-coaching-info">
+            <h4>Coaching Aktif Ditemukan</h4>
+            <p id="activeCoachingText">Karyawan ini sedang dalam proses coaching. Anda dapat menambahkan update mingguan.</p>
+          </div>
+          <button class="btn btn-primary btn-sm" onclick="switchToUpdateMode()">
+            <span class="material-icons-round">edit</span>
+            Tambah Update
+          </button>
+        </div>
+
+        <!-- Form State: New Coaching Header -->
+        <div class="form-state-header active" id="formStateHeader">
+          <form id="coachingHeaderForm" onsubmit="saveCoachingHeader(event)">
+            <div class="card" style="margin-bottom:24px;">
+              <div class="card-header">
+                <h3 class="card-title">
+                  <span class="material-icons-round">add_circle</span>
+                  Coaching Baru
+                </h3>
+              </div>
+              <div class="card-body">
+                <div class="form-grid">
+                  <div class="form-group">
+                    <label class="form-label">
+                      <span class="material-icons-round">business</span>
+                      Cabang
+                    </label>
+                    <div class="select-wrapper">
+                      <select class="form-input" id="inputCabang" required onchange="loadCoachees()">
+                        <option value="">Pilih Cabang</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">
+                      <span class="material-icons-round">person</span>
+                      Coachee (Karyawan)
+                    </label>
+                    <div class="select-wrapper">
+                      <select class="form-input" id="inputCoachee" required>
+                        <option value="">Pilih Karyawan</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">
+                      <span class="material-icons-round">flag</span>
+                      Root Cause
+                    </label>
+                    <input type="text" class="form-input" id="inputRootCause" placeholder="Masukkan root cause coaching" required>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">
+                      <span class="material-icons-round">topic</span>
+                      Topic
+                    </label>
+                    <input type="text" class="form-input" id="inputTopic" placeholder="Masukkan topic coaching" required>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">
+                      <span class="material-icons-round">event</span>
+                      Target Date
+                    </label>
+                    <input type="date" class="form-input" id="inputTargetDate">
+                  </div>
+                </div>
+                <div style="margin-top:24px;display:flex;gap:12px;justify-content:flex-end;">
+                  <button type="button" class="btn btn-secondary" onclick="resetForm()">
+                    <span class="material-icons-round">refresh</span>
+                    Reset
+                  </button>
+                  <button type="submit" class="btn btn-primary">
+                    <span class="material-icons-round">save</span>
+                    Buat Coaching
+                  </button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <!-- Form State: Weekly Update -->
+        <div class="form-state-update" id="formStateUpdate">
+          <form id="coachingUpdateForm" onsubmit="saveCoachingUpdate(event)">
+            <div class="card" style="margin-bottom:24px;">
+              <div class="card-header">
+                <h3 class="card-title">
+                  <span class="material-icons-round">update</span>
+                  Update Mingguan
+                </h3>
+                <span class="badge badge-info" id="updateCoachingBadge">Coaching Aktif</span>
+              </div>
+              <div class="card-body">
+                <input type="hidden" id="updateCoachingId">
+                <div class="form-grid">
+                  <div class="form-group">
+                    <label class="form-label">
+                      <span class="material-icons-round">calendar_view_week</span>
+                      Minggu (ISO Week)
+                    </label>
+                    <div class="select-wrapper">
+                      <select class="form-input" id="inputWeek" required>
+                        <!-- Dynamic -->
+                      </select>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">
+                      <span class="material-icons-round">pin</span>
+                      Target Nominal
+                    </label>
+                    <input type="number" class="form-input" id="inputTargetNominal" placeholder="0">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">
+                      <span class="material-icons-round">straighten</span>
+                      Satuan
+                    </label>
+                    <input type="text" class="form-input" id="inputSatuan" placeholder="e.g., jam, menit, unit, %">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">
+                      <span class="material-icons-round">event</span>
+                      Target Date
+                    </label>
+                    <input type="date" class="form-input" id="inputUpdateTargetDate" required>
+                  </div>
+                </div>
+                
+                <div class="form-group" style="margin-top:20px;">
+                  <label class="form-label">
+                    <span class="material-icons-round">task_alt</span>
+                    Action
+                  </label>
+                  <textarea class="form-input" id="inputAction" placeholder="Deskripsikan action yang dilakukan..." required></textarea>
+                </div>
+                
+                <div class="form-group" style="margin-top:20px;">
+                  <label class="form-label">
+                    <span class="material-icons-round">help_outline</span>
+                    How (Metode)
+                  </label>
+                  <textarea class="form-input" id="inputHow" placeholder="Bagaimana action tersebut dilakukan..." required></textarea>
+                </div>
+                
+                <div class="form-group" style="margin-top:20px;">
+                  <label class="form-label">
+                    <span class="material-icons-round">check_circle</span>
+                    Result
+                  </label>
+                  <textarea class="form-input" id="inputResult" placeholder="Hasil yang dicapai..."></textarea>
+                </div>
+                
+                <div class="form-group" style="margin-top:20px;">
+                  <label class="form-label">
+                    <span class="material-icons-round">feedback</span>
+                    Feedback
+                  </label>
+                  <textarea class="form-input" id="inputFeedback" placeholder="Feedback dari coaching..."></textarea>
+                </div>
+                
+                <div style="margin-top:28px;display:flex;gap:12px;justify-content:flex-end;">
+                  <button type="button" class="btn btn-secondary" onclick="resetUpdateForm()">
+                    <span class="material-icons-round">refresh</span>
+                    Reset
+                  </button>
+                  <button type="submit" class="btn btn-success">
+                    <span class="material-icons-round">save</span>
+                    Simpan Update
+                  </button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Master User Page -->
+      <div class="page" id="page-masterUser">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">
+              <span class="material-icons-round">manage_accounts</span>
+              Master User
+            </h3>
+            <button class="btn btn-primary btn-sm" onclick="openUserModal()">
+              <span class="material-icons-round">person_add</span>
+              Tambah User
+            </button>
+          </div>
+          <div class="card-body">
+            <div class="global-search" style="margin-bottom:20px;max-width:400px;">
+              <span class="material-icons-round">search</span>
+              <input type="text" class="form-input" id="searchUser" placeholder="Cari user..." onkeyup="searchMasterData('user')">
+            </div>
+            <div class="table-container">
+              <table class="data-table" id="userTable">
+                <thead>
+                  <tr>
+                    <th onclick="sortMasterTable('user', 'npk')">
+                      NPK
+                      <span class="material-icons-round">unfold_more</span>
+                    </th>
+                    <th onclick="sortMasterTable('user', 'nama')">
+                      Nama
+                      <span class="material-icons-round">unfold_more</span>
+                    </th>
+                    <th onclick="sortMasterTable('user', 'jabatan')">
+                      Jabatan
+                      <span class="material-icons-round">unfold_more</span>
+                    </th>
+                    <th onclick="sortMasterTable('user', 'cl')">
+                      CL
+                      <span class="material-icons-round">unfold_more</span>
+                    </th>
+                    <th onclick="sortMasterTable('user', 'cabang')">
+                      Cabang
+                      <span class="material-icons-round">unfold_more</span>
+                    </th>
+                    <th onclick="sortMasterTable('user', 'region')">
+                      Region
+                      <span class="material-icons-round">unfold_more</span>
+                    </th>
+                    <th>Aksi</th>
+                  </tr>
+                </thead>
+                <tbody id="userTableBody">
+                  <!-- Dynamic -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Master Karyawan Page -->
+      <div class="page" id="page-masterKaryawan">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">
+              <span class="material-icons-round">badge</span>
+              Master Karyawan
+            </h3>
+            <button class="btn btn-primary btn-sm" onclick="openKaryawanModal()">
+              <span class="material-icons-round">person_add</span>
+              Tambah Karyawan
+            </button>
+          </div>
+          <div class="card-body">
+            <div class="global-search" style="margin-bottom:20px;max-width:400px;">
+              <span class="material-icons-round">search</span>
+              <input type="text" class="form-input" id="searchKaryawan" placeholder="Cari karyawan..." onkeyup="searchMasterData('karyawan')">
+            </div>
+            <div class="table-container">
+              <table class="data-table" id="karyawanTable">
+                <thead>
+                  <tr>
+                    <th onclick="sortMasterTable('karyawan', 'npk')">
+                      NPK
+                      <span class="material-icons-round">unfold_more</span>
+                    </th>
+                    <th onclick="sortMasterTable('karyawan', 'nama')">
+                      Nama
+                      <span class="material-icons-round">unfold_more</span>
+                    </th>
+                    <th onclick="sortMasterTable('karyawan', 'jabatan')">
+                      Jabatan
+                      <span class="material-icons-round">unfold_more</span>
+                    </th>
+                    <th onclick="sortMasterTable('karyawan', 'cl')">
+                      CL
+                      <span class="material-icons-round">unfold_more</span>
+                    </th>
+                    <th onclick="sortMasterTable('karyawan', 'cabang')">
+                      Cabang
+                      <span class="material-icons-round">unfold_more</span>
+                    </th>
+                    <th onclick="sortMasterTable('karyawan', 'region')">
+                      Region
+                      <span class="material-icons-round">unfold_more</span>
+                    </th>
+                    <th>Atasan</th>
+                    <th>Aksi</th>
+                  </tr>
+                </thead>
+                <tbody id="karyawanTableBody">
+                  <!-- Dynamic -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- Modal for Master Data -->
+<div class="modal-overlay" id="masterModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 class="modal-title" id="modalTitle">
+        <span class="material-icons-round">person_add</span>
+        Tambah Data
+      </h3>
+      <button class="modal-close" onclick="closeModal()">
+        <span class="material-icons-round">close</span>
+      </button>
+    </div>
+    <div class="modal-body" id="modalBody">
+      <!-- Dynamic form -->
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeModal()">
+        <span class="material-icons-round">close</span>
+        Batal
+      </button>
+      <button class="btn btn-primary" onclick="saveMasterData()">
+        <span class="material-icons-round">save</span>
+        Simpan
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Reminder Modal -->
+<div class="modal-overlay" id="reminderModal">
+  <div class="modal" style="max-width:500px;">
+    <div class="modal-header">
+      <h3 class="modal-title">
+        <span class="material-icons-round">notifications_active</span>
+        Atur Reminder
+      </h3>
+      <button class="modal-close" onclick="closeReminderModal()">
+        <span class="material-icons-round">close</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <p style="margin-bottom:20px;color:var(--gray-600);">
+        Apakah Anda perlu reminder untuk follow-up coaching ini?
+      </p>
+      
+      <div class="form-group">
+        <label class="form-label">
+          <span class="material-icons-round">schedule</span>
+          Waktu Reminder
+        </label>
+        <div class="select-wrapper">
+          <select class="form-input" id="reminderTime">
+            <option value="24h">24 Jam dari sekarang</option>
+            <option value="3d">3 Hari dari sekarang</option>
+            <option value="7d">1 Minggu dari sekarang</option>
+            <option value="custom">Custom...</option>
+          </select>
+        </div>
+      </div>
+      
+      <div class="form-group" id="customDateGroup" style="display:none;">
+        <label class="form-label">
+          <span class="material-icons-round">event</span>
+          Tanggal Custom
+        </label>
+        <input type="datetime-local" class="form-input" id="customReminderDate">
+      </div>
+      
+      <div class="form-group">
+        <label class="form-label">
+          <span class="material-icons-round">send</span>
+          Channel
+        </label>
+        <div style="display:flex;gap:16px;margin-top:8px;">
+          <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
+            <input type="checkbox" id="reminderEmail" checked style="width:18px;height:18px;">
+            <span>Email</span>
+          </label>
+          <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
+            <input type="checkbox" id="reminderWA" style="width:18px;height:18px;">
+            <span>WhatsApp</span>
+          </label>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeReminderModal()">
+        Tidak Perlu
+      </button>
+      <button class="btn btn-primary" onclick="saveReminder()">
+        <span class="material-icons-round">notifications_active</span>
+        Atur Reminder
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast Container -->
+<div class="toast-container" id="toastContainer"></div>
+
+<script>
+  //==================== GLOBAL STATE ====================
+let currentUser = null;
+let currentPage = 'dashboard';
+let dashboardData = null;
+let dashboardEmployees = [];
+let masterDataType = '';
+let editingId = null;
+let currentCoachingId = null;
+let currentSort = { column: null, direction: 'asc' };
+let lastSavedCoaching = null; // For reminder
+
+//==================== INITIALIZATION ====================
+document.addEventListener('DOMContentLoaded', function() {
+  console.log('DOM Loaded - Starting app v4.0...');
+  
+  if (typeof google === 'undefined' || !google.script || !google.script.run) {
+    console.error('Google Apps Script environment not detected');
+    showToast('error', 'Error', 'Aplikasi harus dijalankan dari Google Apps Script');
+    hideLoading();
+    return;
+  }
+  
+  const timeoutId = setTimeout(function() {
+    console.log('Session check timeout - showing login');
+    hideLoading();
+  }, 5000);
+  
+  checkSession(function() {
+    clearTimeout(timeoutId);
+  });
+  
+  initWeeksDropdown();
+  initReminderListeners();
+});
+
+function hideLoading() {
+  const loadingScreen = document.getElementById('loadingScreen');
+  if (loadingScreen) {
+    loadingScreen.classList.add('hidden');
+  }
+}
+
+function showLoading() {
+  const loadingScreen = document.getElementById('loadingScreen');
+  if (loadingScreen) {
+    loadingScreen.classList.remove('hidden');
+  }
+}
+
+function initReminderListeners() {
+  const reminderTime = document.getElementById('reminderTime');
+  if (reminderTime) {
+    reminderTime.addEventListener('change', function() {
+      const customGroup = document.getElementById('customDateGroup');
+      if (this.value === 'custom') {
+        customGroup.style.display = 'block';
+      } else {
+        customGroup.style.display = 'none';
+      }
+    });
+  }
+}
+
+//==================== AUTHENTICATION ====================
+function checkSession(callback) {
+  console.log('Checking session...');
+  try {
+    google.script.run
+      .withSuccessHandler(function(result) {
+        console.log('Session check result:', result);
+        if (result && result.npk) {
+          currentUser = result;
+          showApp();
+        } else {
+          hideLoading();
+        }
+        if (callback) callback();
+      })
+      .withFailureHandler(function(error) {
+        console.error('Session check error:', error);
+        hideLoading();
+        if (callback) callback();
+      })
+      .getCurrentUser();
+  } catch (e) {
+    console.error('Exception in checkSession:', e);
+    hideLoading();
+    if (callback) callback();
+  }
+}
+
+document.getElementById('loginForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  const npk = document.getElementById('loginNPK').value.trim();
+  const errorDiv = document.getElementById('loginError');
+  const errorText = document.getElementById('loginErrorText');
+  
+  if (!npk) {
+    errorText.textContent = 'NPK harus diisi';
+    errorDiv.classList.add('show');
+    return;
+  }
+  
+  errorDiv.classList.remove('show');
+  showLoading();
+  
+  try {
+    google.script.run
+      .withSuccessHandler(function(result) {
+        hideLoading();
+        if (result && result.success) {
+          currentUser = result.user;
+          showApp();
+          showToast('success', 'Login Berhasil', `Selamat datang, ${result.user.nama}`);
+        } else {
+          errorText.textContent = result ? result.message : 'Login gagal';
+          errorDiv.classList.add('show');
+        }
+      })
+      .withFailureHandler(function(error) {
+        hideLoading();
+        errorText.textContent = 'Terjadi kesalahan: ' + error.message;
+        errorDiv.classList.add('show');
+      })
+      .loginUser({ npk: npk });
+  } catch (e) {
+    hideLoading();
+    errorText.textContent = 'Terjadi kesalahan sistem';
+    errorDiv.classList.add('show');
+  }
+});
+
+function showApp() {
+  console.log('Showing app for user:', currentUser);
+  document.getElementById('loginContainer').style.display = 'none';
+  document.getElementById('appContainer').classList.add('active');
+  
+  // Update user info
+  document.getElementById('userName').textContent = currentUser.nama || 'User';
+  document.getElementById('userRole').textContent = `${currentUser.jabatan || '-'} • ${currentUser.cabang || '-'}`;
+  document.getElementById('userAvatar').textContent = (currentUser.nama || 'U').charAt(0).toUpperCase();
+  
+  // Load initial data
+  loadDashboardData();
+  hideLoading();
+}
+
+function getUserLevel(cl) {
+  if (cl <= 2) return 4;
+  if (cl === 3) return 3;
+  if (cl === 4) return 2;
+  return 1;
+}
+
+function logout() {
+  showLoading();
+  try {
+    google.script.run
+      .withSuccessHandler(function() {
+        location.reload();
+      })
+      .withFailureHandler(function() {
+        location.reload();
+      })
+      .logoutUser();
+  } catch (e) {
+    location.reload();
+  }
+}
+
+//==================== NAVIGATION ====================
+function navigateTo(page) {
+  console.log('Navigating to:', page);
+  currentPage = page;
+  
+  document.querySelectorAll('.nav-item').forEach(item => {
+    item.classList.remove('active');
+    if (item.dataset.page === page) {
+      item.classList.add('active');
+    }
+  });
+  
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  const targetPage = document.getElementById(`page-${page}`);
+  if (targetPage) {
+    targetPage.classList.add('active');
+  }
+  
+  const titles = {
+    'dashboard': { icon: 'dashboard', text: 'Dashboard' },
+    'coaching-detail': { icon: 'psychology', text: 'Detail Coaching' },
+    'input': { icon: 'add_circle', text: 'Input Coaching' },
+    'masterUser': { icon: 'manage_accounts', text: 'Master User' },
+    'masterKaryawan': { icon: 'badge', text: 'Master Karyawan' }
+  };
+  
+  const title = titles[page] || titles['dashboard'];
+  document.getElementById('pageTitle').innerHTML = `
+    <span class="material-icons-round">${title.icon}</span>
+    ${title.text}
+  `;
+  
+  if (window.innerWidth <= 1024) {
+    document.getElementById('sidebar').classList.remove('active');
+  }
+  
+  if (page === 'masterUser') loadMasterUser();
+  if (page === 'masterKaryawan') loadMasterKaryawan();
+  if (page === 'input') {
+    initCabangFilters();
+    checkActiveCoaching();
+  }
+}
+
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('active');
+}
+
+//==================== DASHBOARD WITH SORTING & SEARCH ====================
+function loadDashboardData() {
+  const cabangFilter = document.getElementById('dashboardCabangFilter').value;
+  showLoading();
+  
+  try {
+    google.script.run
+      .withSuccessHandler(function(result) {
+        hideLoading();
+        console.log('Dashboard data:', result);
+        if (result && result.success) {
+          dashboardData = result.data;
+          dashboardEmployees = result.data.employees || [];
+          updateKPICards(result.data);
+          updateCabangFilter(result.data.cabangs);
+          updatePeriodBadge(result.data.currentPeriod);
+          renderDashboardEmployees(dashboardEmployees);
+          renderMonitoringCards(result.data.monitoring);
+          updateNotificationBadge(result.data.monitoring);
+        } else {
+          showToast('error', 'Error', result ? result.message : 'Gagal memuat data');
+        }
+      })
+      .withFailureHandler(function(error) {
+        hideLoading();
+        console.error('Dashboard error:', error);
+        showToast('error', 'Error', 'Gagal memuat dashboard: ' + error.message);
+      })
+      .getDashboardData(cabangFilter, 'weekly');
+  } catch (e) {
+    hideLoading();
+    showToast('error', 'Error', 'Terjadi kesalahan sistem');
+  }
+}
+
+function updateKPICards(data) {
+  if (!data) return;
+  animateNumber('kpiTotal', data.totalCoaching || 0);
+  animateNumber('kpiBelumUpdate', data.sudahCoachingBelumUpdate || 0);
+  animateNumber('kpiSudahUpdate', data.sudahCoachingSudahUpdate || 0);
+  animateNumber('kpiBelumCoaching', data.belumCoaching || 0);
+}
+
+function animateNumber(id, value) {
+  const element = document.getElementById(id);
+  if (!element) return;
+  const start = parseInt(element.textContent) || 0;
+  const end = value;
+  const duration = 800;
+  const startTime = performance.now();
+  
+  function update(currentTime) {
+    const elapsed = currentTime - startTime;
+    const progress = Math.min(elapsed / duration, 1);
+    const easeProgress = 1 - Math.pow(1 - progress, 3);
+    const current = Math.floor(start + (end - start) * easeProgress);
+    element.textContent = current;
+    if (progress < 1) requestAnimationFrame(update);
+  }
+  requestAnimationFrame(update);
+}
+
+function updateCabangFilter(cabangs) {
+  if (!cabangs || !Array.isArray(cabangs)) return;
+  const select = document.getElementById('dashboardCabangFilter');
+  const inputSelect = document.getElementById('inputCabang');
+  const currentValue = select ? select.value : '';
+  
+  if (select) {
+    select.innerHTML = '<option value="">Semua Cabang</option>';
+    cabangs.forEach(cabang => {
+      if (cabang) {
+        const option = document.createElement('option');
+        option.value = cabang;
+        option.textContent = cabang;
+        select.appendChild(option);
+      }
+    });
+    if (currentValue) select.value = currentValue;
+  }
+  
+  if (inputSelect) {
+    inputSelect.innerHTML = '<option value="">Pilih Cabang</option>';
+    cabangs.forEach(cabang => {
+      if (cabang) {
+        const option = document.createElement('option');
+        option.value = cabang;
+        option.textContent = cabang;
+        inputSelect.appendChild(option);
+      }
+    });
+  }
+}
+
+function updatePeriodBadge(period) {
+  const badge = document.getElementById('periodBadge');
+  const text = document.getElementById('periodText');
+  if (badge && text) {
+    text.textContent = period || 'Minggu Ini';
+  }
+}
+
+function updateNotificationBadge(monitoring) {
+  const badge = document.getElementById('notifBadge');
+  const dashboardBadge = document.getElementById('dashboardBadge');
+  const totalIssues = (monitoring.belumCoaching?.length || 0) + (monitoring.belumUpdate?.length || 0);
+  
+  if (badge) {
+    if (totalIssues > 0) {
+      badge.textContent = totalIssues;
+      badge.classList.remove('hidden');
+    } else {
+      badge.classList.add('hidden');
+    }
+  }
+  
+  if (dashboardBadge) {
+    if (totalIssues > 0) {
+      dashboardBadge.textContent = totalIssues;
+      dashboardBadge.classList.remove('hidden');
+    } else {
+      dashboardBadge.classList.add('hidden');
+    }
+  }
+}
+
+// SORTING FUNCTION
+function sortTable(column) {
+  if (currentSort.column === column) {
+    currentSort.direction = currentSort.direction === 'asc' ? 'desc' : 'asc';
+  } else {
+    currentSort.column = column;
+    currentSort.direction = 'asc';
+  }
+  
+  // Update header icons
+  document.querySelectorAll('#dashboardEmployeeTable th').forEach(th => {
+    th.classList.remove('sort-asc', 'sort-desc');
+  });
+  
+  const th = document.querySelector(`#dashboardEmployeeTable th[onclick="sortTable('${column}')"]`);
+  if (th) {
+    th.classList.add(currentSort.direction === 'asc' ? 'sort-asc' : 'sort-desc');
+  }
+  
+  // Sort data
+  const sorted = [...dashboardEmployees].sort((a, b) => {
+    let valA = a[column] || '';
+    let valB = b[column] || '';
+    
+    // Special handling for status
+    if (column === 'status') {
+      const statusOrder = { 'BELUM_COACHING': 0, 'BELUM_UPDATE': 1, 'SUDAH_UPDATE': 2 };
+      valA = statusOrder[valA] || 0;
+      valB = statusOrder[valB] || 0;
+    }
+    
+    if (typeof valA === 'string') valA = valA.toLowerCase();
+    if (typeof valB === 'string') valB = valB.toLowerCase();
+    
+    if (valA < valB) return currentSort.direction === 'asc' ? -1 : 1;
+    if (valA > valB) return currentSort.direction === 'asc' ? 1 : -1;
+    return 0;
+  });
+  
+  renderDashboardEmployees(sorted);
+}
+
+// GLOBAL SEARCH FUNCTION
+function handleGlobalSearch() {
+  const query = document.getElementById('searchInput').value;
+  const searchContainer = document.getElementById('globalSearch');
+  
+  if (query.trim()) {
+    searchContainer.classList.add('has-text');
+  } else {
+    searchContainer.classList.remove('has-text');
+  }
+  
+  const cabangFilter = document.getElementById('dashboardCabangFilter').value;
+  
+  showLoading();
+  try {
+    google.script.run
+      .withSuccessHandler(function(result) {
+        hideLoading();
+        if (result && result.success) {
+          renderDashboardEmployees(result.data);
+          showToast('info', 'Pencarian', `Ditemukan ${result.count} hasil untuk "${result.query}"`);
+        }
+      })
+      .withFailureHandler(function(error) {
+        hideLoading();
+        showToast('error', 'Error', 'Gagal mencari: ' + error.message);
+      })
+      .searchEmployeesGlobal(query, cabangFilter, 'weekly');
+  } catch (e) {
+    hideLoading();
+    showToast('error', 'Error', 'Terjadi kesalahan sistem');
+  }
+}
+
+function clearSearch() {
+  document.getElementById('searchInput').value = '';
+  document.getElementById('globalSearch').classList.remove('has-text');
+  renderDashboardEmployees(dashboardEmployees);
+}
+
+function renderDashboardEmployees(employees) {
+  const tbody = document.getElementById('dashboardEmployeeTableBody');
+  const emptyState = document.getElementById('emptyDashboardEmployees');
+  const table = document.getElementById('dashboardEmployeeTable');
+  
+  if (!tbody) return;
+  
+  if (!employees || employees.length === 0) {
+    tbody.innerHTML = '';
+    if (emptyState) emptyState.classList.remove('hidden');
+    if (table) table.classList.add('hidden');
+    return;
+  }
+  
+  if (emptyState) emptyState.classList.add('hidden');
+  if (table) table.classList.remove('hidden');
+  
+  tbody.innerHTML = employees.map(emp => {
+    const statusBadge = getStatusBadge(emp.status);
+    const coachingStatusBadge = emp.coaching_status ? getCoachingStatusBadge(emp.coaching_status) : '';
+    
+    return `
+      <tr>
+        <td><strong>${emp.npk}</strong></td>
+        <td>${emp.nama || '-'}</td>
+        <td>${emp.jabatan || '-'}</td>
+        <td>${emp.cabang || '-'}</td>
+        <td>${statusBadge}</td>
+        <td>${coachingStatusBadge}</td>
+        <td>
+          <div class="table-actions">
+            ${emp.coaching_id ? `
+              <button class="action-btn view" onclick="viewCoachingDetail('${emp.coaching_id}')" title="Lihat Detail">
+                <span class="material-icons-round">visibility</span>
+              </button>
+            ` : `
+              <button class="action-btn edit" onclick="startNewCoaching('${emp.npk}')" title="Buat Coaching">
+                <span class="material-icons-round">add</span>
+              </button>
+            `}
+          </div>
+        </td>
+      </tr>
+    `;
+  }).join('');
+}
+
+function getStatusBadge(status) {
+  const map = {
+    'SUDAH_UPDATE': '<span class="badge badge-success"><span class="badge-dot"></span>Sudah Update</span>',
+    'BELUM_UPDATE': '<span class="badge badge-warning"><span class="badge-dot"></span>Belum Update</span>',
+    'BELUM_COACHING': '<span class="badge badge-danger"><span class="badge-dot"></span>Belum Coaching</span>'
+  };
+  return map[status] || `<span class="badge badge-warning">${status}</span>`;
+}
+
+function getCoachingStatusBadge(status) {
+  const classes = {
+    'OPEN': 'status-open',
+    'ON PROGRESS': 'status-on-progress',
+    'DONE': 'status-done',
+    'OVERDUE': 'status-overdue'
+  };
+  const icons = {
+    'OPEN': 'fiber_new',
+    'ON PROGRESS': 'sync',
+    'DONE': 'check_circle',
+    'OVERDUE': 'warning'
+  };
+  return `<span class="badge ${classes[status] || 'badge-warning'}"><span class="material-icons-round" style="font-size:12px;">${icons[status] || 'help'}</span>${status}</span>`;
+}
+
+function renderMonitoringCards(monitoring) {
+  // Belum Coaching
+  const belumCoachingContainer = document.getElementById('belumCoachingGrid');
+  const belumCoachingSection = document.getElementById('monitoringBelumCoaching');
+  
+  if (monitoring.belumCoaching && monitoring.belumCoaching.length > 0) {
+    belumCoachingSection.classList.remove('hidden');
+    belumCoachingContainer.innerHTML = monitoring.belumCoaching.map(emp => `
+      <div class="monitoring-card danger">
+        <div class="monitoring-card-header">
+          <div class="monitoring-avatar">${(emp.nama || 'U').charAt(0)}</div>
+          <div class="monitoring-info">
+            <h4>${emp.nama}</h4>
+            <p>${emp.jabatan} • ${emp.cabang}</p>
+          </div>
+        </div>
+        <div class="monitoring-meta">
+          <span class="monitoring-meta-item">
+            <span class="material-icons-round" style="font-size:12px;">badge</span>
+            ${emp.npk}
+          </span>
+          <button class="btn btn-primary btn-sm" style="margin-left:auto;" onclick="startNewCoaching('${emp.npk}')">
+            <span class="material-icons-round">add</span>
+            Buat Coaching
+          </button>
+        </div>
+      </div>
+    `).join('');
+  } else {
+    belumCoachingSection.classList.add('hidden');
+  }
+  
+  // Belum Update
+  const belumUpdateContainer = document.getElementById('belumUpdateGrid');
+  const belumUpdateSection = document.getElementById('monitoringBelumUpdate');
+  
+  if (monitoring.belumUpdate && monitoring.belumUpdate.length > 0) {
+    belumUpdateSection.classList.remove('hidden');
+    belumUpdateContainer.innerHTML = monitoring.belumUpdate.map(emp => `
+      <div class="monitoring-card">
+        <div class="monitoring-card-header">
+          <div class="monitoring-avatar">${(emp.nama || 'U').charAt(0)}</div>
+          <div class="monitoring-info">
+            <h4>${emp.nama}</h4>
+            <p>${emp.jabatan} • ${emp.cabang}</p>
+          </div>
+        </div>
+        <div style="margin:12px 0;padding:10px;background:var(--gray-50);border-radius:var(--radius-sm);font-size:12px;">
+          <strong>Topic:</strong> ${emp.topic || '-'}<br>
+          <strong>Root Cause:</strong> ${emp.root_cause || '-'}
+        </div>
+        <div class="monitoring-meta">
+          <span class="monitoring-meta-item">
+            <span class="material-icons-round" style="font-size:12px;">badge</span>
+            ${emp.npk}
+          </span>
+          <button class="btn btn-success btn-sm" style="margin-left:auto;" onclick="continueCoaching('${emp.coaching_id}')">
+            <span class="material-icons-round">edit</span>
+            Update
+          </button>
+        </div>
+      </div>
+    `).join('');
+  } else {
+    belumUpdateSection.classList.add('hidden');
+  }
+}
+
+function startNewCoaching(npk) {
+  navigateTo('input');
+  // Pre-select coachee if found
+  setTimeout(() => {
+    const coacheeSelect = document.getElementById('inputCoachee');
+    if (coacheeSelect) {
+      for (let i = 0; i < coacheeSelect.options.length; i++) {
+        if (coacheeSelect.options[i].value === npk) {
+          coacheeSelect.selectedIndex = i;
+          checkActiveCoaching();
+          break;
+        }
+      }
+    }
+  }, 500);
+}
+
+function continueCoaching(coachingId) {
+  viewCoachingDetail(coachingId);
+}
+
+//==================== COACHING DETAIL ====================
+function viewCoachingDetail(coachingId) {
+  if (!coachingId) {
+    showToast('warning', 'Info', 'Karyawan ini belum memiliki coaching');
+    return;
+  }
+  
+  currentCoachingId = coachingId;
+  showLoading();
+  
+  try {
+    google.script.run
+      .withSuccessHandler(function(result) {
+        hideLoading();
+        if (result && result.success) {
+          renderCoachingDetail(result.data);
+          navigateTo('coaching-detail');
+        } else {
+          showToast('error', 'Error', result ? result.message : 'Data tidak ditemukan');
+        }
+      })
+      .withFailureHandler(function(error) {
+        hideLoading();
+        showToast('error', 'Error', 'Gagal memuat detail: ' + error.message);
+      })
+      .getCoachingDetail(coachingId);
+  } catch (e) {
+    hideLoading();
+    showToast('error', 'Error', 'Terjadi kesalahan sistem');
+  }
+}
+
+function renderCoachingDetail(data) {
+  if (!data || !data.header) return;
+  
+  const header = data.header;
+  
+  document.getElementById('detailCoacheeName').innerHTML = `
+    <span class="material-icons-round">psychology</span>
+    ${header.coachee_nama || 'Detail Coaching'}
+  `;
+  document.getElementById('detailCoacheeInfo').innerHTML = `
+    <span class="material-icons-round" style="font-size:14px;vertical-align:middle;">business</span>
+    ${header.cabang || '-'} • 
+    <span class="material-icons-round" style="font-size:14px;vertical-align:middle;">tag</span>
+    ID: ${(header.coaching_id || '').substring(0, 8)}...
+  `;
+  document.getElementById('detailCoach').textContent = header.coach_nama || '-';
+  document.getElementById('detailRootCause').textContent = header.root_cause || '-';
+  document.getElementById('detailTopic').textContent = header.topic || '-';
+  document.getElementById('detailTargetDate').textContent = formatDate(header.target_date) || 'Tidak ditentukan';
+  
+  const statusHtml = getCoachingStatusBadge(header.display_status || header.status);
+  document.getElementById('detailStatus').innerHTML = statusHtml;
+  
+  // Show/hide complete button
+  const completeBtn = document.getElementById('btnCompleteCoaching');
+  if (completeBtn) {
+    if (header.status !== 'DONE') {
+      completeBtn.classList.remove('hidden');
+    } else {
+      completeBtn.classList.add('hidden');
+    }
+  }
+  
+  // Render timeline
+  const timeline = document.getElementById('coachingTimeline');
+  const emptyTimeline = document.getElementById('emptyTimeline');
+  
+  if (!data.details || data.details.length === 0) {
+    if (timeline) timeline.innerHTML = '';
+    if (emptyTimeline) emptyTimeline.classList.remove('hidden');
+    return;
+  }
+  
+  if (emptyTimeline) emptyTimeline.classList.add('hidden');
+  
+  if (timeline) {
+    timeline.innerHTML = data.details.map((detail, index) => `
+      <div class="timeline-item">
+        <div class="timeline-dot">
+          <span class="material-icons-round">check</span>
+        </div>
+        <div class="timeline-content">
+          <div class="timeline-header">
+            <span class="timeline-week">
+              <span class="material-icons-round">calendar_view_week</span>
+              ${detail.week || '-'}
+            </span>
+            <span class="timeline-date">
+              <span class="material-icons-round">schedule</span>
+              ${formatDate(detail.update_date)}
+            </span>
+          </div>
+          <div class="timeline-body">
+            <div class="timeline-section">
+              <div class="timeline-label">
+                <span class="material-icons-round">task_alt</span>
+                Action
+              </div>
+              <div class="timeline-value">${detail.action || '-'}</div>
+            </div>
+            <div class="timeline-section">
+              <div class="timeline-label">
+                <span class="material-icons-round">help_outline</span>
+                How (Metode)
+              </div>
+              <div class="timeline-value">${detail.how || '-'}</div>
+            </div>
+            ${detail.result ? `
+              <div class="timeline-section">
+                <div class="timeline-label">
+                  <span class="material-icons-round">check_circle</span>
+                  Result
+                </div>
+                <div class="timeline-value">${detail.result}</div>
+              </div>
+            ` : ''}
+            ${detail.feedback ? `
+              <div class="timeline-section">
+                <div class="timeline-label">
+                  <span class="material-icons-round">feedback</span>
+                  Feedback
+                </div>
+                <div class="timeline-value">${detail.feedback}</div>
+              </div>
+            ` : ''}
+            ${detail.target_nominal ? `
+              <div class="timeline-section">
+                <div class="timeline-label">
+                  <span class="material-icons-round">pin</span>
+                  Target
+                </div>
+                <div class="timeline-value">${detail.target_nominal} ${detail.target_satuan || ''}</div>
+              </div>
+            ` : ''}
+          </div>
+        </div>
+      </div>
+    `).join('');
+  }
+}
+
+function completeCurrentCoaching() {
+  if (!currentCoachingId) return;
+  
+  if (!confirm('Apakah Anda yakin ingin menyelesaikan coaching ini? Status akan berubah menjadi DONE.')) return;
+  
+  showLoading();
+  try {
+    google.script.run
+      .withSuccessHandler(function(result) {
+        hideLoading();
+        if (result && result.success) {
+          showToast('success', 'Sukses', result.message);
+          viewCoachingDetail(currentCoachingId); // Refresh
+          loadDashboardData(); // Refresh dashboard
+        } else {
+          showToast('error', 'Error', result ? result.message : 'Gagal menyelesaikan coaching');
+        }
+      })
+      .withFailureHandler(function(error) {
+        hideLoading();
+        showToast('error', 'Error', 'Gagal menyelesaikan: ' + error.message);
+      })
+      .completeCoaching(currentCoachingId);
+  } catch (e) {
+    hideLoading();
+    showToast('error', 'Error', 'Terjadi kesalahan sistem');
+  }
+}
+
+//==================== INPUT COACHING (CONDITIONAL FORM) ====================
+function initWeeksDropdown() {
+  const select = document.getElementById('inputWeek');
+  if (!select) return;
+  
+  const currentYear = new Date().getFullYear();
+  const currentWeek = getCurrentISOWeek();
+  
+  select.innerHTML = '';
+  for (let i = 1; i <= 52; i++) {
+    const week = `${currentYear}-W${i.toString().padStart(2, '0')}`;
+    const option = document.createElement('option');
+    option.value = week;
+    option.textContent = week;
+    if (week === currentWeek) option.selected = true;
+    select.appendChild(option);
+  }
+}
+
+function getCurrentISOWeek() {
+  const now = new Date();
+  const d = new Date(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()));
+  const dayNum = d.getUTCDay() || 7;
+  d.setUTCDate(d.getUTCDate() + 4 - dayNum);
+  const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
+  const weekNo = Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
+  return `${d.getUTCFullYear()}-W${weekNo.toString().padStart(2, '0')}`;
+}
+
+function initCabangFilters() {
+  if (dashboardData && dashboardData.cabangs) {
+    updateCabangFilter(dashboardData.cabangs);
+  }
+}
+
+function loadCoachees() {
+  const cabang = document.getElementById('inputCabang').value;
+  if (!cabang) return;
+  
+  try {
+    google.script.run
+      .withSuccessHandler(function(result) {
+        if (result && result.success) {
+          const select = document.getElementById('inputCoachee');
+          if (select) {
+            select.innerHTML = '<option value="">Pilih Karyawan</option>';
+            (result.data || []).forEach(emp => {
+              const option = document.createElement('option');
+              option.value = emp.npk;
+              option.textContent = `${emp.nama || '-'} (${emp.npk})`;
+              select.appendChild(option);
+            });
+          }
+        }
+      })
+      .getAvailableCoachees(cabang);
+  } catch (e) {
+    console.error('Exception in loadCoachees:', e);
+  }
+}
+
+// Check active coaching for conditional form
+function checkActiveCoaching() {
+  const coacheeNpk = document.getElementById('inputCoachee').value;
+  if (!coacheeNpk) return;
+  
+  try {
+    google.script.run
+      .withSuccessHandler(function(result) {
+        if (result && result.success) {
+          if (result.hasActive) {
+            // Show update form
+            showUpdateForm(result.coaching);
+          } else {
+            // Show header form
+            showHeaderForm();
+          }
+        }
+      })
+      .getActiveCoachingForCoachee(coacheeNpk);
+  } catch (e) {
+    console.error('Exception in checkActiveCoaching:', e);
+  }
+}
+
+function showUpdateForm(coaching) {
+  document.getElementById('formStateHeader').classList.remove('active');
+  document.getElementById('formStateUpdate').classList.add('active');
+  document.getElementById('activeCoachingBanner').classList.remove('hidden');
+  
+  document.getElementById('updateCoachingId').value = coaching.coaching_id;
+  document.getElementById('activeCoachingText').innerHTML = `
+    <strong>${coaching.root_cause}</strong><br>
+    Topic: ${coaching.topic}<br>
+    Status: <span class="badge ${coaching.status === 'OVERDUE' ? 'badge-danger' : 'badge-warning'}">${coaching.status}</span>
+  `;
+  
+  // Pre-fill cabang if empty
+  if (!document.getElementById('inputCabang').value) {
+    document.getElementById('inputCabang').value = coaching.cabang;
+  }
+}
+
+function showHeaderForm() {
+  document.getElementById('formStateHeader').classList.add('active');
+  document.getElementById('formStateUpdate').classList.remove('active');
+  document.getElementById('activeCoachingBanner').classList.add('hidden');
+  document.getElementById('updateCoachingId').value = '';
+}
+
+function switchToUpdateMode() {
+  const coacheeNpk = document.getElementById('inputCoachee').value;
+  checkActiveCoaching();
+}
+
+function saveCoachingHeader(e) {
+  e.preventDefault();
+  
+  const coacheeNpk = document.getElementById('inputCoachee').value;
+  if (!coacheeNpk) {
+    showToast('error', 'Error', 'Pilih karyawan terlebih dahulu');
+    return;
+  }
+  
+  showLoading();
+  
+  const data = {
+    coach_npk: currentUser.npk,
+    coachee_npk: coacheeNpk,
+    cabang: document.getElementById('inputCabang').value,
+    root_cause: document.getElementById('inputRootCause').value,
+    topic: document.getElementById('inputTopic').value,
+    target_date: document.getElementById('inputTargetDate').value
+  };
+  
+  try {
+    google.script.run
+      .withSuccessHandler(function(result) {
+        hideLoading();
+        if (result && result.success) {
+          lastSavedCoaching = result;
+          showToast('success', 'Sukses', result.message);
+          openReminderModal();
+          resetForm();
+          loadDashboardData();
+        } else {
+          if (result.existing_coaching) {
+            showToast('warning', 'Coaching Aktif Ditemukan', result.message);
+            showUpdateForm(result.existing_coaching);
+          } else {
+            showToast('error', 'Error', result ? result.message : 'Gagal menyimpan');
+          }
+        }
+      })
+      .withFailureHandler(function(error) {
+        hideLoading();
+        showToast('error', 'Error', 'Gagal menyimpan: ' + error.message);
+      })
+      .saveCoachingHeader(data);
+  } catch (e) {
+    hideLoading();
+    showToast('error', 'Error', 'Terjadi kesalahan sistem');
+  }
+}
+
+function saveCoachingUpdate(e) {
+  e.preventDefault();
+  
+  const coachingId = document.getElementById('updateCoachingId').value;
+  if (!coachingId) {
+    showToast('error', 'Error', 'Coaching ID tidak ditemukan');
+    return;
+  }
+  
+  showLoading();
+  
+  const data = {
+    coaching_id: coachingId,
+    week: document.getElementById('inputWeek').value,
+    action: document.getElementById('inputAction').value,
+    how: document.getElementById('inputHow').value,
+    target_date: document.getElementById('inputUpdateTargetDate').value,
+    result: document.getElementById('inputResult').value,
+    feedback: document.getElementById('inputFeedback').value,
+    target_nominal: document.getElementById('inputTargetNominal').value,
+    target_satuan: document.getElementById('inputSatuan').value
+  };
+  
+  try {
+    google.script.run
+      .withSuccessHandler(function(result) {
+        hideLoading();
+        if (result && result.success) {
+          showToast('success', 'Sukses', result.message);
+          resetUpdateForm();
+          loadDashboardData();
+          // Optionally show reminder
+          if (confirm('Apakah Anda ingin mengatur reminder untuk follow-up berikutnya?')) {
+            openReminderModal();
+          }
+        } else {
+          showToast('error', 'Error', result ? result.message : 'Gagal menyimpan');
+        }
+      })
+      .withFailureHandler(function(error) {
+        hideLoading();
+        showToast('error', 'Error', 'Gagal menyimpan: ' + error.message);
+      })
+      .saveCoachingDetail(data);
+  } catch (e) {
+    hideLoading();
+    showToast('error', 'Error', 'Terjadi kesalahan sistem');
+  }
+}
+
+function resetForm() {
+  const form = document.getElementById('coachingHeaderForm');
+  if (form) form.reset();
+  showHeaderForm();
+}
+
+function resetUpdateForm() {
+  const form = document.getElementById('coachingUpdateForm');
+  if (form) {
+    form.reset();
+    initWeeksDropdown();
+  }
+}
+
+//==================== REMINDER MODAL ====================
+function openReminderModal() {
+  document.getElementById('reminderModal').classList.add('active');
+}
+
+function closeReminderModal() {
+  document.getElementById('reminderModal').classList.remove('active');
+}
+
+function saveReminder() {
+  const timeOption = document.getElementById('reminderTime').value;
+  const useEmail = document.getElementById('reminderEmail').checked;
+  const useWA = document.getElementById('reminderWA').checked;
+  
+  if (!useEmail && !useWA) {
+    showToast('warning', 'Peringatan', 'Pilih minimal satu channel (Email atau WhatsApp)');
+    return;
+  }
+  
+  let reminderDate;
+  const now = new Date();
+  
+  switch(timeOption) {
+    case '24h':
+      reminderDate = new Date(now.getTime() + 24 * 60 * 60 * 1000);
+      break;
+    case '3d':
+      reminderDate = new Date(now.getTime() + 3 * 24 * 60 * 60 * 1000);
+      break;
+    case '7d':
+      reminderDate = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
+      break;
+    case 'custom':
+      reminderDate = new Date(document.getElementById('customReminderDate').value);
+      break;
+  }
+  
+  const channel = [];
+  if (useEmail) channel.push('email');
+  if (useWA) channel.push('whatsapp');
+  
+  const data = {
+    coaching_id: lastSavedCoaching?.coaching_id || currentCoachingId,
+    coachee_npk: document.getElementById('inputCoachee')?.value || '',
+    reminder_date: reminderDate.toISOString(),
+    channel: channel.join(','),
+    message: `Reminder: Follow-up coaching untuk ${document.getElementById('inputCoachee')?.selectedOptions?.[0]?.text || 'karyawan'}`
+  };
+  
+  showLoading();
+  try {
+    google.script.run
+      .withSuccessHandler(function(result) {
+        hideLoading();
+        closeReminderModal();
+        if (result && result.success) {
+          showToast('success', 'Reminder Berhasil', result.message);
+        } else {
+          showToast('error', 'Error', result ? result.message : 'Gagal membuat reminder');
+        }
+      })
+      .withFailureHandler(function(error) {
+        hideLoading();
+        showToast('error', 'Error', 'Gagal membuat reminder: ' + error.message);
+      })
+      .createReminder(data);
+  } catch (e) {
+    hideLoading();
+    showToast('error', 'Error', 'Terjadi kesalahan sistem');
+  }
+}
+
+//==================== MASTER DATA ====================
+function loadMasterUser() {
+  if (!currentUser || getUserLevel(currentUser.cl) < 4) {
+    showToast('error', 'Akses Ditolak', 'Anda tidak memiliki akses');
+    navigateTo('dashboard');
+    return;
+  }
+  
+  showLoading();
+  try {
+    google.script.run
+      .withSuccessHandler(function(result) {
+        hideLoading();
+        if (result && result.success) {
+          renderMasterTable('user', result.data);
+        } else {
+          showToast('error', 'Error', result ? result.message : 'Gagal memuat data');
+        }
+      })
+      .withFailureHandler(function(error) {
+        hideLoading();
+        showToast('error', 'Error', 'Gagal memuat user: ' + error.message);
+      })
+      .getAllUsers();
+  } catch (e) {
+    hideLoading();
+    showToast('error', 'Error', 'Terjadi kesalahan sistem');
+  }
+}
+
+function loadMasterKaryawan() {
+  if (!currentUser || getUserLevel(currentUser.cl) < 4) {
+    showToast('error', 'Akses Ditolak', 'Anda tidak memiliki akses');
+    navigateTo('dashboard');
+    return;
+  }
+  
+  showLoading();
+  try {
+    google.script.run
+      .withSuccessHandler(function(result) {
+        hideLoading();
+        if (result && result.success) {
+          renderMasterTable('karyawan', result.data);
+        } else {
+          showToast('error', 'Error', result ? result.message : 'Gagal memuat data');
+        }
+      })
+      .withFailureHandler(function(error) {
+        hideLoading();
+        showToast('error', 'Error', 'Gagal memuat karyawan: ' + error.message);
+      })
+      .getAllKaryawan();
+  } catch (e) {
+    hideLoading();
+    showToast('error', 'Error', 'Terjadi kesalahan sistem');
+  }
+}
+
+let masterSort = { type: '', column: '', direction: 'asc' };
+
+function renderMasterTable(type, data) {
+  const tbody = document.getElementById(`${type}TableBody`);
+  if (!tbody) return;
+  
+  tbody.innerHTML = (data || []).map(item => `
+    <tr>
+      <td><strong>${item.npk || '-'}</strong></td>
+      <td>${item.nama || '-'}</td>
+      <td>${item.jabatan || '-'}</td>
+      <td><span class="badge badge-primary">CL ${item.cl || '-'}</span></td>
+      <td>${item.cabang || '-'}</td>
+      <td>${item.region || '-'}</td>
+      ${type === 'karyawan' ? `<td>${item.atasan_npk || '-'}</td>` : ''}
+      <td>
+        <div class="table-actions">
+          <button class="action-btn edit" onclick="edit${type === 'user' ? 'User' : 'Karyawan'}('${item.npk}')" title="Edit">
+            <span class="material-icons-round">edit</span>
+          </button>
+          <button class="action-btn delete" onclick="delete${type === 'user' ? 'User' : 'Karyawan'}('${item.npk}')" title="Hapus">
+            <span class="material-icons-round">delete</span>
+          </button>
+        </div>
+      </td>
+    </tr>
+  `).join('');
+}
+
+function sortMasterTable(type, column) {
+  if (masterSort.column === column && masterSort.type === type) {
+    masterSort.direction = masterSort.direction === 'asc' ? 'desc' : 'asc';
+  } else {
+    masterSort.type = type;
+    masterSort.column = column;
+    masterSort.direction = 'asc';
+  }
+  
+  // Update header icons
+  document.querySelectorAll(`#${type}Table th`).forEach(th => {
+    th.classList.remove('sort-asc', 'sort-desc');
+  });
+  
+  const th = document.querySelector(`#${type}Table th[onclick="sortMasterTable('${type}', '${column}')"]`);
+  if (th) {
+    th.classList.add(masterSort.direction === 'asc' ? 'sort-asc' : 'sort-desc');
+  }
+  
+  // Get current data and sort
+  const tbody = document.getElementById(`${type}TableBody`);
+  const rows = Array.from(tbody.querySelectorAll('tr'));
+  
+  rows.sort((a, b) => {
+    const valA = a.cells[getColumnIndex(type, column)].textContent.toLowerCase();
+    const valB = b.cells[getColumnIndex(type, column)].textContent.toLowerCase();
+    
+    if (valA < valB) return masterSort.direction === 'asc' ? -1 : 1;
+    if (valA > valB) return masterSort.direction === 'asc' ? 1 : -1;
+    return 0;
+  });
+  
+  tbody.innerHTML = '';
+  rows.forEach(row => tbody.appendChild(row));
+}
+
+function getColumnIndex(type, column) {
+  const columns = {
+    'user': ['npk', 'nama', 'jabatan', 'cl', 'cabang', 'region'],
+    'karyawan': ['npk', 'nama', 'jabatan', 'cl', 'cabang', 'region', 'atasan_npk']
+  };
+  return columns[type].indexOf(column);
+}
+
+function searchMasterData(type) {
+  const query = document.getElementById(`search${type === 'user' ? 'User' : 'Karyawan'}`).value.toLowerCase();
+  const rows = document.querySelectorAll(`#${type}TableBody tr`);
+  
+  rows.forEach(row => {
+    const text = row.textContent.toLowerCase();
+    row.style.display = text.includes(query) ? '' : 'none';
+  });
+}
+
+//==================== MODAL OPERATIONS ====================
+function openUserModal() {
+  masterDataType = 'user';
+  editingId = null;
+  document.getElementById('modalTitle').innerHTML = '<span class="material-icons-round">person_add</span> Tambah User';
+  document.getElementById('modalBody').innerHTML = getKaryawanFormHTML();
+  document.getElementById('masterModal').classList.add('active');
+}
+
+function openKaryawanModal() {
+  masterDataType = 'karyawan';
+  editingId = null;
+  document.getElementById('modalTitle').innerHTML = '<span class="material-icons-round">person_add</span> Tambah Karyawan';
+  document.getElementById('modalBody').innerHTML = getKaryawanFormHTML();
+  document.getElementById('masterModal').classList.add('active');
+}
+
+function getKaryawanFormHTML(data = {}) {
+  return `
+    <div class="form-grid">
+      <div class="form-group">
+        <label class="form-label">
+          <span class="material-icons-round">badge</span>
+          NPK
+        </label>
+        <input type="text" class="form-input" id="formNPK" value="${data.npk || ''}" ${editingId ? 'readonly' : ''}>
+      </div>
+      <div class="form-group">
+        <label class="form-label">
+          <span class="material-icons-round">person</span>
+          Nama
+        </label>
+        <input type="text" class="form-input" id="formNama" value="${data.nama || ''}">
+      </div>
+      <div class="form-group">
+        <label class="form-label">
+          <span class="material-icons-round">work</span>
+          Jabatan
+        </label>
+        <input type="text" class="form-input" id="formJabatan" value="${data.jabatan || ''}">
+      </div>
+      <div class="form-group">
+        <label class="form-label">
+          <span class="material-icons-round">star</span>
+          CL (Career Level)
+        </label>
+        <input type="number" class="form-input" id="formCL" value="${data.cl || '5'}" min="0" max="5">
+      </div>
+      <div class="form-group">
+        <label class="form-label">
+          <span class="material-icons-round">business</span>
+          Cabang
+        </label>
+        <input type="text" class="form-input" id="formCabang" value="${data.cabang || ''}">
+      </div>
+      <div class="form-group">
+        <label class="form-label">
+          <span class="material-icons-round">map</span>
+          Region
+        </label>
+        <input type="text" class="form-input" id="formRegion" value="${data.region || ''}">
+      </div>
+      <div class="form-group">
+        <label class="form-label">
+          <span class="material-icons-round">supervisor_account</span>
+          Atasan NPK
+        </label>
+        <input type="text" class="form-input" id="formAtasan" value="${data.atasan_npk || ''}">
+      </div>
+      <div class="form-group">
+        <label class="form-label">
+          <span class="material-icons-round">email</span>
+          Email
+        </label>
+        <input type="email" class="form-input" id="formEmail" value="${data.email || ''}">
+      </div>
+      <div class="form-group" style="grid-column:1/-1;">
+        <label class="form-label">
+          <span class="material-icons-round">phone</span>
+          No HP
+        </label>
+        <input type="text" class="form-input" id="formNoHP" value="${data.no_hp || ''}">
+      </div>
+    </div>
+  `;
+}
+
+function closeModal() {
+  document.getElementById('masterModal').classList.remove('active');
+}
+
+function saveMasterData() {
+  const data = {
+    npk: document.getElementById('formNPK').value,
+    nama: document.getElementById('formNama').value,
+    jabatan: document.getElementById('formJabatan').value,
+    cl: parseInt(document.getElementById('formCL').value) || 5,
+    cabang: document.getElementById('formCabang').value,
+    region: document.getElementById('formRegion').value,
+    atasan_npk: document.getElementById('formAtasan').value,
+    email: document.getElementById('formEmail').value,
+    no_hp: document.getElementById('formNoHP').value
+  };
+  
+  showLoading();
+  try {
+    google.script.run
+      .withSuccessHandler(function(result) {
+        hideLoading();
+        if (result && result.success) {
+          showToast('success', 'Sukses', result.message);
+          closeModal();
+          if (masterDataType === 'user') loadMasterUser();
+          else loadMasterKaryawan();
+        } else {
+          showToast('error', 'Error', result ? result.message : 'Gagal menyimpan');
+        }
+      })
+      .withFailureHandler(function(error) {
+        hideLoading();
+        showToast('error', 'Error', 'Gagal menyimpan: ' + error.message);
+      })
+      .saveKaryawan(data);
+  } catch (e) {
+    hideLoading();
+    showToast('error', 'Error', 'Terjadi kesalahan sistem');
+  }
+}
+
+function editUser(npk) {
+  editKaryawan(npk);
+}
+
+function editKaryawan(npk) {
+  masterDataType = 'karyawan';
+  editingId = npk;
+  
+  showLoading();
+  try {
+    google.script.run
+      .withSuccessHandler(function(result) {
+        hideLoading();
+        if (result && result.success) {
+          const user = result.data.find(u => u.npk === npk);
+          if (user) {
+            document.getElementById('modalTitle').innerHTML = '<span class="material-icons-round">edit</span> Edit Karyawan';
+            document.getElementById('modalBody').innerHTML = getKaryawanFormHTML(user);
+            document.getElementById('masterModal').classList.add('active');
+          }
+        }
+      })
+      .withFailureHandler(function(error) {
+        hideLoading();
+        showToast('error', 'Error', 'Gagal memuat data: ' + error.message);
+      })
+      .getAllKaryawan();
+  } catch (e) {
+    hideLoading();
+    showToast('error', 'Error', 'Terjadi kesalahan sistem');
+  }
+}
+
+function deleteUser(npk) {
+  deleteKaryawan(npk);
+}
+
+function deleteKaryawan(npk) {
+  if (!confirm('Apakah Anda yakin ingin menghapus data ini?')) return;
+  
+  showLoading();
+  try {
+    google.script.run
+      .withSuccessHandler(function(result) {
+        hideLoading();
+        if (result && result.success) {
+          showToast('success', 'Sukses', result.message);
+          loadMasterKaryawan();
+        } else {
+          showToast('error', 'Error', result ? result.message : 'Gagal menghapus');
+        }
+      })
+      .withFailureHandler(function(error) {
+        hideLoading();
+        showToast('error', 'Error', 'Gagal menghapus: ' + error.message);
+      })
+      .deleteKaryawan(npk);
+  } catch (e) {
+    hideLoading();
+    showToast('error', 'Error', 'Terjadi kesalahan sistem');
+  }
+}
+
+//==================== UTILITY ====================
+function showToast(type, title, message) {
+  const container = document.getElementById('toastContainer');
+  if (!container) return;
+  
+  const toast = document.createElement('div');
+  toast.className = `toast ${type}`;
+  
+  const icons = {
+    'success': 'check_circle',
+    'error': 'error',
+    'warning': 'warning',
+    'info': 'info'
+  };
+  
+  toast.innerHTML = `
+    <div class="toast-icon">
+      <span class="material-icons-round">${icons[type]}</span>
+    </div>
+    <div class="toast-content">
+      <h4>${title}</h4>
+      <p>${message}</p>
+    </div>
+    <button class="toast-close" onclick="this.parentElement.remove()">
+      <span class="material-icons-round">close</span>
+    </button>
+  `;
+  
+  container.appendChild(toast);
+  
+  setTimeout(() => {
+    toast.style.opacity = '0';
+    toast.style.transform = 'translateX(100%)';
+    setTimeout(() => toast.remove(), 300);
+  }, 5000);
+}
+
+function formatDate(dateStr) {
+  if (!dateStr) return '-';
+  try {
+    const date = new Date(dateStr);
+    return date.toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
+  } catch (e) {
+    return dateStr;
+  }
+}
+
+function refreshData() {
+  loadDashboardData();
+  showToast('success', 'Refresh', 'Data berhasil diperbarui');
+}
+
+function exportDashboard() {
+  showToast('info', 'Export', 'Fitur export akan segera tersedia');
+}
+
+function showNotifications() {
+  showToast('info', 'Notifikasi', 'Anda memiliki ' + (document.getElementById('notifBadge').textContent || '0') + ' item yang perlu perhatian');
+}
+//==================== DEBUG & FALLBACK FUNCTIONS ====================
+
+// Debug: Cek kenapa data tidak muncul
+function debugLoadDashboard() {
+  console.log('=== DEBUG DASHBOARD ===');
+  console.log('Current user:', currentUser);
+  console.log('User level:', currentUser ? getUserLevel(currentUser.cl) : 'no user');
+  
+  showLoading();
+  
+  // Coba pakai fungsi safe dulu
+  try {
+    google.script.run
+      .withSuccessHandler(function(result) {
+        hideLoading();
+        console.log('Debug result:', result);
+        
+        if (!result.success) {
+          showToast('error', 'Debug Error', result.message);
+          // Coba fallback
+          loadDashboardFallback();
+          return;
+        }
+        
+        // Jika sukses tapi data kosong
+        if (!result.data || !result.data.employees || result.data.employees.length === 0) {
+          console.log('Data kosong, coba simple list...');
+          loadSimpleEmployeeList();
+          return;
+        }
+        
+        // Normal flow
+        dashboardData = result.data;
+        dashboardEmployees = result.data.employees || [];
+        updateKPICards(result.data);
+        updateCabangFilter(result.data.cabangs);
+        renderDashboardEmployees(dashboardEmployees);
+        renderMonitoringCards(result.data.monitoring || { belumCoaching: [], belumUpdate: [] });
+      })
+      .withFailureHandler(function(error) {
+        hideLoading();
+        console.error('Debug error:', error);
+        showToast('error', 'Error', 'Gagal debug: ' + error.message);
+        loadDashboardFallback();
+      })
+      .getDashboardDataSafe(document.getElementById('dashboardCabangFilter').value, 'weekly');
+      
+  } catch (e) {
+    hideLoading();
+    console.error('Exception:', e);
+    loadDashboardFallback();
+  }
+}
+
+// Fallback: Load tanpa coaching status
+function loadDashboardFallback() {
+  console.log('Using fallback...');
+  
+  try {
+    google.script.run
+      .withSuccessHandler(function(result) {
+        hideLoading();
+        console.log('Fallback result:', result);
+        
+        if (result.success && result.employees) {
+          // Render tanpa status coaching
+          const simpleEmployees = result.employees.map(emp => ({
+            ...emp,
+            status: 'UNKNOWN',
+            coaching_id: null
+          }));
+          
+          dashboardEmployees = simpleEmployees;
+          renderDashboardEmployees(simpleEmployees);
+          
+          showToast('warning', 'Mode Fallback', 'Menampilkan data dasar tanpa status coaching');
+        }
+      })
+      .withFailureHandler(function(error) {
+        hideLoading();
+        showToast('error', 'Fatal Error', 'Tidak dapat memuat data: ' + error.message);
+      })
+      .getSimpleEmployeeList();
+      
+  } catch (e) {
+    hideLoading();
+    showToast('error', 'Error', 'Fallback gagal');
+  }
+}
+
+// Simple render untuk fallback
+function renderSimpleEmployees(employees) {
+  const tbody = document.getElementById('dashboardEmployeeTableBody');
+  const emptyState = document.getElementById('emptyDashboardEmployees');
+  const table = document.getElementById('dashboardEmployeeTable');
+  
+  if (!employees || employees.length === 0) {
+    tbody.innerHTML = '';
+    emptyState.classList.remove('hidden');
+    table.classList.add('hidden');
+    return;
+  }
+  
+  emptyState.classList.add('hidden');
+  table.classList.remove('hidden');
+  
+  tbody.innerHTML = employees.map(emp => `
+    <tr>
+      <td><strong>${emp.npk}</strong></td>
+      <td>${emp.nama || '-'}</td>
+      <td>${emp.jabatan || '-'}</td>
+      <td>${emp.cabang || '-'}</td>
+      <td><span class="badge badge-warning">UNKNOWN</span></td>
+      <td>-</td>
+      <td>
+        <button class="action-btn view" onclick="startNewCoaching('${emp.npk}')">
+          <span class="material-icons-round">add</span>
+        </button>
+      </td>
+    </tr>
+  `).join('');
+}
+
+// Replace fungsi loadDashboardData lama dengan yang baru
+const originalLoadDashboardData = loadDashboardData;
+loadDashboardData = function() {
+  console.log('Using enhanced loadDashboardData...');
+  debugLoadDashboard();
+};
+
+// Tambahkan tombol debug di console
+console.log('=== COACHING MONITORING SYSTEM v4.0 ===');
+console.log('Debug functions available:');
+console.log('- debugLoadDashboard() : Debug dashboard loading');
+console.log('- loadDashboardFallback() : Force fallback mode');
+console.log('- loadSimpleEmployeeList() : Load basic employee data');
+</script>
+</body>
+</html>
