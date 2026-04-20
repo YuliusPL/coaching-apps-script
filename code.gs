@@ -4,20 +4,13 @@
  */
 
 const SPREADSHEET_ID = '17wQagjAHZPyvWr5YJ0yhnTY5V5XPwm3NQB3eMIFIaIU';
-
-// Sheet names
 const SHEET_KARYAWAN = 'DB_KARYAWAN';
 const SHEET_COACHING_HEADER = 'COACHING_HEADER';
 const SHEET_COACHING_DETAIL = 'COACHING_DETAIL';
 const SHEET_REMINDER_LOG = 'REMINDER_LOG';
 
-// Career Level
 const CL_DIREKSI = 0, CL_HRD = 1, CL_KONSULTAN = 2, CL_LEVEL_3 = 3, CL_LEVEL_2 = 4, CL_LEVEL_1 = 5;
-
-// Status
 const STATUS_OPEN = 'OPEN', STATUS_ON_PROGRESS = 'ON PROGRESS', STATUS_DONE = 'DONE', STATUS_OVERDUE = 'OVERDUE';
-
-//==================== UTILITY ====================
 
 function getSpreadsheet() {
   try { return SpreadsheetApp.openById(SPREADSHEET_ID); }
@@ -27,7 +20,7 @@ function getSpreadsheet() {
 function getSheetByName(name) {
   const ss = getSpreadsheet();
   const sheet = ss.getSheetByName(name);
-  if (!sheet) throw new Error(`Sheet "${name}" tidak ditemukan.`);
+  if (!sheet) throw new Error('Sheet "' + name + '" tidak ditemukan.');
   return sheet;
 }
 
@@ -40,7 +33,7 @@ function getCurrentISOWeek() {
   d.setUTCDate(d.getUTCDate() + 4 - dayNum);
   const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
   const weekNo = Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
-  return `${d.getUTCFullYear()}-W${weekNo.toString().padStart(2, '0')}`;
+  return d.getUTCFullYear() + '-W' + weekNo.toString().padStart(2, '0');
 }
 
 function getCurrentTimestamp() {
@@ -55,7 +48,7 @@ function formatDate(date) {
 
 function getCurrentPeriod(periodType) {
   const now = new Date();
-  if (periodType === 'monthly') return `${now.getFullYear()}-${(now.getMonth() + 1).toString().padStart(2, '0')}`;
+  if (periodType === 'monthly') return now.getFullYear() + '-' + (now.getMonth() + 1).toString().padStart(2, '0');
   return getCurrentISOWeek();
 }
 
@@ -65,8 +58,6 @@ function getUserLevel(cl) {
   if (cl === CL_LEVEL_2) return 2;
   return 1;
 }
-
-//==================== SESSION ====================
 
 function getUserSession() {
   try {
@@ -90,7 +81,7 @@ function getUserSession() {
 function setUserSession(userData) {
   try {
     const props = PropertiesService.getUserProperties();
-    const session = { ...userData, timestamp: new Date().toISOString() };
+    const session = { userData: userData, timestamp: new Date().toISOString() };
     props.setProperty('coaching_session', JSON.stringify(session));
     return session;
   } catch (e) { return null; }
@@ -100,8 +91,6 @@ function clearUserSession() {
   try { PropertiesService.getUserProperties().deleteProperty('coaching_session'); }
   catch (e) {}
 }
-
-//==================== MAIN ENTRY ====================
 
 function doGet(e) {
   try {
@@ -120,7 +109,7 @@ function doGet(e) {
 function loginUser(credentials) {
   try {
     if (!credentials || !credentials.npk) return { success: false, message: 'NPK harus diisi' };
-    const { npk } = credentials;
+    const npk = credentials.npk;
     const sheet = getSheetByName(SHEET_KARYAWAN);
     const data = sheet.getDataRange().getValues();
     if (data.length < 2) return { success: false, message: 'Database karyawan kosong' };
@@ -162,11 +151,13 @@ function getAccessibleEmployees(user) {
     let accessibleEmployees = [];
     let accessibleCabangs = new Set();
 
-    const makeEmp = (row) => ({
-      npk: String(row[0]), nama: row[1] || '', jabatan: row[2] || '',
-      cl: parseInt(row[3]) || 5, cabang: row[4] || '', region: row[5] || '',
-      atasan_npk: row[6] || ''
-    });
+    const makeEmp = function(row) {
+      return {
+        npk: String(row[0]), nama: row[1] || '', jabatan: row[2] || '',
+        cl: parseInt(row[3]) || 5, cabang: row[4] || '', region: row[5] || '',
+        atasan_npk: row[6] || ''
+      };
+    };
 
     if (level === 4) {
       for (let i = 1; i < allKaryawan.length; i++) {
@@ -184,13 +175,13 @@ function getAccessibleEmployees(user) {
       }
     } else if (level === 2) {
       const subordinates = getSubordinates(user.npk, true);
-      subordinates.forEach(sub => {
+      subordinates.forEach(function(sub) {
         accessibleEmployees.push(sub);
         if (sub.cabang) accessibleCabangs.add(sub.cabang);
       });
       for (let i = 1; i < allKaryawan.length; i++) {
         const emp = makeEmp(allKaryawan[i]);
-        if (emp.cabang === user.cabang && !accessibleEmployees.find(e => e.npk === emp.npk)) {
+        if (emp.cabang === user.cabang && !accessibleEmployees.find(function(e) { return e.npk === emp.npk; })) {
           accessibleEmployees.push(emp);
           accessibleCabangs.add(emp.cabang);
         }
@@ -207,7 +198,7 @@ function getAccessibleEmployees(user) {
   } catch (e) { return { employees: [], cabangs: [] }; }
 }
 
-function getSubordinates(npk, includeSelf = false) {
+function getSubordinates(npk, includeSelf) {
   try {
     const sheet = getSheetByName(SHEET_KARYAWAN);
     const data = sheet.getDataRange().getValues();
@@ -242,7 +233,7 @@ function getSubordinates(npk, includeSelf = false) {
     return subordinates;
   } catch (e) { return []; }
 }
-//==================== DASHBOARD DATA ====================
+//==================== COACHING STATUS ====================
 
 function getCoachingStatusForPeriod(coacheeNpk, period, periodType) {
   try {
@@ -289,9 +280,8 @@ function getCoachingStatusForPeriod(coacheeNpk, period, periodType) {
     }
 
     let finalStatus = activeCoaching.status;
-    if (activeCoaching.target_date) {
-      const targetDate = new Date(activeCoaching.target_date);
-      if (targetDate < new Date() && activeCoaching.status !== STATUS_DONE) finalStatus = STATUS_OVERDUE;
+    if (activeCoaching.target_date && activeCoaching.status !== STATUS_DONE) {
+      if (new Date(activeCoaching.target_date) < new Date()) finalStatus = STATUS_OVERDUE;
     }
 
     return {
@@ -299,21 +289,23 @@ function getCoachingStatusForPeriod(coacheeNpk, period, periodType) {
       coaching_id: activeCoaching.coaching_id, coaching_status: finalStatus,
       hasUpdateInPeriod: hasUpdateInPeriod, root_cause: activeCoaching.root_cause,
       topic: activeCoaching.topic, target_date: activeCoaching.target_date,
-      details: details.sort((a, b) => a.week.localeCompare(b.week))
+      details: details.sort(function(a, b) { return a.week.localeCompare(b.week); })
     };
   } catch (e) {
     return { status: 'BELUM_COACHING', coaching_id: null, hasUpdateInPeriod: false, details: [] };
   }
 }
 
-//==================== OPTIMIZED SINGLE CALL API ====================
+//==================== INITIAL DATA (OPTIMIZED) ====================
 
 function getInitialData() {
   try {
     const user = getUserSession();
     if (!user) return { success: false, message: 'Sesi habis, silakan login kembali' };
 
-    const { employees, cabangs } = getAccessibleEmployees(user);
+    const accessible = getAccessibleEmployees(user);
+    const employees = accessible.employees;
+    const cabangs = accessible.cabangs;
     const currentPeriod = getCurrentPeriod('weekly');
     
     if (!employees || employees.length === 0) {
@@ -341,7 +333,8 @@ function getInitialData() {
       detailData = detailSheet.getDataRange().getValues();
     } catch (e) { detailData = []; }
 
-    for (const emp of employees) {
+    for (let e = 0; e < employees.length; e++) {
+      const emp = employees[e];
       let activeCoaching = null;
       for (let i = 1; i < headerData.length; i++) {
         if (String(headerData[i][2]) === String(emp.npk)) {
@@ -361,8 +354,9 @@ function getInitialData() {
         coachingId = activeCoaching.coaching_id;
         finalStatus = activeCoaching.status;
         if (activeCoaching.target_date) {
-          const targetDate = new Date(activeCoaching.target_date);
-          if (targetDate < new Date() && activeCoaching.status !== STATUS_DONE) finalStatus = STATUS_OVERDUE;
+          if (new Date(activeCoaching.target_date) < new Date() && activeCoaching.status !== STATUS_DONE) {
+            finalStatus = STATUS_OVERDUE;
+          }
         }
         for (let i = 1; i < detailData.length; i++) {
           if (detailData[i][1] === activeCoaching.coaching_id) {
@@ -377,19 +371,19 @@ function getInitialData() {
 
       if (coachingStatus === 'BELUM_COACHING') {
         belumCoaching++;
-        belumCoachingList.push({ ...emp, status: coachingStatus });
+        belumCoachingList.push(Object.assign({}, emp, { status: coachingStatus }));
       } else if (coachingStatus === 'BELUM_UPDATE') {
         totalCoaching++; sudahCoachingBelumUpdate++;
-        belumUpdateList.push({ ...emp, status: coachingStatus, coaching_id: coachingId, root_cause: activeCoaching.root_cause, topic: activeCoaching.topic });
+        belumUpdateList.push(Object.assign({}, emp, { status: coachingStatus, coaching_id: coachingId, root_cause: activeCoaching.root_cause, topic: activeCoaching.topic }));
       } else if (coachingStatus === 'SUDAH_UPDATE') {
         totalCoaching++; sudahCoachingSudahUpdate++;
       }
 
-      employeeList.push({
-        ...emp, coaching_id: coachingId, status: coachingStatus, coaching_status: finalStatus,
+      employeeList.push(Object.assign({}, emp, {
+        coaching_id: coachingId, status: coachingStatus, coaching_status: finalStatus,
         root_cause: activeCoaching ? activeCoaching.root_cause : '', topic: activeCoaching ? activeCoaching.topic : '',
         target_date: activeCoaching ? activeCoaching.target_date : null
-      });
+      }));
     }
 
     return {
@@ -410,8 +404,7 @@ function getInitialData() {
 function getDashboardData(cabangFilter, periodType) {
   return getInitialData();
 }
-
-//==================== COACHING OPERATIONS ====================
+//==================== COACHING CRUD ====================
 
 function getCoachingDetail(coachingId) {
   try {
@@ -460,13 +453,13 @@ function getCoachingDetail(coachingId) {
         });
       }
     }
-    details.sort((a, b) => a.week.localeCompare(b.week));
+    details.sort(function(a, b) { return a.week.localeCompare(b.week); });
 
     return {
       success: true,
       data: {
-        header: { ...header, coachee_nama: coacheeNama, coach_nama: coachNama, atasan_npk: atasanNpk, display_status: displayStatus },
-        details: details, timeline: details.map((d, index) => ({ step: index + 1, ...d }))
+        header: Object.assign({}, header, { coachee_nama: coacheeNama, coach_nama: coachNama, atasan_npk: atasanNpk, display_status: displayStatus }),
+        details: details, timeline: details.map(function(d, index) { return Object.assign({}, d, { step: index + 1 }); })
       }
     };
   } catch (e) { return { success: false, message: 'Terjadi kesalahan: ' + e.toString() }; }
@@ -578,7 +571,8 @@ function completeCoaching(coachingId) {
     return { success: false, message: 'Coaching tidak ditemukan' };
   } catch (e) { return { success: false, message: 'Terjadi kesalahan: ' + e.toString() }; }
 }
-//==================== ADMIN CRUD - KARYAWAN ====================
+
+//==================== ADMIN KARYAWAN CRUD ====================
 
 function getAllKaryawan() {
   try {
@@ -591,21 +585,13 @@ function getAllKaryawan() {
 
     for (let i = 1; i < data.length; i++) {
       karyawan.push({
-        npk: String(data[i][0]),
-        nama: data[i][1] || '',
-        jabatan: data[i][2] || '',
-        cl: parseInt(data[i][3]) || 5,
-        cabang: data[i][4] || '',
-        region: data[i][5] || '',
-        atasan_npk: data[i][6] || '',
-        email: data[i][7] || '',
-        no_hp: data[i][8] || ''
+        npk: String(data[i][0]), nama: data[i][1] || '', jabatan: data[i][2] || '',
+        cl: parseInt(data[i][3]) || 5, cabang: data[i][4] || '', region: data[i][5] || '',
+        atasan_npk: data[i][6] || '', email: data[i][7] || '', no_hp: data[i][8] || ''
       });
     }
     return { success: true, data: karyawan };
-  } catch (e) {
-    return { success: false, message: 'Terjadi kesalahan: ' + e.toString() };
-  }
+  } catch (e) { return { success: false, message: 'Terjadi kesalahan: ' + e.toString() }; }
 }
 
 function saveKaryawan(data) {
@@ -616,7 +602,6 @@ function saveKaryawan(data) {
     const sheet = getSheetByName(SHEET_KARYAWAN);
     const existing = sheet.getDataRange().getValues();
 
-    // Update jika NPK sudah ada
     for (let i = 1; i < existing.length; i++) {
       if (String(existing[i][0]) === String(data.npk)) {
         sheet.getRange(i + 1, 1, 1, 9).setValues([[
@@ -627,18 +612,9 @@ function saveKaryawan(data) {
         return { success: true, message: 'Data diperbarui' };
       }
     }
-
-    // Insert baru jika tidak ada
-    sheet.appendRow([
-      data.npk, data.nama, data.jabatan, data.cl,
-      data.cabang, data.region, data.atasan_npk,
-      data.email, data.no_hp
-    ]);
-
+    sheet.appendRow([data.npk, data.nama, data.jabatan, data.cl, data.cabang, data.region, data.atasan_npk, data.email, data.no_hp]);
     return { success: true, message: 'Data ditambahkan' };
-  } catch (e) {
-    return { success: false, message: 'Terjadi kesalahan: ' + e.toString() };
-  }
+  } catch (e) { return { success: false, message: 'Terjadi kesalahan: ' + e.toString() }; }
 }
 
 function deleteKaryawan(npk) {
@@ -648,7 +624,6 @@ function deleteKaryawan(npk) {
 
     const sheet = getSheetByName(SHEET_KARYAWAN);
     const data = sheet.getDataRange().getValues();
-
     for (let i = 1; i < data.length; i++) {
       if (String(data[i][0]) === String(npk)) {
         sheet.deleteRow(i + 1);
@@ -656,9 +631,7 @@ function deleteKaryawan(npk) {
       }
     }
     return { success: false, message: 'Data tidak ditemukan' };
-  } catch (e) {
-    return { success: false, message: 'Terjadi kesalahan: ' + e.toString() };
-  }
+  } catch (e) { return { success: false, message: 'Terjadi kesalahan: ' + e.toString() }; }
 }
 
 //==================== UTILITY API ====================
@@ -678,9 +651,7 @@ function getAvailableCoachees(cabang) {
       }
     }
     return { success: true, data: coachees };
-  } catch (e) {
-    return { success: false, message: 'Terjadi kesalahan: ' + e.toString() };
-  }
+  } catch (e) { return { success: false, message: 'Terjadi kesalahan: ' + e.toString() }; }
 }
 
 function getWeeksList() {
@@ -689,12 +660,10 @@ function getWeeksList() {
     const now = new Date();
     const currentYear = now.getFullYear();
     for (let i = 1; i <= 52; i++) {
-      weeks.push(`${currentYear}-W${i.toString().padStart(2, '0')}`);
+      weeks.push(currentYear + '-W' + i.toString().padStart(2, '0'));
     }
     return { success: true, data: weeks };
-  } catch (e) {
-    return { success: false, message: 'Terjadi kesalahan: ' + e.toString() };
-  }
+  } catch (e) { return { success: false, message: 'Terjadi kesalahan: ' + e.toString() }; }
 }
 
 function getAtasanList() {
@@ -709,14 +678,10 @@ function getAtasanList() {
     for (let i = 1; i < data.length; i++) {
       const nama = data[i][1];
       const npk = String(data[i][0]);
-      if (nama && npk) {
-        atasanList.push({ npk: npk, nama: nama });
-      }
+      if (nama && npk) atasanList.push({ npk: npk, nama: nama });
     }
     return { success: true, data: atasanList };
-  } catch (e) {
-    return { success: false, message: 'Terjadi kesalahan: ' + e.toString() };
-  }
+  } catch (e) { return { success: false, message: 'Terjadi kesalahan: ' + e.toString() }; }
 }
 
 //==================== SETUP ====================
@@ -725,32 +690,30 @@ function setupSpreadsheet() {
   try {
     const ss = getSpreadsheet();
     const sheets = ss.getSheets();
-    const sheetNames = sheets.map(s => s.getName());
+    const sheetNames = sheets.map(function(s) { return s.getName(); });
     let messages = [];
 
-    if (!sheetNames.includes(SHEET_KARYAWAN)) {
+    if (sheetNames.indexOf(SHEET_KARYAWAN) === -1) {
       const sheet = ss.insertSheet(SHEET_KARYAWAN);
       sheet.appendRow(['NPK', 'Nama', 'Jabatan', 'CL', 'Cabang', 'Region', 'Atasan_NPK', 'Email', 'No_HP']);
-      messages.push(`Sheet "${SHEET_KARYAWAN}" dibuat`);
+      messages.push('Sheet "DB_KARYAWAN" dibuat');
     }
-    if (!sheetNames.includes(SHEET_COACHING_HEADER)) {
+    if (sheetNames.indexOf(SHEET_COACHING_HEADER) === -1) {
       const sheet = ss.insertSheet(SHEET_COACHING_HEADER);
       sheet.appendRow(['coaching_id', 'coach_npk', 'coachee_npk', 'cabang', 'root_cause', 'topic', 'status', 'created_date', 'target_date']);
-      messages.push(`Sheet "${SHEET_COACHING_HEADER}" dibuat`);
+      messages.push('Sheet "COACHING_HEADER" dibuat');
     }
-    if (!sheetNames.includes(SHEET_COACHING_DETAIL)) {
+    if (sheetNames.indexOf(SHEET_COACHING_DETAIL) === -1) {
       const sheet = ss.insertSheet(SHEET_COACHING_DETAIL);
       sheet.appendRow(['detail_id', 'coaching_id', 'week', 'action', 'how', 'target_date', 'result', 'feedback', 'update_date', 'target_nominal', 'target_satuan']);
-      messages.push(`Sheet "${SHEET_COACHING_DETAIL}" dibuat`);
+      messages.push('Sheet "COACHING_DETAIL" dibuat');
     }
-    if (!sheetNames.includes(SHEET_REMINDER_LOG)) {
+    if (sheetNames.indexOf(SHEET_REMINDER_LOG) === -1) {
       const sheet = ss.insertSheet(SHEET_REMINDER_LOG);
       sheet.appendRow(['reminder_id', 'coaching_id', 'coach_npk', 'coachee_npk', 'reminder_date', 'channel', 'status', 'sent_timestamp', 'message_content', 'created_at']);
-      messages.push(`Sheet "${SHEET_REMINDER_LOG}" dibuat`);
+      messages.push('Sheet "REMINDER_LOG" dibuat');
     }
 
     return { success: true, message: messages.join(', ') || 'Semua sheet sudah ada' };
-  } catch (e) {
-    return { success: false, message: 'Setup failed: ' + e.toString() };
-  }
+  } catch (e) { return { success: false, message: 'Setup failed: ' + e.toString() }; }
 }
