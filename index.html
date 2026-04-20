@@ -12,16 +12,16 @@
         /* ==================== LIGHT THEME ==================== */
         body {
             font-family: 'Inter', sans-serif;
-            background: #f1f5f9;  /* Slate-100 - cerah */
-            color: #334155;  /* Slate-700 */
+            background: #f8fafc;
+            color: #334155;
             min-height: 100vh;
             overflow-x: hidden;
         }
 
-        /* Loading Spinner */
+        /* Loading */
         .loading-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(241, 245, 249, 0.95);  /* Light overlay */
+            background: rgba(248, 250, 252, 0.95);
             display: flex; flex-direction: column; justify-content: center; align-items: center;
             z-index: 9999; transition: opacity 0.3s;
         }
@@ -41,8 +41,8 @@
         
         /* Sidebar - Light */
         .sidebar {
-            width: 280px; background: #ffffff;  /* White */
-            border-right: 1px solid #e2e8f0;  /* Slate-200 */
+            width: 280px; background: #ffffff;
+            border-right: 1px solid #e2e8f0;
             display: flex; flex-direction: column;
             position: fixed; height: 100vh; z-index: 100;
             transition: transform 0.3s;
@@ -60,7 +60,7 @@
             align-items: center; justify-content: center;
         }
         .sidebar-logo .material-icons { color: white; font-size: 20px; }
-        .sidebar-title { font-size: 18px; font-weight: 700; color: #0f172a; }  /* Dark slate */
+        .sidebar-title { font-size: 18px; font-weight: 700; color: #0f172a; }
         .sidebar-subtitle { font-size: 11px; color: #64748b; margin-top: 2px; }
 
         .sidebar-menu { flex: 1; overflow-y: auto; padding: 16px 12px; }
@@ -77,7 +77,7 @@
             transition: all 0.2s; color: #64748b;
             text-decoration: none; font-size: 14px;
         }
-        .menu-item:hover { background: #eff6ff; color: #2563eb; }  /* Blue-50 */
+        .menu-item:hover { background: #eff6ff; color: #2563eb; }
         .menu-item.active {
             background: linear-gradient(135deg, #2563eb, #1d4ed8);
             color: white; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
@@ -114,7 +114,7 @@
         }
         .logout-btn:hover { background: #fee2e2; color: #dc2626; border-color: #fecaca; }
 
-        /* Main Content - Light */
+        /* Main Content */
         .main-content {
             flex: 1; margin-left: 280px;
             padding: 24px 32px; min-height: 100vh;
@@ -127,7 +127,7 @@
         .page-title { font-size: 24px; font-weight: 700; color: #0f172a; }
         .page-subtitle { font-size: 13px; color: #64748b; margin-top: 4px; }
 
-        /* Cards - Light */
+        /* Cards */
         .card {
             background: #ffffff; border: 1px solid #e2e8f0;
             border-radius: 12px; padding: 20px;
@@ -140,7 +140,7 @@
         }
         .card-title { font-size: 16px; font-weight: 600; color: #0f172a; }
 
-        /* Stats Grid - Light */
+        /* Stats */
         .stats-grid {
             display: grid; grid-template-columns: repeat(4, 1fr);
             gap: 16px; margin-bottom: 24px;
@@ -165,7 +165,7 @@
         .stat-change.positive { color: #059669; }
         .stat-change.negative { color: #dc2626; }
 
-        /* Filters - Light */
+        /* Filters */
         .filters-row {
             display: flex; gap: 12px; margin-bottom: 20px;
             flex-wrap: wrap;
@@ -203,9 +203,8 @@
             background: #f1f5f9; color: #475569;
             border: 1px solid #cbd5e1;
         }
-        .btn-secondary:hover { background: #e2e8f0; }
 
-        /* Table - Light */
+        /* Table */
         .table-container { overflow-x: auto; }
         .data-table {
             width: 100%; border-collapse: collapse;
@@ -218,7 +217,6 @@
             border-bottom: 1px solid #e2e8f0;
             white-space: nowrap; cursor: pointer;
         }
-        .data-table th:hover { color: #0f172a; background: #f1f5f9; }
         .data-table td {
             padding: 14px 16px; font-size: 13px;
             border-bottom: 1px solid #f1f5f9;
@@ -248,11 +246,11 @@
         .action-btn.view { background: #dcfce7; color: #059669; }
         .action-btn:hover { transform: scale(1.1); }
 
-        /* Modal - Light */
+        /* Modal */
         .modal-overlay {
             position: fixed; top: 0; left: 0;
             width: 100%; height: 100%;
-            background: rgba(15, 23, 42, 0.5);  /* Darker overlay for light theme */
+            background: rgba(15, 23, 42, 0.5);
             display: none; justify-content: center; align-items: center;
             z-index: 1000; padding: 20px;
         }
@@ -272,7 +270,6 @@
             background: none; border: none; color: #94a3b8;
             cursor: pointer; font-size: 24px; line-height: 1;
         }
-        .modal-close:hover { color: #0f172a; }
         .modal-body { padding: 24px; }
         .form-group { margin-bottom: 16px; }
         .form-label {
@@ -295,15 +292,14 @@
             display: flex; justify-content: flex-end; gap: 12px;
         }
 
-        /* Empty State - Light */
+        /* Empty State */
         .empty-state {
             text-align: center; padding: 60px 20px;
         }
         .empty-state .material-icons { font-size: 64px; color: #cbd5e1; margin-bottom: 16px; }
         .empty-state h3 { font-size: 18px; color: #64748b; margin-bottom: 8px; }
-        .empty-state p { font-size: 13px; color: #94a3b8; }
 
-        /* Mobile Menu Toggle */
+        /* Mobile */
         .mobile-toggle {
             display: none; position: fixed; top: 16px; left: 16px;
             z-index: 101; background: #ffffff;
@@ -312,7 +308,6 @@
             box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
 
-        /* Responsive */
         @media (max-width: 1024px) {
             .stats-grid { grid-template-columns: repeat(2, 1fr); }
         }
@@ -324,11 +319,10 @@
             .stats-grid { grid-template-columns: 1fr; }
         }
 
-        /* Hide sections */
         .section { display: none; }
         .section.active { display: block; }
 
-        /* Toast Notification */
+        /* Toast */
         .toast {
             position: fixed; bottom: 24px; right: 24px;
             padding: 14px 20px; border-radius: 10px;
@@ -370,16 +364,15 @@
             </div>
 
             <nav class="sidebar-menu">
-                <!-- CMS Section -->
                 <div class="menu-section">
                     <div class="menu-section-title">CMS</div>
                     <a href="#" class="menu-item active" onclick="showSection('dashboard', this); return false;">
                         <span class="material-icons">dashboard</span>
                         <span class="menu-item-text">Dashboard</span>
                     </a>
-                    <a href="#" class="menu-item" onclick="showSection('input-coaching', this); return false;">
+                    <a href="#" class="menu-item" onclick="showSection('coaching-data', this); return false;">
                         <span class="material-icons">edit_note</span>
-                        <span class="menu-item-text">Input Coaching</span>
+                        <span class="menu-item-text">Data Coaching</span>
                     </a>
                     <a href="#" class="menu-item" onclick="showSection('update-coaching', this); return false;">
                         <span class="material-icons">update</span>
@@ -389,17 +382,12 @@
                         <span class="material-icons">notifications_active</span>
                         <span class="menu-item-text">Reminder</span>
                     </a>
-                    <a href="#" class="menu-item" onclick="showSection('preview-chat', this); return false;">
-                        <span class="material-icons">chat</span>
-                        <span class="menu-item-text">Preview Chat</span>
-                    </a>
                     <a href="#" class="menu-item" onclick="showSection('download', this); return false;">
                         <span class="material-icons">download</span>
                         <span class="menu-item-text">Download Data</span>
                     </a>
                 </div>
 
-                <!-- Admin Section -->
                 <div class="menu-section">
                     <div class="menu-section-title">Admin</div>
                     <a href="#" class="menu-item" onclick="showSection('management-user', this); return false;">
@@ -475,11 +463,11 @@
                         <table class="data-table">
                             <thead>
                                 <tr>
-                                    <th onclick="sortTable('npk')">NPK <span class="material-icons" style="font-size:14px;vertical-align:middle;">unfold_more</span></th>
-                                    <th onclick="sortTable('nama')">Nama <span class="material-icons" style="font-size:14px;vertical-align:middle;">unfold_more</span></th>
-                                    <th onclick="sortTable('jabatan')">Jabatan <span class="material-icons" style="font-size:14px;vertical-align:middle;">unfold_more</span></th>
-                                    <th onclick="sortTable('cabang')">Cabang <span class="material-icons" style="font-size:14px;vertical-align:middle;">unfold_more</span></th>
-                                    <th onclick="sortTable('status')">Status Coaching <span class="material-icons" style="font-size:14px;vertical-align:middle;">unfold_more</span></th>
+                                    <th>NPK</th>
+                                    <th>Nama</th>
+                                    <th>Jabatan</th>
+                                    <th>Cabang</th>
+                                    <th>Status Coaching</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
@@ -496,51 +484,55 @@
                 </div>
             </section>
 
-            <!-- INPUT COACHING SECTION -->
-            <section class="section" id="input-coaching">
+            <!-- COACHING DATA SECTION - Format Excel -->
+            <section class="section" id="coaching-data">
                 <div class="page-header">
                     <div>
-                        <h1 class="page-title">Input Data Coaching</h1>
-                        <p class="page-subtitle">Buat sesi coaching baru untuk karyawan</p>
+                        <h1 class="page-title">Data Coaching</h1>
+                        <p class="page-subtitle">Format Coaching Chat sesuai standar</p>
                     </div>
+                    <button class="btn btn-primary" onclick="openCoachingModal()">
+                        <span class="material-icons">add</span>
+                        Tambah Coaching
+                    </button>
                 </div>
 
-                <div class="card" style="max-width: 800px;">
+                <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Form Coaching Baru</h3>
-                    </div>
-                    <div class="modal-body" style="padding: 0;">
-                        <div class="form-group">
-                            <label class="form-label">Cabang</label>
-                            <select class="form-select" id="inputCabang" onchange="loadCoachees()">
-                                <option value="">Pilih Cabang</option>
+                        <h3 class="card-title">Coaching Chat</h3>
+                        <div class="filters-row">
+                            <select class="filter-select" id="filterCoachingCabang" onchange="filterCoachingData()">
+                                <option value="">Semua Cabang</option>
                             </select>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Karyawan (Coachee)</label>
-                            <select class="form-select" id="inputCoachee">
-                                <option value="">Pilih Karyawan</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Root Cause / Masalah</label>
-                            <textarea class="form-textarea" id="inputRootCause" placeholder="Jelaskan akar masalah..."></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Topic / Topik Coaching</label>
-                            <input type="text" class="form-input" id="inputTopic" placeholder="Topik yang akan dibahas...">
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Target Date</label>
-                            <input type="date" class="form-input" id="inputTargetDate">
+                            <input type="text" class="filter-input" id="searchCoaching" placeholder="Cari nama..." onkeyup="filterCoachingData()">
                         </div>
                     </div>
-                    <div class="modal-footer" style="border-top: none; padding-top: 0;">
-                        <button class="btn btn-secondary" onclick="resetFormCoaching()">Reset</button>
-                        <button class="btn btn-primary" onclick="saveCoaching()">
-                            <span class="material-icons">save</span>
-                            Simpan Coaching
-                        </button>
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Nama RM</th>
+                                    <th>Root Causes</th>
+                                    <th>Coaching Topics</th>
+                                    <th>Coaching Target</th>
+                                    <th>Target Date</th>
+                                    <th>How (it Will Be Done)</th>
+                                    <th>Result</th>
+                                    <th>Feedback</th>
+                                    <th>Status</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="coachingTableBody">
+                                <tr>
+                                    <td colspan="11" class="empty-state">
+                                        <span class="material-icons">inbox</span>
+                                        <h3>Tidak ada data coaching</h3>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </section>
@@ -556,49 +548,35 @@
 
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Cari Coaching Aktif</h3>
+                        <h3 class="card-title">Pilih Karyawan</h3>
                     </div>
                     <div class="modal-body" style="padding: 20px 0;">
                         <div class="form-group">
-                            <label class="form-label">Masukkan Coaching ID atau Pilih Karyawan</label>
-                            <div style="display: flex; gap: 12px;">
-                                <input type="text" class="form-input" id="searchCoachingId" placeholder="Coaching ID..." style="flex: 1;">
-                                <button class="btn btn-primary" onclick="searchCoaching()">
-                                    <span class="material-icons">search</span>
-                                    Cari
-                                </button>
-                            </div>
+                            <label class="form-label">Karyawan (Auto-load sesuai akses)</label>
+                            <select class="form-select" id="selectCoachee" onchange="loadCoacheeDetail()">
+                                <option value="">Pilih Karyawan</option>
+                            </select>
                         </div>
                     </div>
                 </div>
 
-                <div id="coachingDetailContainer" style="display: none;">
+                <div id="updateFormContainer" style="display: none;">
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title">Detail Coaching</h3>
-                            <span class="badge badge-warning" id="detailStatus">ON PROGRESS</span>
+                            <h3 class="card-title">Form Update Mingguan</h3>
                         </div>
-                        <div class="modal-body" style="padding: 20px 0;">
-                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px;">
+                        <div class="modal-body" style="padding: 0;">
+                            <input type="hidden" id="updateCoachingId">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
                                 <div class="form-group">
                                     <label class="form-label">Coach</label>
-                                    <input type="text" class="form-input" id="detailCoach" readonly>
+                                    <input type="text" class="form-input" id="updateCoachName" readonly>
                                 </div>
                                 <div class="form-group">
                                     <label class="form-label">Coachee</label>
-                                    <input type="text" class="form-input" id="detailCoachee" readonly>
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Root Cause</label>
-                                    <input type="text" class="form-input" id="detailRootCause" readonly>
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Topic</label>
-                                    <input type="text" class="form-input" id="detailTopic" readonly>
+                                    <input type="text" class="form-input" id="updateCoacheeName" readonly>
                                 </div>
                             </div>
-
-                            <h4 style="font-size: 14px; color: #64748b; margin-bottom: 16px; text-transform: uppercase; font-weight: 600;">Update Mingguan</h4>
                             <div class="form-group">
                                 <label class="form-label">Minggu</label>
                                 <select class="form-select" id="updateWeek">
@@ -628,7 +606,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label class="form-label">Satuan</label>
-                                    <input type="text" class="form-input" id="updateTargetSatuan" placeholder="Contoh: IDR / Unit / %">
+                                    <input type="text" class="form-input" id="updateTargetSatuan" placeholder="IDR / Unit / %">
                                 </div>
                             </div>
                         </div>
@@ -637,7 +615,7 @@
                                 <span class="material-icons">save</span>
                                 Simpan Update
                             </button>
-                            <button class="btn btn-primary" onclick="completeCoaching()" id="btnComplete">
+                            <button class="btn btn-primary" onclick="completeCoaching()">
                                 <span class="material-icons">check_circle</span>
                                 Selesaikan Coaching
                             </button>
@@ -654,9 +632,10 @@
                                     <tr>
                                         <th>Minggu</th>
                                         <th>Action</th>
+                                        <th>How</th>
                                         <th>Result</th>
                                         <th>Feedback</th>
-                                        <th>Tanggal Update</th>
+                                        <th>Tanggal</th>
                                     </tr>
                                 </thead>
                                 <tbody id="historyTableBody">
@@ -672,62 +651,46 @@
                 <div class="page-header">
                     <div>
                         <h1 class="page-title">Reminder</h1>
-                        <p class="page-subtitle">Kirim pengingat ke coach dan coachee</p>
+                        <p class="page-subtitle">Monitoring jatuh tempo coaching</p>
                     </div>
                 </div>
 
-                <div class="card" style="max-width: 600px;">
-                    <div class="card-header">
-                        <h3 class="card-title">Kirim Reminder</h3>
+                <div class="stats-grid" style="grid-template-columns: 1fr 1fr;">
+                    <div class="stat-card orange">
+                        <div class="stat-label">Mendekati Jatuh Tempo</div>
+                        <div class="stat-value" id="statUpcoming">0</div>
+                        <div class="stat-change negative">Kurang dari 7 hari</div>
                     </div>
-                    <div class="modal-body" style="padding: 0;">
-                        <div class="form-group">
-                            <label class="form-label">Coaching ID</label>
-                            <input type="text" class="form-input" id="reminderCoachingId" placeholder="Masukkan Coaching ID...">
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Channel</label>
-                            <div style="display: flex; gap: 12px;">
-                                <button class="btn btn-primary" onclick="sendReminder('email')" style="flex: 1;">
-                                    <span class="material-icons">email</span>
-                                    Email
-                                </button>
-                                <button class="btn btn-success" onclick="sendReminder('wa')" style="flex: 1;">
-                                    <span class="material-icons">chat</span>
-                                    WhatsApp
-                                </button>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Pesan (Opsional)</label>
-                            <textarea class="form-textarea" id="reminderMessage" placeholder="Tulis pesan reminder..."></textarea>
-                        </div>
-                    </div>
-                    <div class="modal-footer" style="border-top: none; padding-top: 0;">
-                        <button class="btn btn-secondary" onclick="resetReminder()">Reset</button>
+                    <div class="stat-card red">
+                        <div class="stat-label">Overdue</div>
+                        <div class="stat-value" id="statOverdue">0</div>
+                        <div class="stat-change negative">Sudah lewat target</div>
                     </div>
                 </div>
 
-                <div class="card" style="margin-top: 20px;">
+                <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Log Reminder</h3>
+                        <h3 class="card-title">Daftar Reminder</h3>
                     </div>
                     <div class="table-container">
                         <table class="data-table">
                             <thead>
                                 <tr>
-                                    <th>Reminder ID</th>
                                     <th>Coaching ID</th>
-                                    <th>Channel</th>
+                                    <th>Nama RM</th>
+                                    <th>Root Cause</th>
+                                    <th>Topic</th>
+                                    <th>Target Date</th>
                                     <th>Status</th>
-                                    <th>Waktu</th>
+                                    <th>Sisa Hari</th>
+                                    <th>Aksi</th>
                                 </tr>
                             </thead>
-                            <tbody id="reminderLogTable">
+                            <tbody id="reminderTableBody">
                                 <tr>
-                                    <td colspan="5" class="empty-state">
+                                    <td colspan="8" class="empty-state">
                                         <span class="material-icons">notifications_none</span>
-                                        <h3>Belum ada reminder</h3>
+                                        <h3>Tidak ada reminder</h3>
                                     </td>
                                 </tr>
                             </tbody>
@@ -736,27 +699,7 @@
                 </div>
             </section>
 
-            <!-- PREVIEW CHAT SECTION -->
-            <section class="section" id="preview-chat">
-                <div class="page-header">
-                    <div>
-                        <h1 class="page-title">Preview Chat</h1>
-                        <p class="page-subtitle">Lihat riwayat komunikasi coaching</p>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="card-title">Chat Preview</h3>
-                    </div>
-                    <div class="empty-state">
-                        <span class="material-icons">chat_bubble_outline</span>
-                        <h3>Fitur Preview Chat</h3>
-                        <p>Fitur ini akan segera hadir. Anda akan dapat melihat riwayat chat antara coach dan coachee.</p>
-                    </div>
-                </div>
-            </section>
-                        <!-- DOWNLOAD SECTION -->
+            <!-- DOWNLOAD SECTION -->
             <section class="section" id="download">
                 <div class="page-header">
                     <div>
@@ -772,13 +715,13 @@
                         </div>
                         <div class="modal-body" style="padding: 0;">
                             <div class="form-group">
-                                <label class="form-label">Filter Cabang (Opsional)</label>
+                                <label class="form-label">Filter Cabang</label>
                                 <select class="form-select" id="exportCabang">
                                     <option value="">Semua Cabang</option>
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label class="form-label">Filter Status (Opsional)</label>
+                                <label class="form-label">Filter Status</label>
                                 <select class="form-select" id="exportStatus">
                                     <option value="">Semua Status</option>
                                     <option value="OPEN">OPEN</option>
@@ -804,6 +747,7 @@
                             <span class="material-icons">people_outline</span>
                             <h3>Export Data Karyawan</h3>
                             <p>Download seluruh data karyawan dalam format Excel.</p>
+         
                         </div>
                         <div class="modal-footer" style="border-top: none;">
                             <button class="btn btn-success" onclick="exportKaryawan()">
@@ -814,8 +758,7 @@
                     </div>
                 </div>
             </section>
-
-            <!-- MANAGEMENT USER SECTION -->
+                        <!-- MANAGEMENT USER SECTION -->
             <section class="section" id="management-user">
                 <div class="page-header">
                     <div>
@@ -851,10 +794,10 @@
                         <table class="data-table">
                             <thead>
                                 <tr>
-                                    <th onclick="sortUserTable('npk')">NPK <span class="material-icons" style="font-size:14px;vertical-align:middle;">unfold_more</span></th>
-                                    <th onclick="sortUserTable('nama')">Nama <span class="material-icons" style="font-size:14px;vertical-align:middle;">unfold_more</span></th>
-                                    <th onclick="sortUserTable('role')">Role <span class="material-icons" style="font-size:14px;vertical-align:middle;">unfold_more</span></th>
-                                    <th onclick="sortUserTable('status')">Status <span class="material-icons" style="font-size:14px;vertical-align:middle;">unfold_more</span></th>
+                                    <th>NPK</th>
+                                    <th>Nama</th>
+                                    <th>Role</th>
+                                    <th>Status</th>
                                     <th>Created At</th>
                                     <th>Aksi</th>
                                 </tr>
@@ -899,12 +842,12 @@
                         <table class="data-table">
                             <thead>
                                 <tr>
-                                    <th onclick="sortKaryawanTable('npk')">NIK <span class="material-icons" style="font-size:14px;vertical-align:middle;">unfold_more</span></th>
-                                    <th onclick="sortKaryawanTable('nama')">Nama <span class="material-icons" style="font-size:14px;vertical-align:middle;">unfold_more</span></th>
-                                    <th onclick="sortKaryawanTable('jabatan')">Jabatan <span class="material-icons" style="font-size:14px;vertical-align:middle;">unfold_more</span></th>
-                                    <th onclick="sortKaryawanTable('cl')">CL <span class="material-icons" style="font-size:14px;vertical-align:middle;">unfold_more</span></th>
-                                    <th onclick="sortKaryawanTable('cabang')">Cabang <span class="material-icons" style="font-size:14px;vertical-align:middle;">unfold_more</span></th>
-                                    <th onclick="sortKaryawanTable('region')">Region <span class="material-icons" style="font-size:14px;vertical-align:middle;">unfold_more</span></th>
+                                    <th>NIK</th>
+                                    <th>Nama</th>
+                                    <th>Jabatan</th>
+                                    <th>CL</th>
+                                    <th>Cabang</th>
+                                    <th>Region</th>
                                     <th>Atasan</th>
                                     <th>Aksi</th>
                                 </tr>
@@ -922,6 +865,57 @@
                 </div>
             </section>
         </main>
+    </div>
+
+    <!-- MODAL: COACHING FORM -->
+    <div class="modal-overlay" id="coachingModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title" id="coachingModalTitle">Tambah Coaching</h3>
+                <button class="modal-close" onclick="closeCoachingModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-label">Cabang</label>
+                    <select class="form-select" id="coachingCabang" onchange="loadCoachees()">
+                        <option value="">Pilih Cabang</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Karyawan (Coachee)</label>
+                    <select class="form-select" id="coachingCoachee">
+                        <option value="">Pilih Karyawan</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Root Causes</label>
+                    <textarea class="form-textarea" id="coachingRootCause" placeholder="Jelaskan akar masalah..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Coaching Topics</label>
+                    <input type="text" class="form-input" id="coachingTopic" placeholder="Topik coaching...">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Coaching Target</label>
+                    <input type="text" class="form-input" id="coachingTarget" placeholder="Target yang ingin dicapai...">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Target Date</label>
+                    <input type="date" class="form-input" id="coachingTargetDate">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">How (it Will Be Done)</label>
+                    <textarea class="form-textarea" id="coachingHow" placeholder="Cara pelaksanaan..."></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeCoachingModal()">Batal</button>
+                <button class="btn btn-primary" onclick="saveCoaching()">
+                    <span class="material-icons">save</span>
+                    Simpan
+                </button>
+            </div>
+        </div>
     </div>
 
     <!-- MODAL: USER FORM -->
@@ -1027,6 +1021,7 @@
         // ==================== GLOBAL VARIABLES ====================
         let currentUser = null;
         let dashboardData = [];
+        let coachingData = [];
         let userData = [];
         let karyawanData = [];
         let currentCoachingId = null;
@@ -1081,7 +1076,8 @@
             document.getElementById('userAvatar').textContent = (currentUser.nama || 'U').charAt(0).toUpperCase();
             
             loadDashboard();
-            loadCabangOptions();
+            loadCoachingData();
+            loadReminderData();
             loadWeeks();
         }
 
@@ -1104,7 +1100,7 @@
 
             if (sectionId === 'management-user') loadUsers();
             if (sectionId === 'data-karyawan') loadKaryawanAdmin();
-            if (sectionId === 'input-coaching') loadInputCabang();
+            if (sectionId === 'update-coaching') loadUpdateCoachees();
             
             if (window.innerWidth <= 768) {
                 document.getElementById('sidebar').classList.remove('open');
@@ -1115,7 +1111,7 @@
             document.getElementById('sidebar').classList.toggle('open');
         }
 
-        // ==================== DASHBOARD - FIXED ====================
+        // ==================== DASHBOARD ====================
         function loadDashboard() {
             showLoading('Memuat dashboard...');
             google.script.run
@@ -1129,7 +1125,7 @@
                 })
                 .withFailureHandler(function(error) {
                     hideLoading();
-                    showToast('Gagal memuat dashboard: ' + error.message, 'error');
+                    showToast('Gagal memuat dashboard', 'error');
                     console.error('Dashboard error:', error);
                 })
                 .getInitialData();
@@ -1158,6 +1154,38 @@
                 });
             }
 
+            // Also populate coaching cabang filter
+            const coachingCabangSelect = document.getElementById('filterCoachingCabang');
+            if (coachingCabangSelect) {
+                coachingCabangSelect.innerHTML = '<option value="">Semua Cabang</option>';
+                if (data.cabangs && Array.isArray(data.cabangs)) {
+                    data.cabangs.forEach(function(cabang) {
+                        if (cabang) {
+                            const option = document.createElement('option');
+                            option.value = cabang;
+                            option.textContent = cabang;
+                            coachingCabangSelect.appendChild(option);
+                        }
+                    });
+                }
+            }
+
+            // Populate export cabang
+            const exportCabang = document.getElementById('exportCabang');
+            if (exportCabang) {
+                exportCabang.innerHTML = '<option value="">Semua Cabang</option>';
+                if (data.cabangs && Array.isArray(data.cabangs)) {
+                    data.cabangs.forEach(function(cabang) {
+                        if (cabang) {
+                            const option = document.createElement('option');
+                            option.value = cabang;
+                            option.textContent = cabang;
+                            exportCabang.appendChild(option);
+                        }
+                    });
+                }
+            }
+
             renderDashboardTable(dashboardData);
         }
 
@@ -1170,7 +1198,6 @@
 
             let html = '';
             employees.forEach(function(emp) {
-                // FIX: Handle undefined values with fallback
                 const npk = emp.npk || '-';
                 const nama = emp.nama || '-';
                 const jabatan = emp.jabatan || '-';
@@ -1184,7 +1211,7 @@
 
                 let actionBtn = '';
                 if (emp.status === 'BELUM_COACHING') {
-                    actionBtn = '<button class="action-btn edit" onclick="quickCoaching(\'' + npk + '\')" title="Buat Coaching"><span class="material-icons">add_circle</span></button>';
+                    actionBtn = '<button class="action-btn edit" onclick="openCoachingModalFor(\'' + npk + '\', \'' + cabang + '\')" title="Buat Coaching"><span class="material-icons">add_circle</span></button>';
                 } else if (emp.coaching_id) {
                     actionBtn = '<button class="action-btn view" onclick="viewCoaching(\'' + emp.coaching_id + '\')" title="Lihat Detail"><span class="material-icons">visibility</span></button>';
                 }
@@ -1216,65 +1243,120 @@
             renderDashboardTable(filtered);
         }
 
-        function sortTable(field) {
-            sortDirection[field] = !sortDirection[field];
-            dashboardData.sort(function(a, b) {
-                let valA = (a[field] || '').toString().toLowerCase();
-                let valB = (b[field] || '').toString().toLowerCase();
-                if (valA < valB) return sortDirection[field] ? -1 : 1;
-                if (valA > valB) return sortDirection[field] ? 1 : -1;
-                return 0;
+        // ==================== COACHING DATA - Format Excel ====================
+        function loadCoachingData() {
+            // Coaching data sudah termasuk dalam getInitialData
+            // Tapi kita bisa load ulang jika perlu
+            console.log('Coaching data loaded with dashboard');
+        }
+
+        function renderCoachingTable(data) {
+            const tbody = document.getElementById('coachingTableBody');
+            if (!data || data.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="11" class="empty-state"><span class="material-icons">inbox</span><h3>Tidak ada data coaching</h3></td></tr>';
+                return;
+            }
+
+            let html = '';
+            let no = 1;
+            data.forEach(function(item) {
+                if (item.coaching_id) {
+                    const statusBadge = item.coaching_status === 'DONE' ? '<span class="badge badge-success">DONE</span>' :
+                                       item.coaching_status === 'OVERDUE' ? '<span class="badge badge-danger">OVERDUE</span>' :
+                                       '<span class="badge badge-warning">' + (item.coaching_status || 'OPEN') + '</span>';
+
+                    html += '<tr>' +
+                        '<td>' + (no++) + '</td>' +
+                        '<td>' + (item.nama || '-') + '</td>' +
+                        '<td>' + (item.root_cause || '-') + '</td>' +
+                        '<td>' + (item.topic || '-') + '</td>' +
+                        '<td>' + (item.target || '-') + '</td>' +
+                        '<td>' + (item.target_date ? formatDateDisplay(item.target_date) : '-') + '</td>' +
+                        '<td>' + (item.how || '-') + '</td>' +
+                        '<td>' + (item.result || '-') + '</td>' +
+                        '<td>' + (item.feedback || '-') + '</td>' +
+                        '<td>' + statusBadge + '</td>' +
+                        '<td><div class="action-btns">' +
+                            '<button class="action-btn view" onclick="viewCoaching(\'' + item.coaching_id + '\')" title="Detail"><span class="material-icons">visibility</span></button>' +
+                        '</div></td>' +
+                        '</tr>';
+                }
             });
-            renderDashboardTable(dashboardData);
+            tbody.innerHTML = html;
         }
 
-        // ==================== INPUT COACHING ====================
-        function loadCabangOptions() {
-            google.script.run
-                .withSuccessHandler(function(result) {
-                    if (result.success && result.data && result.data.cabangs) {
-                        const select = document.getElementById('inputCabang');
-                        select.innerHTML = '<option value="">Pilih Cabang</option>';
-                        result.data.cabangs.forEach(function(cabang) {
-                            if (cabang) {
-                                const option = document.createElement('option');
-                                option.value = cabang;
-                                option.textContent = cabang;
-                                select.appendChild(option);
-                            }
-                        });
-                        
-                        // Also populate export cabang
-                        const exportSelect = document.getElementById('exportCabang');
-                        if (exportSelect) {
-                            exportSelect.innerHTML = '<option value="">Semua Cabang</option>';
-                            result.data.cabangs.forEach(function(cabang) {
-                                if (cabang) {
-                                    const option = document.createElement('option');
-                                    option.value = cabang;
-                                    option.textContent = cabang;
-                                    exportSelect.appendChild(option);
-                                }
-                            });
-                        }
+        function filterCoachingData() {
+            const cabang = document.getElementById('filterCoachingCabang').value;
+            const search = document.getElementById('searchCoaching').value.toLowerCase();
+            
+            let filtered = dashboardData.filter(function(emp) {
+                const matchCabang = !cabang || emp.cabang === cabang;
+                const matchSearch = !search || 
+                    (emp.nama && emp.nama.toLowerCase().includes(search)) || 
+                    (emp.npk && emp.npk.toLowerCase().includes(search));
+                return matchCabang && matchSearch && emp.coaching_id;
+            });
+            
+            renderCoachingTable(filtered);
+        }
+
+        function openCoachingModal() {
+            document.getElementById('coachingModalTitle').textContent = 'Tambah Coaching';
+            document.getElementById('coachingCabang').value = '';
+            document.getElementById('coachingCoachee').innerHTML = '<option value="">Pilih Karyawan</option>';
+            document.getElementById('coachingRootCause').value = '';
+            document.getElementById('coachingTopic').value = '';
+            document.getElementById('coachingTarget').value = '';
+            document.getElementById('coachingTargetDate').value = '';
+            document.getElementById('coachingHow').value = '';
+            
+            // Load cabang options
+            const cabangSelect = document.getElementById('coachingCabang');
+            cabangSelect.innerHTML = '<option value="">Pilih Cabang</option>';
+            if (dashboardData && dashboardData.length > 0) {
+                const cabangs = [...new Set(dashboardData.map(function(e) { return e.cabang; }))].sort();
+                cabangs.forEach(function(cabang) {
+                    if (cabang) {
+                        const option = document.createElement('option');
+                        option.value = cabang;
+                        option.textContent = cabang;
+                        cabangSelect.appendChild(option);
                     }
-                })
-                .getInitialData();
+                });
+            }
+            
+            document.getElementById('coachingModal').classList.add('active');
         }
 
-        function loadInputCabang() {
-            loadCabangOptions();
+        function openCoachingModalFor(npk, cabang) {
+            openCoachingModal();
+            document.getElementById('coachingCabang').value = cabang;
+            loadCoachees();
+            // Select coachee after load
+            setTimeout(function() {
+                const select = document.getElementById('coachingCoachee');
+                for (let i = 0; i < select.options.length; i++) {
+                    if (select.options[i].value === npk) {
+                        select.selectedIndex = i;
+                        break;
+                    }
+                }
+            }, 500);
+        }
+
+        function closeCoachingModal() {
+            document.getElementById('coachingModal').classList.remove('active');
         }
 
         function loadCoachees() {
-            const cabang = document.getElementById('inputCabang').value;
+            const cabang = document.getElementById('coachingCabang').value;
             if (!cabang) return;
             
             showLoading('Memuat karyawan...');
             google.script.run
                 .withSuccessHandler(function(result) {
                     hideLoading();
-                    const select = document.getElementById('inputCoachee');
+                    const select = document.getElementById('coachingCoachee');
                     select.innerHTML = '<option value="">Pilih Karyawan</option>';
                     if (result.success && result.data) {
                         result.data.forEach(function(emp) {
@@ -1290,11 +1372,13 @@
 
         function saveCoaching() {
             const data = {
-                coachee_npk: document.getElementById('inputCoachee').value,
-                cabang: document.getElementById('inputCabang').value,
-                root_cause: document.getElementById('inputRootCause').value,
-                topic: document.getElementById('inputTopic').value,
-                target_date: document.getElementById('inputTargetDate').value
+                coachee_npk: document.getElementById('coachingCoachee').value,
+                cabang: document.getElementById('coachingCabang').value,
+                root_cause: document.getElementById('coachingRootCause').value,
+                topic: document.getElementById('coachingTopic').value,
+                target: document.getElementById('coachingTarget').value,
+                target_date: document.getElementById('coachingTargetDate').value,
+                how: document.getElementById('coachingHow').value
             };
 
             if (!data.coachee_npk || !data.cabang || !data.root_cause || !data.topic) {
@@ -1308,67 +1392,60 @@
                     hideLoading();
                     if (result.success) {
                         showToast('Coaching berhasil dibuat!');
-                        resetFormCoaching();
-                        showSection('dashboard', document.querySelector('[onclick*="dashboard"]'));
+                        closeCoachingModal();
                         loadDashboard();
                     } else {
                         showToast(result.message, 'error');
                     }
                 })
-                .withFailureHandler(function(error) {
-                    hideLoading();
-                    showToast('Gagal menyimpan coaching', 'error');
-                })
                 .saveCoachingHeader(data);
         }
 
-        function resetFormCoaching() {
-            document.getElementById('inputCabang').value = '';
-            document.getElementById('inputCoachee').innerHTML = '<option value="">Pilih Karyawan</option>';
-            document.getElementById('inputRootCause').value = '';
-            document.getElementById('inputTopic').value = '';
-            document.getElementById('inputTargetDate').value = '';
+        function formatDateDisplay(dateStr) {
+            if (!dateStr) return '-';
+            try {
+                const d = new Date(dateStr);
+                return d.toLocaleDateString('id-ID');
+            } catch (e) { return dateStr; }
+        }
+                // ==================== UPDATE COACHING - Auto Load ====================
+        function loadUpdateCoachees() {
+            // Auto load karyawan sesuai akses dari dashboardData
+            const select = document.getElementById('selectCoachee');
+            select.innerHTML = '<option value="">Pilih Karyawan</option>';
+            
+            if (dashboardData && dashboardData.length > 0) {
+                // Filter hanya yang memiliki coaching aktif
+                const coachees = dashboardData.filter(function(e) { 
+                    return e.coaching_id && e.status !== 'BELUM_COACHING'; 
+                });
+                
+                coachees.forEach(function(emp) {
+                    const option = document.createElement('option');
+                    option.value = emp.coaching_id;
+                    option.textContent = emp.nama + ' (' + emp.npk + ') - ' + (emp.topic || 'No Topic');
+                    option.dataset.npk = emp.npk;
+                    select.appendChild(option);
+                });
+            }
         }
 
-        function quickCoaching(npk) {
-            showSection('input-coaching', document.querySelector('[onclick*="input-coaching"]'));
-            // Auto-fill akan dilakukan setelah load
-        }
-
-        // ==================== UPDATE COACHING ====================
-        function loadWeeks() {
-            google.script.run
-                .withSuccessHandler(function(result) {
-                    if (result.success && result.data) {
-                        const select = document.getElementById('updateWeek');
-                        select.innerHTML = '<option value="">Pilih Minggu</option>';
-                        result.data.forEach(function(week) {
-                            const option = document.createElement('option');
-                            option.value = week;
-                            option.textContent = week;
-                            select.appendChild(option);
-                        });
-                    }
-                })
-                .getWeeksList();
-        }
-
-        function searchCoaching() {
-            const coachingId = document.getElementById('searchCoachingId').value;
+        function loadCoacheeDetail() {
+            const coachingId = document.getElementById('selectCoachee').value;
             if (!coachingId) {
-                showToast('Masukkan Coaching ID', 'error');
+                document.getElementById('updateFormContainer').style.display = 'none';
                 return;
             }
-            loadCoachingDetail(coachingId);
+            loadCoachingDetailForUpdate(coachingId);
         }
 
-        function loadCoachingDetail(coachingId) {
+        function loadCoachingDetailForUpdate(coachingId) {
             showLoading('Memuat detail coaching...');
             google.script.run
                 .withSuccessHandler(function(result) {
                     hideLoading();
                     if (result.success) {
-                        renderCoachingDetail(result.data);
+                        renderUpdateForm(result.data);
                     } else {
                         showToast(result.message, 'error');
                     }
@@ -1380,30 +1457,24 @@
                 .getCoachingDetail(coachingId);
         }
 
-        function renderCoachingDetail(data) {
+        function renderUpdateForm(data) {
             currentCoachingId = data.header.coaching_id;
-            document.getElementById('coachingDetailContainer').style.display = 'block';
+            document.getElementById('updateFormContainer').style.display = 'block';
             
-            document.getElementById('detailCoach').value = (data.header.coach_nama || '-') + ' (' + (data.header.coach_npk || '-') + ')';
-            document.getElementById('detailCoachee').value = (data.header.coachee_nama || '-') + ' (' + (data.header.coachee_npk || '-') + ')';
-            document.getElementById('detailRootCause').value = data.header.root_cause || '-';
-            document.getElementById('detailTopic').value = data.header.topic || '-';
-            
-            const statusBadge = document.getElementById('detailStatus');
-            statusBadge.textContent = data.header.display_status || 'ON PROGRESS';
-            statusBadge.className = 'badge ' + 
-                (data.header.display_status === 'DONE' ? 'badge-success' : 
-                 data.header.display_status === 'OVERDUE' ? 'badge-danger' : 'badge-warning');
+            document.getElementById('updateCoachingId').value = data.header.coaching_id;
+            document.getElementById('updateCoachName').value = (data.header.coach_nama || '-') + ' (' + (data.header.coach_npk || '-') + ')';
+            document.getElementById('updateCoacheeName').value = (data.header.coachee_nama || '-') + ' (' + (data.header.coachee_npk || '-') + ')';
 
             const tbody = document.getElementById('historyTableBody');
             if (!data.details || data.details.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="5" class="empty-state">Belum ada update</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="6" class="empty-state">Belum ada update</td></tr>';
             } else {
                 let html = '';
                 data.details.forEach(function(d) {
                     html += '<tr>' +
                         '<td>' + (d.week || '-') + '</td>' +
                         '<td>' + (d.action || '-') + '</td>' +
+                        '<td>' + (d.how || '-') + '</td>' +
                         '<td>' + (d.result || '-') + '</td>' +
                         '<td>' + (d.feedback || '-') + '</td>' +
                         '<td>' + (d.update_date || '-') + '</td>' +
@@ -1436,7 +1507,7 @@
                     hideLoading();
                     if (result.success) {
                         showToast('Update berhasil disimpan!');
-                        loadCoachingDetail(currentCoachingId);
+                        loadCoachingDetailForUpdate(currentCoachingId);
                         document.getElementById('updateAction').value = '';
                         document.getElementById('updateHow').value = '';
                         document.getElementById('updateResult').value = '';
@@ -1457,7 +1528,7 @@
                     hideLoading();
                     if (result.success) {
                         showToast('Coaching berhasil diselesaikan!');
-                        loadCoachingDetail(currentCoachingId);
+                        loadCoachingDetailForUpdate(currentCoachingId);
                         loadDashboard();
                     } else {
                         showToast(result.message, 'error');
@@ -1468,10 +1539,81 @@
 
         function viewCoaching(coachingId) {
             showSection('update-coaching', document.querySelector('[onclick*="update-coaching"]'));
-            document.getElementById('searchCoachingId').value = coachingId;
-            loadCoachingDetail(coachingId);
+            document.getElementById('selectCoachee').value = coachingId;
+            loadCoachingDetailForUpdate(coachingId);
         }
-                // ==================== MANAGEMENT USER ====================
+
+        function loadWeeks() {
+            google.script.run
+                .withSuccessHandler(function(result) {
+                    if (result.success && result.data) {
+                        const select = document.getElementById('updateWeek');
+                        select.innerHTML = '<option value="">Pilih Minggu</option>';
+                        result.data.forEach(function(week) {
+                            const option = document.createElement('option');
+                            option.value = week;
+                            option.textContent = week;
+                            select.appendChild(option);
+                        });
+                    }
+                })
+                .getWeeksList();
+        }
+
+        // ==================== REMINDER ====================
+        function loadReminderData() {
+            google.script.run
+                .withSuccessHandler(function(result) {
+                    if (result.success) {
+                        renderReminderTable(result.data);
+                    }
+                })
+                .withFailureHandler(function(error) {
+                    console.error('Reminder error:', error);
+                })
+                .getReminderData();
+        }
+
+        function renderReminderTable(data) {
+            document.getElementById('statUpcoming').textContent = data.total_upcoming || 0;
+            document.getElementById('statOverdue').textContent = data.total_overdue || 0;
+
+            const tbody = document.getElementById('reminderTableBody');
+            const allItems = [];
+            
+            if (data.upcoming) allItems.push(...data.upcoming.map(function(i) { return Object.assign({}, i, { type: 'upcoming' }); }));
+            if (data.overdue) allItems.push(...data.overdue.map(function(i) { return Object.assign({}, i, { type: 'overdue' }); }));
+
+            if (allItems.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="8" class="empty-state"><span class="material-icons">notifications_none</span><h3>Tidak ada reminder</h3></td></tr>';
+                return;
+            }
+
+            let html = '';
+            allItems.forEach(function(item) {
+                const statusBadge = item.type === 'overdue' ? 
+                    '<span class="badge badge-danger">OVERDUE</span>' : 
+                    '<span class="badge badge-warning">UPCOMING</span>';
+                
+                const daysText = item.days_remaining !== null ? 
+                    (item.days_remaining < 0 ? Math.abs(item.days_remaining) + ' hari lewat' : item.days_remaining + ' hari lagi') : 
+                    '-';
+
+                html += '<tr>' +
+                    '<td>' + (item.coaching_id || '-') + '</td>' +
+                    '<td>' + (item.coachee_nama || '-') + '</td>' +
+                    '<td>' + (item.root_cause || '-') + '</td>' +
+                    '<td>' + (item.topic || '-') + '</td>' +
+                    '<td>' + (item.target_date ? formatDateDisplay(item.target_date) : '-') + '</td>' +
+                    '<td>' + statusBadge + '</td>' +
+                    '<td>' + daysText + '</td>' +
+                    '<td><button class="action-btn view" onclick="viewCoaching(\'' + item.coaching_id + '\')" title="Lihat"><span class="material-icons">visibility</span></button></td>' +
+                    '</tr>';
+            });
+            tbody.innerHTML = html;
+        }
+
+        // ==================== MANAGEMENT USER ====================
         function loadUsers() {
             showLoading('Memuat data user...');
             google.script.run
@@ -1504,12 +1646,9 @@
                     '<span class="badge badge-success">Active</span>' : 
                     '<span class="badge badge-danger">Inactive</span>';
                 
-                const roleBadge = u.role === 'Admin' ? 
-                    '<span class="badge badge-danger">Admin</span>' : 
-                    u.role === 'Direksi' ? 
-                    '<span class="badge badge-warning">Direksi</span>' : 
-                    u.role === 'HR' ? 
-                    '<span class="badge badge-info">HR</span>' : 
+                const roleBadge = u.role === 'Admin' ? '<span class="badge badge-danger">Admin</span>' : 
+                    u.role === 'Direksi' ? '<span class="badge badge-warning">Direksi</span>' : 
+                    u.role === 'HR' ? '<span class="badge badge-info">HR</span>' : 
                     '<span class="badge badge-info">User</span>';
 
                 html += '<tr>' +
@@ -1544,18 +1683,6 @@
             });
 
             renderUserTable(filtered);
-        }
-
-        function sortUserTable(field) {
-            sortDirection[field] = !sortDirection[field];
-            userData.sort(function(a, b) {
-                let valA = (a[field] || '').toString().toLowerCase();
-                let valB = (b[field] || '').toString().toLowerCase();
-                if (valA < valB) return sortDirection[field] ? -1 : 1;
-                if (valA > valB) return sortDirection[field] ? 1 : -1;
-                return 0;
-            });
-            renderUserTable(userData);
         }
 
         function openUserModal() {
@@ -1632,7 +1759,7 @@
                 .deleteUser(npk);
         }
 
-        // ==================== DATA KARYAWAN ADMIN ====================
+        // ==================== DATA KARYAWAN ====================
         function loadKaryawanAdmin() {
             showLoading('Memuat data karyawan...');
             google.script.run
@@ -1641,7 +1768,6 @@
                     if (result.success) {
                         karyawanData = result.data || [];
                         
-                        // Populate cabang filter
                         const cabangs = [...new Set(karyawanData.map(function(k) { return k.cabang; }))].sort();
                         const select = document.getElementById('filterCabangAdmin');
                         select.innerHTML = '<option value="">Semua Cabang</option>';
@@ -1703,18 +1829,6 @@
             });
 
             renderKaryawanTable(filtered);
-        }
-
-        function sortKaryawanTable(field) {
-            sortDirection[field] = !sortDirection[field];
-            karyawanData.sort(function(a, b) {
-                let valA = (a[field] || '').toString().toLowerCase();
-                let valB = (b[field] || '').toString().toLowerCase();
-                if (valA < valB) return sortDirection[field] ? -1 : 1;
-                if (valA > valB) return sortDirection[field] ? 1 : -1;
-                return 0;
-            });
-            renderKaryawanTable(karyawanData);
         }
 
         function openKaryawanModal() {
@@ -1806,39 +1920,7 @@
                 .deleteKaryawan(npk);
         }
 
-        // ==================== REMINDER & EXPORT ====================
-        function sendReminder(channel) {
-            const data = {
-                coaching_id: document.getElementById('reminderCoachingId').value,
-                message: document.getElementById('reminderMessage').value
-            };
-
-            if (!data.coaching_id) {
-                showToast('Masukkan Coaching ID!', 'error');
-                return;
-            }
-
-            showLoading('Mengirim reminder ' + channel + '...');
-            const func = channel === 'email' ? 'sendReminderEmail' : 'sendReminderWA';
-            
-            google.script.run
-                .withSuccessHandler(function(result) {
-                    hideLoading();
-                    if (result.success) {
-                        showToast(result.message);
-                        resetReminder();
-                    } else {
-                        showToast(result.message, 'error');
-                    }
-                })
-                [func](data);
-        }
-
-        function resetReminder() {
-            document.getElementById('reminderCoachingId').value = '';
-            document.getElementById('reminderMessage').value = '';
-        }
-
+        // ==================== EXPORT ====================
         function exportCoaching() {
             const filters = {
                 cabang: document.getElementById('exportCabang').value,
@@ -1850,7 +1932,7 @@
                 .withSuccessHandler(function(result) {
                     hideLoading();
                     if (result.success) {
-                        showToast(result.message + ' - URL: ' + result.download_url);
+                        showToast(result.message);
                         window.open(result.download_url, '_blank');
                     } else {
                         showToast(result.message, 'error');
@@ -1865,7 +1947,7 @@
                 .withSuccessHandler(function(result) {
                     hideLoading();
                     if (result.success) {
-                        showToast(result.message + ' - URL: ' + result.download_url);
+                        showToast(result.message);
                         window.open(result.download_url, '_blank');
                     } else {
                         showToast(result.message, 'error');
