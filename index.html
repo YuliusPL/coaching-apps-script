@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Coaching Monitoring System</title>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   
   <style>
@@ -33,10 +33,10 @@
       --header-height: 64px;
       --radius: 12px;
       --radius-sm: 8px;
-      --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-      --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-      --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+      --shadow-sm: 0 1px 2px 0 rgba(0,0,0,0.05);
+      --shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+      --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1);
+      --shadow-xl: 0 20px 25px -5px rgba(0,0,0,0.1);
       --transition: all 0.2s ease;
     }
 
@@ -51,8 +51,6 @@
       overflow-x: hidden;
     }
 
-    /*==================== LAYOUT ====================*/
-    
     .app-layout {
       display: flex;
       min-height: 100vh;
@@ -201,7 +199,7 @@
     }
 
     .logout-btn:hover {
-      background: rgba(245, 101, 101, 0.1);
+      background: rgba(245,101,101,0.1);
       color: var(--danger);
     }
 
@@ -245,8 +243,6 @@
       padding: 24px;
       overflow-y: auto;
     }
-
-    /*==================== LOADING & TOAST ====================*/
 
     .loading-overlay {
       position: fixed;
@@ -315,8 +311,6 @@
       to { transform: translateX(0); opacity: 1; }
     }
 
-    /*==================== LOGIN ====================*/
-
     .login-screen {
       min-height: 100vh;
       display: flex;
@@ -383,7 +377,7 @@
     .form-input:focus, .form-select:focus {
       outline: none;
       border-color: var(--primary);
-      box-shadow: 0 0 0 3px rgba(26, 86, 219, 0.1);
+      box-shadow: 0 0 0 3px rgba(26,86,219,0.1);
     }
 
     .btn-block {
@@ -392,8 +386,6 @@
       padding: 12px;
       font-size: 15px;
     }
-
-    /*==================== BUTTONS ====================*/
 
     .btn {
       display: inline-flex;
@@ -420,8 +412,6 @@
     .btn-ghost { background: transparent; color: var(--gray-600); border: 1px solid var(--gray-200); }
     .btn-ghost:hover { background: var(--gray-50); }
     .btn-sm { padding: 6px 12px; font-size: 12px; }
-
-    /*==================== STATS ====================*/
 
     .stats-grid {
       display: grid;
@@ -493,8 +483,6 @@
       border-top: 1px solid var(--gray-100);
     }
 
-    /*==================== CONTROLS ====================*/
-
     .controls-section {
       background: white;
       border-radius: var(--radius);
@@ -536,7 +524,7 @@
     .control-input:focus {
       outline: none;
       border-color: var(--primary);
-      box-shadow: 0 0 0 3px rgba(26, 86, 219, 0.1);
+      box-shadow: 0 0 0 3px rgba(26,86,219,0.1);
     }
 
     .search-wrapper {
@@ -556,8 +544,6 @@
     .search-wrapper input {
       padding-left: 40px;
     }
-
-    /*==================== TABLE ====================*/
 
     .table-container {
       background: white;
@@ -655,8 +641,6 @@
       border-bottom: none;
     }
 
-    /*==================== BADGES ====================*/
-
     .badge {
       display: inline-flex;
       align-items: center;
@@ -677,8 +661,6 @@
     .badge-warning .badge-dot { background: var(--warning); }
     .badge-danger .badge-dot { background: var(--danger); }
     .badge-gray .badge-dot { background: var(--gray-400); }
-
-    /*==================== PAGE SECTIONS ====================*/
 
     .page-section {
       display: none;
@@ -719,8 +701,6 @@
       color: var(--gray-500);
       font-size: 14px;
     }
-
-    /*==================== MODAL ====================*/
 
     .modal-overlay {
       position: fixed;
@@ -809,21 +789,80 @@
       margin-bottom: 16px;
     }
 
-    .form-group {
-      margin-bottom: 16px;
-    }
-
-    .form-group:last-child {
-      margin-bottom: 0;
-    }
-
     .form-hint {
       font-size: 12px;
       color: var(--gray-400);
       margin-top: 4px;
     }
 
-    /*==================== CONFIRM DIALOG ====================*/
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--gray-500);
+    }
+
+    .empty-state .material-icons {
+      font-size: 48px;
+      color: var(--gray-300);
+      margin-bottom: 16px;
+    }
+
+    .empty-state h3 {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--gray-700);
+      margin-bottom: 8px;
+    }
+
+    .action-btns {
+      display: flex;
+      gap: 6px;
+    }
+
+    .btn-icon {
+      padding: 6px;
+      border-radius: var(--radius-sm);
+      min-width: auto;
+    }
+
+    .autocomplete-wrapper {
+      position: relative;
+    }
+
+    .autocomplete-list {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background: white;
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius-sm);
+      max-height: 200px;
+      overflow-y: auto;
+      z-index: 100;
+      box-shadow: var(--shadow-lg);
+      display: none;
+    }
+
+    .autocomplete-list.active {
+      display: block;
+    }
+
+    .autocomplete-item {
+      padding: 10px 14px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: var(--transition);
+    }
+
+    .autocomplete-item:hover {
+      background: var(--gray-50);
+    }
+
+    .autocomplete-item .npk-text {
+      font-size: 12px;
+      color: var(--gray-400);
+    }
 
     .confirm-dialog {
       background: white;
@@ -877,92 +916,11 @@
       margin-bottom: 4px;
     }
 
-    .confirm-details strong {
-      color: var(--gray-700);
-    }
-
     .confirm-actions {
       display: flex;
       gap: 10px;
       justify-content: center;
     }
-
-    /*==================== EMPTY STATE ====================*/
-
-    .empty-state {
-      text-align: center;
-      padding: 60px 20px;
-      color: var(--gray-500);
-    }
-
-    .empty-state .material-icons {
-      font-size: 48px;
-      color: var(--gray-300);
-      margin-bottom: 16px;
-    }
-
-    .empty-state h3 {
-      font-size: 16px;
-      font-weight: 600;
-      color: var(--gray-700);
-      margin-bottom: 8px;
-    }
-
-    /*==================== ADMIN TABLE ACTIONS ====================*/
-
-    .action-btns {
-      display: flex;
-      gap: 6px;
-    }
-
-    .btn-icon {
-      padding: 6px;
-      border-radius: var(--radius-sm);
-      min-width: auto;
-    }
-
-    /*==================== AUTOCOMPLETE ====================*/
-
-    .autocomplete-wrapper {
-      position: relative;
-    }
-
-    .autocomplete-list {
-      position: absolute;
-      top: 100%;
-      left: 0;
-      right: 0;
-      background: white;
-      border: 1px solid var(--gray-200);
-      border-radius: var(--radius-sm);
-      max-height: 200px;
-      overflow-y: auto;
-      z-index: 100;
-      box-shadow: var(--shadow-lg);
-      display: none;
-    }
-
-    .autocomplete-list.active {
-      display: block;
-    }
-
-    .autocomplete-item {
-      padding: 10px 14px;
-      cursor: pointer;
-      font-size: 14px;
-      transition: var(--transition);
-    }
-
-    .autocomplete-item:hover {
-      background: var(--gray-50);
-    }
-
-    .autocomplete-item .npk-text {
-      font-size: 12px;
-      color: var(--gray-400);
-    }
-
-    /*==================== RESPONSIVE ====================*/
 
     @media (max-width: 768px) {
       .sidebar { transform: translateX(-100%); }
@@ -982,10 +940,8 @@
 </head>
 <body>
 
-  <!-- Toast Container -->
   <div id="toastContainer" class="toast-container"></div>
 
-  <!-- Login Screen -->
   <div id="loginScreen" class="login-screen">
     <div class="login-card">
       <div class="login-logo">
@@ -1006,10 +962,8 @@
     </div>
   </div>
 
-  <!-- Main App -->
   <div id="mainApp" class="app-layout hidden">
     
-    <!-- SIDEBAR -->
     <aside class="sidebar" id="sidebar">
       <div class="sidebar-header">
         <div class="sidebar-logo">
@@ -1018,9 +972,7 @@
         <div class="sidebar-brand">Coaching System</div>
       </div>
 
-      <nav class="sidebar-menu" id="sidebarMenu">
-        <!-- Rendered by JS -->
-      </nav>
+      <nav class="sidebar-menu" id="sidebarMenu"></nav>
 
       <div class="sidebar-footer">
         <div class="user-profile">
@@ -1037,16 +989,13 @@
       </div>
     </aside>
 
-    <!-- CONTENT -->
     <main class="content-area" id="contentArea">
       
-      <!-- Loading -->
       <div id="loadingOverlay" class="loading-overlay">
         <div class="spinner"></div>
         <div class="loading-text">Memuat data...</div>
       </div>
 
-      <!-- Header -->
       <header class="content-header">
         <div class="page-title" id="pageTitle">
           <span class="material-icons">dashboard</span>
@@ -1054,10 +1003,8 @@
         </div>
       </header>
 
-      <!-- Body -->
       <div class="content-body" id="contentBody">
         
-        <!-- DASHBOARD -->
         <section id="pageDashboard" class="page-section active">
           <div class="stats-grid">
             <div class="stat-card primary">
@@ -1084,7 +1031,7 @@
               <div class="stat-header">
                 <div>
                   <div class="stat-value" id="statSudahUpdate">0</div>
-                  <div class="stat-label">Sudah Coaching & Sudah Update</div>
+                  <div class="stat-label">Sudah Coaching &amp; Sudah Update</div>
                 </div>
                 <div class="stat-icon"><span class="material-icons">check_circle</span></div>
               </div>
@@ -1144,7 +1091,6 @@
           </div>
         </section>
 
-        <!-- DATA KARYAWAN ADMIN -->
         <section id="pageDataKaryawan" class="page-section">
           <div class="controls-section" style="justify-content: space-between;">
             <div class="search-wrapper control-group" style="flex: 2; margin-bottom: 0;">
@@ -1187,7 +1133,6 @@
           </div>
         </section>
 
-        <!-- MANAGEMENT USER -->
         <section id="pageManagementUser" class="page-section">
           <div class="placeholder-page">
             <span class="material-icons">manage_accounts</span>
@@ -1196,7 +1141,6 @@
           </div>
         </section>
 
-        <!-- PLACEHOLDERS -->
         <section id="pageInputCoaching" class="page-section">
           <div class="placeholder-page">
             <span class="material-icons">edit_note</span>
@@ -1208,7 +1152,7 @@
         <section id="pageUpdateCoaching" class="page-section">
           <div class="placeholder-page">
             <span class="material-icons">update</span>
-            <h2>Update & Follow Up Coaching</h2>
+            <h2>Update &amp; Follow Up Coaching</h2>
             <p>Fitur ini akan segera hadir.</p>
           </div>
         </section>
@@ -1241,12 +1185,116 @@
     </main>
   </div>
 
-  <!-- MODAL: KARYAWAN FORM -->
   <div id="karyawanModal" class="modal-overlay">
     <div class="modal-container">
-      <div class="modal-header
-        //==================== APPLICATION STATE ====================
-  const app = {
+      <div class="modal-header">
+        <div class="modal-title">
+          <span class="material-icons">badge</span>
+          <span id="karyawanModalTitle">Tambah Karyawan</span>
+        </div>
+        <button class="modal-close" onclick="app.closeKaryawanModal()">
+          <span class="material-icons">close</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="karyawanForm">
+          <input type="hidden" id="karyawanMode" value="add">
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">NIK / NPK *</label>
+              <input type="text" id="formNpk" class="form-input" required autocomplete="off">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Nama Lengkap *</label>
+              <input type="text" id="formNama" class="form-input" required autocomplete="off">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Jabatan *</label>
+              <input type="text" id="formJabatan" class="form-input" required autocomplete="off">
+            </div>
+            <div class="form-group">
+              <label class="form-label">CL Level *</label>
+              <select id="formCl" class="form-select" required>
+                <option value="0">0 - Direksi/HR/Konsultan</option>
+                <option value="1">1 - Level 3</option>
+                <option value="2">2 - Level 2</option>
+                <option value="3">3 - Level 1</option>
+                <option value="4">4 - Level 1</option>
+                <option value="5" selected>5 - Level 1</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Cabang / Lokasi</label>
+              <input type="text" id="formCabang" class="form-input" autocomplete="off">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Region</label>
+              <input type="text" id="formRegion" class="form-input" autocomplete="off">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Atasan (Nama)</label>
+              <div class="autocomplete-wrapper">
+                <input type="text" id="formAtasanNama" class="form-input" placeholder="Ketik nama atasan..." autocomplete="off">
+                <div id="atasanAutocomplete" class="autocomplete-list"></div>
+              </div>
+              <div class="form-hint">Ketik nama, sistem akan cari NPK otomatis</div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Atasan NPK</label>
+              <input type="text" id="formAtasanNpk" class="form-input" readonly style="background: var(--gray-50);">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Email</label>
+              <input type="email" id="formEmail" class="form-input" autocomplete="off">
+            </div>
+            <div class="form-group">
+              <label class="form-label">No. HP / WA</label>
+              <input type="text" id="formNoHp" class="form-input" autocomplete="off">
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-ghost" onclick="app.closeKaryawanModal()">Batal</button>
+        <button class="btn btn-primary" onclick="app.saveKaryawanForm()">
+          <span class="material-icons">save</span>
+          Simpan
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div id="deleteModal" class="modal-overlay">
+    <div class="confirm-dialog">
+      <div class="confirm-icon">
+        <span class="material-icons">warning</span>
+      </div>
+      <div class="confirm-title">Hapus Data Karyawan?</div>
+      <div class="confirm-text">
+        Data yang sudah dihapus tidak dapat dikembalikan.
+      </div>
+      <div class="confirm-details" id="deleteDetails"></div>
+      <div class="confirm-actions">
+        <button class="btn btn-ghost" onclick="app.closeDeleteModal()">Batal</button>
+        <button class="btn btn-danger" onclick="app.confirmDelete()">
+          <span class="material-icons">delete</span>
+          Ya, Hapus
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+      //==================== APPLICATION STATE ====================
+  var app = {
     state: {
       user: null,
       userLevel: 0,
@@ -1260,14 +1308,11 @@
       isLoading: false,
       initDone: false,
       currentPage: 'dashboard',
-      
-      // Admin state
       allKaryawan: [],
       filteredKaryawan: [],
       karyawanSort: { column: null, direction: 'asc' },
       karyawanFilter: '',
-      deleteTarget: null,
-      atasanList: []
+      deleteTarget: null
     },
 
     menuConfig: [
@@ -1305,85 +1350,89 @@
       }
     ],
 
-    //==================== INIT ====================
-    
     init: function() {
       this.bindEvents();
       this.checkSession();
     },
 
     bindEvents: function() {
-      document.getElementById('loginForm').addEventListener('submit', (e) => {
+      document.getElementById('loginForm').addEventListener('submit', function(e) {
         e.preventDefault();
-        this.handleLogin();
+        app.handleLogin();
       });
 
-      // Dashboard search
-      const searchInput = document.getElementById('searchInput');
-      let debounceTimer;
-      searchInput.addEventListener('input', (e) => {
+      var searchInput = document.getElementById('searchInput');
+      var debounceTimer;
+      searchInput.addEventListener('input', function(e) {
         clearTimeout(debounceTimer);
-        debounceTimer = setTimeout(() => this.handleSearch(e.target.value), 300);
+        debounceTimer = setTimeout(function() {
+          app.handleSearch(e.target.value);
+        }, 300);
       });
 
-      // Karyawan search
-      const karyawanSearch = document.getElementById('karyawanSearchInput');
-      let kDebounce;
-      karyawanSearch.addEventListener('input', (e) => {
+      var karyawanSearch = document.getElementById('karyawanSearchInput');
+      var kDebounce;
+      karyawanSearch.addEventListener('input', function(e) {
         clearTimeout(kDebounce);
-        kDebounce = setTimeout(() => this.handleKaryawanSearch(e.target.value), 300);
+        kDebounce = setTimeout(function() {
+          app.handleKaryawanSearch(e.target.value);
+        }, 300);
       });
 
-      // Atasan autocomplete
-      const atasanInput = document.getElementById('formAtasanNama');
-      atasanInput.addEventListener('input', (e) => this.handleAtasanSearch(e.target.value));
-      atasanInput.addEventListener('blur', () => {
-        setTimeout(() => document.getElementById('atasanAutocomplete').classList.remove('active'), 200);
+      var atasanInput = document.getElementById('formAtasanNama');
+      atasanInput.addEventListener('input', function(e) {
+        app.handleAtasanSearch(e.target.value);
+      });
+      atasanInput.addEventListener('blur', function() {
+        setTimeout(function() {
+          document.getElementById('atasanAutocomplete').classList.remove('active');
+        }, 200);
       });
     },
-
-    //==================== SESSION ====================
 
     checkSession: function() {
       this.showLoading('Memeriksa sesi...');
       google.script.run
-        .withSuccessHandler((result) => {
-          this.hideLoading();
+        .withSuccessHandler(function(result) {
+          app.hideLoading();
           if (result && result.npk) {
-            this.state.user = result;
-            this.showMainApp();
-            this.loadInitialData();
+            app.state.user = result;
+            app.showMainApp();
+            app.loadInitialData();
           } else {
-            this.showLoginScreen();
+            app.showLoginScreen();
           }
         })
-        .withFailureHandler(() => {
-          this.hideLoading();
-          this.showLoginScreen();
+        .withFailureHandler(function() {
+          app.hideLoading();
+          app.showLoginScreen();
         })
         .getCurrentUser();
     },
 
     handleLogin: function() {
-      const npk = document.getElementById('npkInput').value.trim();
-      if (!npk) { this.showToast('NPK harus diisi', 'error'); return; }
+      var npk = document.getElementById('npkInput').value.trim();
+      if (!npk) {
+        this.showToast('NPK harus diisi', 'error');
+        return;
+      }
 
       this.showLoading('Login...');
       google.script.run
-        .withSuccessHandler((result) => {
-          this.hideLoading();
+        .withSuccessHandler(function(result) {
+          app.hideLoading();
           if (result.success) {
-            this.state.user = result.user;
-            this.showToast(`Selamat datang, ${result.user.nama}`, 'success');
-            this.showMainApp();
-            this.loadInitialData();
+            app.state.user = result.user;
+            app.showToast('Selamat datang, ' + result.user.nama, 'success');
+            app.showMainApp();
+            app.loadInitialData();
           } else {
-            this.showToast(result.message || 'Login gagal', 'error');
+            app.showToast(result.message || 'Login gagal', 'error');
           }
         })
-        .withFailureHandler(() => {
-          this.hideLoading();
-          this.showToast('Terjadi kesalahan saat login', 'error');
+        .withFailureHandler(function() {
+          app.hideLoading();
+          app.showToast('Terjadi kesalahan saat login', 'error');
         })
         .loginUser({ npk: npk });
     },
@@ -1391,11 +1440,11 @@
     logout: function() {
       this.showLoading('Keluar...');
       google.script.run
-        .withSuccessHandler(() => {
-          this.hideLoading();
-          this.resetState();
-          this.showLoginScreen();
-          this.showToast('Berhasil keluar', 'success');
+        .withSuccessHandler(function() {
+          app.hideLoading();
+          app.resetState();
+          app.showLoginScreen();
+          app.showToast('Berhasil keluar', 'success');
         })
         .logoutUser();
     },
@@ -1407,69 +1456,77 @@
         sort: { column: null, direction: 'asc' }, filter: { cabang: '', search: '' },
         isLoading: false, initDone: false, currentPage: 'dashboard',
         allKaryawan: [], filteredKaryawan: [], karyawanSort: { column: null, direction: 'asc' },
-        karyawanFilter: '', deleteTarget: null, atasanList: []
+        karyawanFilter: '', deleteTarget: null
       };
       document.getElementById('npkInput').value = '';
     },
 
-    //==================== ROLE CHECK ====================
-
     checkAccess: function(accessRules) {
-      const user = this.state.user;
+      var user = this.state.user;
       if (!user) return false;
-      if (accessRules.includes('owner') && user.npk === '1025825') return true;
-      if (accessRules.includes('direksi') && user.jabatan && user.jabatan.toLowerCase().includes('direksi')) return true;
-      if (accessRules.includes('hr') && user.jabatan && user.jabatan.toLowerCase().includes('hr')) return true;
-      if (accessRules.includes('level4') && this.state.userLevel >= 4) return true;
-      if (accessRules.includes('all')) return true;
+      if (accessRules.indexOf('owner') !== -1 && user.npk === '1025825') return true;
+      if (accessRules.indexOf('direksi') !== -1 && user.jabatan && user.jabatan.toLowerCase().indexOf('direksi') !== -1) return true;
+      if (accessRules.indexOf('hr') !== -1 && user.jabatan && user.jabatan.toLowerCase().indexOf('hr') !== -1) return true;
+      if (accessRules.indexOf('level4') !== -1 && this.state.userLevel >= 4) return true;
+      if (accessRules.indexOf('all') !== -1) return true;
       return false;
     },
 
-    //==================== SIDEBAR & NAV ====================
-
     renderSidebar: function() {
-      const menuContainer = document.getElementById('sidebarMenu');
+      var menuContainer = document.getElementById('sidebarMenu');
       menuContainer.innerHTML = '';
 
-      const user = this.state.user;
+      var user = this.state.user;
       if (user) {
         document.getElementById('sidebarUserName').textContent = user.nama || user.npk;
         document.getElementById('userAvatar').textContent = (user.nama || 'U').charAt(0).toUpperCase();
-        const levelLabels = { 4: 'Admin', 3: 'Regional', 2: 'Cabang', 1: 'Karyawan' };
+        var levelLabels = { 4: 'Admin', 3: 'Regional', 2: 'Cabang', 1: 'Karyawan' };
         document.getElementById('sidebarUserRole').textContent = levelLabels[this.state.userLevel] || 'User';
       }
 
-      this.menuConfig.forEach(section => {
-        if (!this.checkAccess(section.access)) return;
-        const sectionEl = document.createElement('div');
+      for (var s = 0; s < this.menuConfig.length; s++) {
+        var section = this.menuConfig[s];
+        if (!this.checkAccess(section.access)) continue;
+
+        var sectionEl = document.createElement('div');
         sectionEl.className = 'menu-section';
-        
-        const labelEl = document.createElement('div');
+
+        var labelEl = document.createElement('div');
         labelEl.className = 'menu-label';
         labelEl.textContent = section.label;
         sectionEl.appendChild(labelEl);
 
-        section.items.forEach(item => {
-          const itemEl = document.createElement('div');
+        for (var i = 0; i < section.items.length; i++) {
+          var item = section.items[i];
+          var itemEl = document.createElement('div');
           itemEl.className = 'menu-item';
           itemEl.setAttribute('data-page', item.page);
           itemEl.setAttribute('data-id', item.id);
           if (item.id === this.state.currentPage) itemEl.classList.add('active');
-          itemEl.innerHTML = `<span class="material-icons">${item.icon}</span><span>${item.label}</span>`;
-          itemEl.addEventListener('click', () => this.navigateTo(item.id, item.page));
+          itemEl.innerHTML = '<span class="material-icons">' + item.icon + '</span><span>' + item.label + '</span>';
+          
+          (function(itemId, pageId) {
+            itemEl.addEventListener('click', function() {
+              app.navigateTo(itemId, pageId);
+            });
+          })(item.id, item.page);
+          
           sectionEl.appendChild(itemEl);
-        });
+        }
 
         menuContainer.appendChild(sectionEl);
-      });
+      }
     },
 
     navigateTo: function(pageId, pageSectionId) {
       this.state.currentPage = pageId;
-      document.querySelectorAll('.menu-item').forEach(item => {
-        item.classList.toggle('active', item.getAttribute('data-id') === pageId);
-      });
-      document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
+      var items = document.querySelectorAll('.menu-item');
+      for (var i = 0; i < items.length; i++) {
+        items[i].classList.remove('active');
+        if (items[i].getAttribute('data-id') === pageId) items[i].classList.add('active');
+      }
+      var sections = document.querySelectorAll('.page-section');
+      for (var i = 0; i < sections.length; i++) sections[i].classList.remove('active');
       document.getElementById(pageSectionId).classList.add('active');
       this.updatePageTitle(pageId);
 
@@ -1482,7 +1539,7 @@
     },
 
     updatePageTitle: function(pageId) {
-      const titles = {
+      var titles = {
         'dashboard': { icon: 'dashboard', text: 'Dashboard' },
         'inputCoaching': { icon: 'edit_note', text: 'Input Data Coaching' },
         'updateCoaching': { icon: 'update', text: 'Update & Follow Up Coaching' },
@@ -1492,11 +1549,9 @@
         'previewChat': { icon: 'chat', text: 'Preview Coaching Chat' },
         'download': { icon: 'download', text: 'Download Data' }
       };
-      const t = titles[pageId] || { icon: 'dashboard', text: 'Dashboard' };
-      document.getElementById('pageTitle').innerHTML = `<span class="material-icons">${t.icon}</span>${t.text}`;
+      var t = titles[pageId] || { icon: 'dashboard', text: 'Dashboard' };
+      document.getElementById('pageTitle').innerHTML = '<span class="material-icons">' + t.icon + '</span>' + t.text;
     },
-
-    //==================== DASHBOARD DATA ====================
 
     loadInitialData: function() {
       if (this.state.isLoading) return;
@@ -1504,54 +1559,56 @@
       this.state.isLoading = true;
 
       google.script.run
-        .withSuccessHandler((result) => {
-          this.state.isLoading = false;
-          this.hideLoading();
+        .withSuccessHandler(function(result) {
+          app.state.isLoading = false;
+          app.hideLoading();
           if (!result.success) {
-            this.showToast(result.message || 'Gagal memuat data', 'error');
+            app.showToast(result.message || 'Gagal memuat data', 'error');
             return;
           }
 
-          const data = result.data;
-          this.state.user = data.user || this.state.user;
-          this.state.userLevel = data.userLevel || 0;
-          this.state.currentPeriod = data.currentPeriod || '-';
-          this.state.cabangs = data.cabangs || [];
-          this.state.allEmployees = data.employees || [];
-          this.state.filteredEmployees = [...this.state.allEmployees];
-          this.state.stats = {
+          var data = result.data;
+          app.state.user = data.user || app.state.user;
+          app.state.userLevel = data.userLevel || 0;
+          app.state.currentPeriod = data.currentPeriod || '-';
+          app.state.cabangs = data.cabangs || [];
+          app.state.allEmployees = data.employees || [];
+          app.state.filteredEmployees = app.state.allEmployees.slice();
+          app.state.stats = {
             totalCoaching: data.totalCoaching || 0,
             belumCoaching: data.belumCoaching || 0,
             sudahCoachingBelumUpdate: data.sudahCoachingBelumUpdate || 0,
             sudahCoachingSudahUpdate: data.sudahCoachingSudahUpdate || 0
           };
-          this.state.initDone = true;
+          app.state.initDone = true;
 
-          this.renderSidebar();
-          this.renderCabangFilter();
-          this.renderDashboard();
-          this.renderTable();
+          app.renderSidebar();
+          app.renderCabangFilter();
+          app.renderDashboard();
+          app.renderTable();
         })
-        .withFailureHandler((error) => {
-          this.state.isLoading = false;
-          this.hideLoading();
-          this.showToast('Gagal memuat data', 'error');
+        .withFailureHandler(function() {
+          app.state.isLoading = false;
+          app.hideLoading();
+          app.showToast('Gagal memuat data', 'error');
         })
         .getInitialData();
     },
 
     renderCabangFilter: function() {
-      const select = document.getElementById('cabangFilter');
-      const val = select.value;
+      var select = document.getElementById('cabangFilter');
+      var val = select.value;
       select.innerHTML = '<option value="">Semua Cabang</option>';
-      this.state.cabangs.forEach(c => {
+      for (var i = 0; i < this.state.cabangs.length; i++) {
+        var c = this.state.cabangs[i];
         if (c && c.trim()) {
-          const opt = document.createElement('option');
-          opt.value = c; opt.textContent = c;
+          var opt = document.createElement('option');
+          opt.value = c;
+          opt.textContent = c;
           select.appendChild(opt);
         }
-      });
-      if (val && this.state.cabangs.includes(val)) select.value = val;
+      }
+      if (val && this.state.cabangs.indexOf(val) !== -1) select.value = val;
     },
 
     renderDashboard: function() {
@@ -1562,47 +1619,50 @@
       document.getElementById('periodTotal').textContent = 'Periode: ' + this.state.currentPeriod;
     },
 
-    animateCounter: function(id, target) {
-      const el = document.getElementById(id);
-      const start = parseInt(el.textContent) || 0;
-      const duration = 600;
-      const startTime = performance.now();
-      const animate = (t) => {
-        const p = Math.min((t - startTime) / duration, 1);
-        const ease = 1 - Math.pow(1 - p, 3);
-        el.textContent = Math.floor(start + (target - start) * ease).toLocaleString('id-ID');
-        if (p < 1) requestAnimationFrame(animate);
-      };
+    animateCounter: function(elementId, targetValue) {
+      var element = document.getElementById(elementId);
+      var startValue = parseInt(element.textContent) || 0;
+      var duration = 600;
+      var startTime = performance.now();
+
+      function animate(currentTime) {
+        var elapsed = currentTime - startTime;
+        var progress = Math.min(elapsed / duration, 1);
+        var easeProgress = 1 - Math.pow(1 - progress, 3);
+        var currentValue = Math.floor(startValue + (targetValue - startValue) * easeProgress);
+        element.textContent = currentValue.toLocaleString('id-ID');
+        if (progress < 1) requestAnimationFrame(animate);
+      }
       requestAnimationFrame(animate);
     },
 
     renderTable: function() {
-      const tbody = document.getElementById('tableBody');
-      const empty = document.getElementById('emptyState');
-      const count = document.getElementById('tableCount');
+      var tbody = document.getElementById('tableBody');
+      var empty = document.getElementById('emptyState');
+      var count = document.getElementById('tableCount');
       tbody.innerHTML = '';
-      const c = this.state.filteredEmployees.length;
-      count.textContent = `${c} karyawan`;
+      var c = this.state.filteredEmployees.length;
+      count.textContent = c + ' karyawan';
       if (c === 0) { empty.classList.remove('hidden'); return; }
       empty.classList.add('hidden');
 
-      this.state.filteredEmployees.forEach(emp => {
-        let badgeClass = 'badge-gray', badgeText = 'Belum Coaching';
+      for (var i = 0; i < this.state.filteredEmployees.length; i++) {
+        var emp = this.state.filteredEmployees[i];
+        var badgeClass = 'badge-gray';
+        var badgeText = 'Belum Coaching';
         if (emp.status === 'SUDAH_UPDATE') { badgeClass = 'badge-success'; badgeText = 'Sudah Update'; }
         else if (emp.status === 'BELUM_UPDATE') { badgeClass = 'badge-warning'; badgeText = 'Belum Update'; }
         else if (emp.status === 'BELUM_COACHING') { badgeClass = 'badge-danger'; badgeText = 'Belum Coaching'; }
 
-        const row = document.createElement('tr');
-        row.innerHTML = `
-          <td><strong>${this.escapeHtml(emp.npk)}</strong></td>
-          <td>${this.escapeHtml(emp.nama)}</td>
-          <td>${this.escapeHtml(emp.jabatan)}</td>
-          <td>${this.escapeHtml(emp.cabang)}</td>
-          <td><span class="badge ${badgeClass}"><span class="badge-dot"></span>${badgeText}</span></td>
-          <td><button class="btn btn-primary btn-sm" onclick="app.viewDetail('${emp.npk}')"><span class="material-icons" style="font-size:16px">visibility</span>Detail</button></td>
-        `;
+        var row = document.createElement('tr');
+        row.innerHTML = '<td><strong>' + this.escapeHtml(emp.npk) + '</strong></td>' +
+          '<td>' + this.escapeHtml(emp.nama) + '</td>' +
+          '<td>' + this.escapeHtml(emp.jabatan) + '</td>' +
+          '<td>' + this.escapeHtml(emp.cabang) + '</td>' +
+          '<td><span class="badge ' + badgeClass + '"><span class="badge-dot"></span>' + badgeText + '</span></td>' +
+          '<td><button class="btn btn-primary btn-sm" onclick="app.viewDetail(\'' + emp.npk + '\')"><span class="material-icons" style="font-size:16px">visibility</span>Detail</button></td>';
         tbody.appendChild(row);
-      });
+      }
     },
 
     handleCabangChange: function() {
@@ -1616,16 +1676,20 @@
     },
 
     applyFilters: function() {
-      let r = [...this.state.allEmployees];
-      if (this.state.filter.cabang) r = r.filter(e => e.cabang === this.state.filter.cabang);
+      var result = this.state.allEmployees.slice();
+      if (this.state.filter.cabang) result = result.filter(function(e) { return e.cabang === app.state.filter.cabang; });
       if (this.state.filter.search) {
-        const s = this.state.filter.search;
-        r = r.filter(e => (e.npk||'').toLowerCase().includes(s) || (e.nama||'').toLowerCase().includes(s) ||
-          (e.jabatan||'').toLowerCase().includes(s) || (e.cabang||'').toLowerCase().includes(s) ||
-          (e.status||'').toLowerCase().includes(s));
+        var s = this.state.filter.search;
+        result = result.filter(function(e) {
+          return (e.npk || '').toLowerCase().indexOf(s) !== -1 ||
+            (e.nama || '').toLowerCase().indexOf(s) !== -1 ||
+            (e.jabatan || '').toLowerCase().indexOf(s) !== -1 ||
+            (e.cabang || '').toLowerCase().indexOf(s) !== -1 ||
+            (e.status || '').toLowerCase().indexOf(s) !== -1;
+        });
       }
-      if (this.state.sort.column) r = this.sortData(r, this.state.sort.column, this.state.sort.direction);
-      this.state.filteredEmployees = r;
+      if (this.state.sort.column) result = this.sortData(result, this.state.sort.column, this.state.sort.direction);
+      this.state.filteredEmployees = result;
       this.renderTable();
     },
 
@@ -1641,9 +1705,10 @@
     },
 
     sortData: function(data, column, direction) {
-      const sorted = [...data];
-      sorted.sort((a, b) => {
-        let va = a[column] || '', vb = b[column] || '';
+      var sorted = data.slice();
+      sorted.sort(function(a, b) {
+        var va = a[column] || '';
+        var vb = b[column] || '';
         if (typeof va === 'string') va = va.toLowerCase();
         if (typeof vb === 'string') vb = vb.toLowerCase();
         if (va < vb) return direction === 'asc' ? -1 : 1;
@@ -1653,18 +1718,20 @@
       return sorted;
     },
 
-    updateSortIcons: function(active, dir) {
-      document.querySelectorAll('.data-table th').forEach(th => {
-        const icon = th.querySelector('.sort-icon');
-        if (!icon) return;
+    updateSortIcons: function(activeColumn, direction) {
+      var headers = document.querySelectorAll('.data-table th');
+      for (var i = 0; i < headers.length; i++) {
+        var th = headers[i];
+        var icon = th.querySelector('.sort-icon');
+        if (!icon) continue;
         icon.textContent = 'unfold_more';
         th.classList.remove('sort-asc', 'sort-desc');
-        const onclick = th.getAttribute('onclick') || '';
-        if (onclick.includes(`'${active}'`)) {
-          th.classList.add(dir === 'asc' ? 'sort-asc' : 'sort-desc');
-          icon.textContent = dir === 'asc' ? 'expand_less' : 'expand_more';
+        var onclickAttr = th.getAttribute('onclick') || '';
+        if (onclickAttr.indexOf("'" + activeColumn + "'") !== -1) {
+          th.classList.add(direction === 'asc' ? 'sort-asc' : 'sort-desc');
+          icon.textContent = direction === 'asc' ? 'expand_less' : 'expand_more';
         }
-      });
+      }
     },
 
     //==================== KARYAWAN ADMIN ====================
@@ -1676,73 +1743,76 @@
       }
       this.showLoading('Memuat data karyawan...');
       google.script.run
-        .withSuccessHandler((result) => {
-          this.hideLoading();
+        .withSuccessHandler(function(result) {
+          app.hideLoading();
           if (!result.success) {
-            this.showToast(result.message || 'Gagal memuat data', 'error');
+            app.showToast(result.message || 'Gagal memuat data', 'error');
             return;
           }
-          this.state.allKaryawan = result.data || [];
-          this.state.filteredKaryawan = [...this.state.allKaryawan];
-          this.renderKaryawanTable();
+          app.state.allKaryawan = result.data || [];
+          app.state.filteredKaryawan = app.state.allKaryawan.slice();
+          app.renderKaryawanTable();
         })
-        .withFailureHandler(() => {
-          this.hideLoading();
-          this.showToast('Gagal memuat data karyawan', 'error');
+        .withFailureHandler(function() {
+          app.hideLoading();
+          app.showToast('Gagal memuat data karyawan', 'error');
         })
         .getAllKaryawan();
     },
 
     renderKaryawanTable: function() {
-      const tbody = document.getElementById('karyawanTableBody');
-      const empty = document.getElementById('karyawanEmptyState');
-      const count = document.getElementById('karyawanCount');
+      var tbody = document.getElementById('karyawanTableBody');
+      var empty = document.getElementById('karyawanEmptyState');
+      var count = document.getElementById('karyawanCount');
       tbody.innerHTML = '';
-      const c = this.state.filteredKaryawan.length;
-      count.textContent = `${c} karyawan`;
+      var c = this.state.filteredKaryawan.length;
+      count.textContent = c + ' karyawan';
       if (c === 0) { empty.classList.remove('hidden'); return; }
       empty.classList.add('hidden');
 
-      this.state.filteredKaryawan.forEach(k => {
-        const row = document.createElement('tr');
+      for (var i = 0; i < this.state.filteredKaryawan.length; i++) {
+        var k = this.state.filteredKaryawan[i];
+        var row = document.createElement('tr');
         row.setAttribute('data-npk', k.npk);
-        row.addEventListener('dblclick', () => this.editKaryawan(k.npk));
-        row.innerHTML = `
-          <td>${this.escapeHtml(k.npk)}</td>
-          <td><strong>${this.escapeHtml(k.nama)}</strong></td>
-          <td>${this.escapeHtml(k.jabatan)}</td>
-          <td>${this.escapeHtml(k.cl)}</td>
-          <td>${this.escapeHtml(k.cabang)}</td>
-          <td>${this.escapeHtml(k.region)}</td>
-          <td>${this.escapeHtml(k.atasan_npk)}</td>
-          <td>
-            <div class="action-btns">
-              <button class="btn btn-primary btn-sm btn-icon" onclick="app.editKaryawan('${k.npk}')" title="Edit">
-                <span class="material-icons" style="font-size:16px">edit</span>
-              </button>
-              <button class="btn btn-danger btn-sm btn-icon" onclick="app.deleteKaryawan('${k.npk}')" title="Hapus">
-                <span class="material-icons" style="font-size:16px">delete</span>
-              </button>
-            </div>
-          </td>
-        `;
+        row.addEventListener('dblclick', (function(npk) {
+          return function() { app.editKaryawan(npk); };
+        })(k.npk));
+        
+        row.innerHTML = '<td>' + this.escapeHtml(k.npk) + '</td>' +
+          '<td><strong>' + this.escapeHtml(k.nama) + '</strong></td>' +
+          '<td>' + this.escapeHtml(k.jabatan) + '</td>' +
+          '<td>' + this.escapeHtml(k.cl) + '</td>' +
+          '<td>' + this.escapeHtml(k.cabang) + '</td>' +
+          '<td>' + this.escapeHtml(k.region) + '</td>' +
+          '<td>' + this.escapeHtml(k.atasan_npk) + '</td>' +
+          '<td>' +
+          '<div class="action-btns">' +
+          '<button class="btn btn-primary btn-sm btn-icon" onclick="app.editKaryawan(\'' + k.npk + '\')" title="Edit"><span class="material-icons" style="font-size:16px">edit</span></button>' +
+          '<button class="btn btn-danger btn-sm btn-icon" onclick="app.deleteKaryawan(\'' + k.npk + '\')" title="Hapus"><span class="material-icons" style="font-size:16px">delete</span></button>' +
+          '</div></td>';
         tbody.appendChild(row);
-      });
+      }
     },
 
     handleKaryawanSearch: function(query) {
       this.state.karyawanFilter = query.toLowerCase().trim();
-      let r = [...this.state.allKaryawan];
+      var result = this.state.allKaryawan.slice();
       if (this.state.karyawanFilter) {
-        const s = this.state.karyawanFilter;
-        r = r.filter(k => (k.npk||'').toLowerCase().includes(s) || (k.nama||'').toLowerCase().includes(s) ||
-          (k.jabatan||'').toLowerCase().includes(s) || String(k.cl||'').includes(s) ||
-          (k.cabang||'').toLowerCase().includes(s) || (k.region||'').toLowerCase().includes(s) ||
-          (k.atasan_npk||'').toLowerCase().includes(s) || (k.email||'').toLowerCase().includes(s) ||
-          (k.no_hp||'').toLowerCase().includes(s));
+        var s = this.state.karyawanFilter;
+        result = result.filter(function(k) {
+          return (k.npk || '').toLowerCase().indexOf(s) !== -1 ||
+            (k.nama || '').toLowerCase().indexOf(s) !== -1 ||
+            (k.jabatan || '').toLowerCase().indexOf(s) !== -1 ||
+            String(k.cl || '').indexOf(s) !== -1 ||
+            (k.cabang || '').toLowerCase().indexOf(s) !== -1 ||
+            (k.region || '').toLowerCase().indexOf(s) !== -1 ||
+            (k.atasan_npk || '').toLowerCase().indexOf(s) !== -1 ||
+            (k.email || '').toLowerCase().indexOf(s) !== -1 ||
+            (k.no_hp || '').toLowerCase().indexOf(s) !== -1;
+        });
       }
-      if (this.state.karyawanSort.column) r = this.sortData(r, this.state.karyawanSort.column, this.state.karyawanSort.direction);
-      this.state.filteredKaryawan = r;
+      if (this.state.karyawanSort.column) result = this.sortData(result, this.state.karyawanSort.column, this.state.karyawanSort.direction);
+      this.state.filteredKaryawan = result;
       this.renderKaryawanTable();
     },
 
@@ -1758,17 +1828,19 @@
     },
 
     updateKaryawanSortIcons: function(active, dir) {
-      document.querySelectorAll('#karyawanTable th').forEach(th => {
-        const icon = th.querySelector('.sort-icon');
-        if (!icon) return;
+      var headers = document.querySelectorAll('#karyawanTable th');
+      for (var i = 0; i < headers.length; i++) {
+        var th = headers[i];
+        var icon = th.querySelector('.sort-icon');
+        if (!icon) continue;
         icon.textContent = 'unfold_more';
         th.classList.remove('sort-asc', 'sort-desc');
-        const onclick = th.getAttribute('onclick') || '';
-        if (onclick.includes(`'${active}'`)) {
+        var onclickAttr = th.getAttribute('onclick') || '';
+        if (onclickAttr.indexOf("'" + active + "'") !== -1) {
           th.classList.add(dir === 'asc' ? 'sort-asc' : 'sort-desc');
           icon.textContent = dir === 'asc' ? 'expand_less' : 'expand_more';
         }
-      });
+      }
     },
 
     //==================== MODAL KARYAWAN ====================
@@ -1788,8 +1860,7 @@
         document.getElementById('formEmail').value = data.email || '';
         document.getElementById('formNoHp').value = data.no_hp || '';
         
-        // Cari nama atasan dari NPK
-        const atasan = this.state.allKaryawan.find(k => k.npk === data.atasan_npk);
+        var atasan = this.state.allKaryawan.find(function(k) { return k.npk === data.atasan_npk; });
         document.getElementById('formAtasanNama').value = atasan ? atasan.nama : '';
       } else {
         document.getElementById('karyawanForm').reset();
@@ -1804,8 +1875,8 @@
     },
 
     saveKaryawanForm: function() {
-      const mode = document.getElementById('karyawanMode').value;
-      const data = {
+      var mode = document.getElementById('karyawanMode').value;
+      var data = {
         npk: document.getElementById('formNpk').value.trim(),
         nama: document.getElementById('formNama').value.trim(),
         jabatan: document.getElementById('formJabatan').value.trim(),
@@ -1824,39 +1895,38 @@
 
       this.showLoading('Menyimpan data...');
       google.script.run
-        .withSuccessHandler((result) => {
-          this.hideLoading();
+        .withSuccessHandler(function(result) {
+          app.hideLoading();
           if (result.success) {
-            this.showToast(result.message, 'success');
-            this.closeKaryawanModal();
-            this.refreshKaryawanData();
+            app.showToast(result.message, 'success');
+            app.closeKaryawanModal();
+            app.refreshKaryawanData();
           } else {
-            this.showToast(result.message || 'Gagal menyimpan', 'error');
+            app.showToast(result.message || 'Gagal menyimpan', 'error');
           }
         })
-        .withFailureHandler(() => {
-          this.hideLoading();
-          this.showToast('Terjadi kesalahan', 'error');
+        .withFailureHandler(function() {
+          app.hideLoading();
+          app.showToast('Terjadi kesalahan', 'error');
         })
         .saveKaryawan(data);
     },
 
     editKaryawan: function(npk) {
-      const k = this.state.allKaryawan.find(x => x.npk === npk);
+      var k = this.state.allKaryawan.find(function(x) { return x.npk === npk; });
       if (!k) { this.showToast('Data tidak ditemukan', 'error'); return; }
       this.openKaryawanModal('edit', k);
     },
 
     deleteKaryawan: function(npk) {
-      const k = this.state.allKaryawan.find(x => x.npk === npk);
+      var k = this.state.allKaryawan.find(function(x) { return x.npk === npk; });
       if (!k) return;
       this.state.deleteTarget = npk;
-      document.getElementById('deleteDetails').innerHTML = `
-        <div><strong>Nama:</strong> ${this.escapeHtml(k.nama)}</div>
-        <div><strong>NPK:</strong> ${this.escapeHtml(k.npk)}</div>
-        <div><strong>Jabatan:</strong> ${this.escapeHtml(k.jabatan)}</div>
-        <div><strong>Cabang:</strong> ${this.escapeHtml(k.cabang || '-')}</div>
-      `;
+      document.getElementById('deleteDetails').innerHTML = 
+        '<div><strong>Nama:</strong> ' + this.escapeHtml(k.nama) + '</div>' +
+        '<div><strong>NPK:</strong> ' + this.escapeHtml(k.npk) + '</div>' +
+        '<div><strong>Jabatan:</strong> ' + this.escapeHtml(k.jabatan) + '</div>' +
+        '<div><strong>Cabang:</strong> ' + this.escapeHtml(k.cabang || '-') + '</div>';
       document.getElementById('deleteModal').classList.add('active');
     },
 
@@ -1869,19 +1939,19 @@
       if (!this.state.deleteTarget) return;
       this.showLoading('Menghapus data...');
       google.script.run
-        .withSuccessHandler((result) => {
-          this.hideLoading();
-          this.closeDeleteModal();
+        .withSuccessHandler(function(result) {
+          app.hideLoading();
+          app.closeDeleteModal();
           if (result.success) {
-            this.showToast('Data berhasil dihapus', 'success');
-            this.refreshKaryawanData();
+            app.showToast('Data berhasil dihapus', 'success');
+            app.refreshKaryawanData();
           } else {
-            this.showToast(result.message || 'Gagal menghapus', 'error');
+            app.showToast(result.message || 'Gagal menghapus', 'error');
           }
         })
-        .withFailureHandler(() => {
-          this.hideLoading();
-          this.showToast('Terjadi kesalahan', 'error');
+        .withFailureHandler(function() {
+          app.hideLoading();
+          app.showToast('Terjadi kesalahan', 'error');
         })
         .deleteKaryawan(this.state.deleteTarget);
     },
@@ -1895,27 +1965,29 @@
     //==================== ATASAN AUTOCOMPLETE ====================
 
     handleAtasanSearch: function(query) {
-      const list = document.getElementById('atasanAutocomplete');
+      var list = document.getElementById('atasanAutocomplete');
       if (!query || query.length < 2) {
         list.classList.remove('active');
         return;
       }
       
-      const matches = this.state.allKaryawan.filter(k => 
-        k.nama.toLowerCase().includes(query.toLowerCase())
-      ).slice(0, 5);
+      var matches = this.state.allKaryawan.filter(function(k) {
+        return k.nama.toLowerCase().indexOf(query.toLowerCase()) !== -1;
+      }).slice(0, 5);
 
       if (matches.length === 0) {
         list.classList.remove('active');
         return;
       }
 
-      list.innerHTML = matches.map(k => `
-        <div class="autocomplete-item" onclick="app.selectAtasan('${k.npk}', '${this.escapeHtml(k.nama)}')">
-          <div>${this.escapeHtml(k.nama)}</div>
-          <div class="npk-text">NPK: ${k.npk}</div>
-        </div>
-      `).join('');
+      var html = '';
+      for (var i = 0; i < matches.length; i++) {
+        var k = matches[i];
+        html += '<div class="autocomplete-item" onclick="app.selectAtasan(\'' + k.npk + '\', \'' + this.escapeHtml(k.nama) + '\')">' +
+          '<div>' + this.escapeHtml(k.nama) + '</div>' +
+          '<div class="npk-text">NPK: ' + k.npk + '</div></div>';
+      }
+      list.innerHTML = html;
       list.classList.add('active');
     },
 
@@ -1938,7 +2010,7 @@
     },
 
     showLoading: function(text) {
-      const overlay = document.getElementById('loadingOverlay');
+      var overlay = document.getElementById('loadingOverlay');
       overlay.querySelector('.loading-text').textContent = text || 'Memuat...';
       overlay.classList.add('active');
     },
@@ -1948,36 +2020,35 @@
     },
 
     showToast: function(message, type) {
-      const container = document.getElementById('toastContainer');
-      const toast = document.createElement('div');
-      toast.className = `toast ${type}`;
-      const icon = type === 'success' ? 'check_circle' : type === 'error' ? 'error' : 'info';
-      const color = type === 'success' ? 'success' : type === 'error' ? 'danger' : 'primary';
-      toast.innerHTML = `<span class="material-icons" style="color:var(--${color})">${icon}</span><span style="font-weight:500;font-size:14px">${message}</span>`;
+      var container = document.getElementById('toastContainer');
+      var toast = document.createElement('div');
+      toast.className = 'toast ' + type;
+      var icon = type === 'success' ? 'check_circle' : type === 'error' ? 'error' : 'info';
+      var color = type === 'success' ? 'success' : type === 'error' ? 'danger' : 'primary';
+      toast.innerHTML = '<span class="material-icons" style="color:var(--' + color + ')">' + icon + '</span><span style="font-weight:500;font-size:14px">' + message + '</span>';
       container.appendChild(toast);
-      setTimeout(() => {
+      setTimeout(function() {
         toast.style.opacity = '0';
         toast.style.transform = 'translateX(100%)';
-        setTimeout(() => toast.remove(), 300);
+        setTimeout(function() { toast.remove(); }, 300);
       }, 3000);
     },
 
     escapeHtml: function(text) {
       if (!text) return '';
-      const div = document.createElement('div');
+      var div = document.createElement('div');
       div.textContent = text;
       return div.innerHTML;
     },
 
     viewDetail: function(npk) {
-      const emp = this.state.allEmployees.find(e => e.npk === npk);
+      var emp = this.state.allEmployees.find(function(e) { return e.npk === npk; });
       if (!emp) return;
-      this.showToast(`Detail coaching untuk ${emp.nama} - Coming soon`, 'success');
+      this.showToast('Detail coaching untuk ' + emp.nama + ' - Coming soon', 'success');
     }
   };
 
-  //==================== START ====================
-  document.addEventListener('DOMContentLoaded', () => {
+  document.addEventListener('DOMContentLoaded', function() {
     app.init();
   });
   </script>
