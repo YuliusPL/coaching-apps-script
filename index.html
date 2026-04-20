@@ -1,2057 +1,1941 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <base target="_top">
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Coaching Monitoring System</title>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  
-  <style>
-    :root {
-      --primary: #1a56db;
-      --primary-dark: #1e429f;
-      --primary-light: #e1effe;
-      --success: #0e9f6e;
-      --success-light: #def7ec;
-      --warning: #faca15;
-      --warning-light: #fdf6b2;
-      --danger: #f05252;
-      --danger-light: #fde8e8;
-      --gray-50: #f9fafb;
-      --gray-100: #f3f4f6;
-      --gray-200: #e5e7eb;
-      --gray-300: #d1d5db;
-      --gray-400: #9ca3af;
-      --gray-500: #6b7280;
-      --gray-600: #4b5563;
-      --gray-700: #374151;
-      --gray-800: #1f2937;
-      --gray-900: #111827;
-      --sidebar-width: 260px;
-      --header-height: 64px;
-      --radius: 12px;
-      --radius-sm: 8px;
-      --shadow-sm: 0 1px 2px 0 rgba(0,0,0,0.05);
-      --shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
-      --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1);
-      --shadow-xl: 0 20px 25px -5px rgba(0,0,0,0.1);
-      --transition: all 0.2s ease;
-    }
-
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    
-    body {
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      background: var(--gray-100);
-      color: var(--gray-800);
-      line-height: 1.5;
-      -webkit-font-smoothing: antialiased;
-      overflow-x: hidden;
-    }
-
-    .app-layout {
-      display: flex;
-      min-height: 100vh;
-    }
-
-    .sidebar {
-      width: var(--sidebar-width);
-      background: var(--gray-900);
-      color: white;
-      position: fixed;
-      top: 0; left: 0; bottom: 0;
-      z-index: 100;
-      transition: var(--transition);
-      display: flex;
-      flex-direction: column;
-      overflow-y: auto;
-      overflow-x: hidden;
-    }
-
-    .sidebar-header {
-      padding: 20px;
-      border-bottom: 1px solid rgba(255,255,255,0.1);
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      min-height: var(--header-height);
-    }
-
-    .sidebar-logo {
-      width: 36px; height: 36px;
-      background: var(--primary);
-      border-radius: var(--radius-sm);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-    }
-
-    .sidebar-brand {
-      font-size: 16px;
-      font-weight: 700;
-      white-space: nowrap;
-    }
-
-    .sidebar-menu {
-      flex: 1;
-      padding: 16px 12px;
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-
-    .menu-section {
-      margin-bottom: 16px;
-    }
-
-    .menu-label {
-      font-size: 10px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      color: var(--gray-500);
-      padding: 0 12px;
-      margin-bottom: 8px;
-    }
-
-    .menu-item {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 10px 12px;
-      border-radius: var(--radius-sm);
-      cursor: pointer;
-      transition: var(--transition);
-      color: var(--gray-400);
-      font-size: 14px;
-      font-weight: 500;
-      white-space: nowrap;
-    }
-
-    .menu-item:hover {
-      background: rgba(255,255,255,0.05);
-      color: white;
-    }
-
-    .menu-item.active {
-      background: var(--primary);
-      color: white;
-    }
-
-    .menu-item .material-icons {
-      font-size: 20px;
-    }
-
-    .sidebar-footer {
-      padding: 16px 12px;
-      border-top: 1px solid rgba(255,255,255,0.1);
-    }
-
-    .user-profile {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 8px;
-      border-radius: var(--radius-sm);
-      margin-bottom: 8px;
-    }
-
-    .user-avatar {
-      width: 32px; height: 32px;
-      background: var(--primary);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 700;
-      font-size: 12px;
-    }
-
-    .user-name {
-      font-size: 13px;
-      font-weight: 600;
-      color: white;
-    }
-
-    .user-role {
-      font-size: 11px;
-      color: var(--gray-500);
-    }
-
-    .logout-btn {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 10px 12px;
-      border-radius: var(--radius-sm);
-      cursor: pointer;
-      transition: var(--transition);
-      color: var(--gray-400);
-      font-size: 14px;
-      font-weight: 500;
-      width: 100%;
-      background: transparent;
-      border: none;
-      font-family: inherit;
-    }
-
-    .logout-btn:hover {
-      background: rgba(245,101,101,0.1);
-      color: var(--danger);
-    }
-
-    .content-area {
-      flex: 1;
-      margin-left: var(--sidebar-width);
-      transition: var(--transition);
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .content-header {
-      background: white;
-      height: var(--header-height);
-      padding: 0 24px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      border-bottom: 1px solid var(--gray-200);
-      position: sticky;
-      top: 0;
-      z-index: 50;
-    }
-
-    .page-title {
-      font-size: 20px;
-      font-weight: 700;
-      color: var(--gray-900);
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .page-title .material-icons {
-      color: var(--primary);
-    }
-
-    .content-body {
-      flex: 1;
-      padding: 24px;
-      overflow-y: auto;
-    }
-
-    .loading-overlay {
-      position: fixed;
-      top: 0; left: var(--sidebar-width); right: 0; bottom: 0;
-      background: rgba(255,255,255,0.85);
-      backdrop-filter: blur(4px);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      z-index: 999;
-      opacity: 0;
-      visibility: hidden;
-      transition: opacity 0.3s, visibility 0.3s;
-    }
-
-    .loading-overlay.active {
-      opacity: 1;
-      visibility: visible;
-    }
-
-    .spinner {
-      width: 48px; height: 48px;
-      border: 4px solid var(--gray-200);
-      border-top-color: var(--primary);
-      border-radius: 50%;
-      animation: spin 0.8s linear infinite;
-    }
-
-    @keyframes spin { to { transform: rotate(360deg); } }
-
-    .loading-text {
-      margin-top: 16px;
-      color: var(--gray-600);
-      font-size: 14px;
-      font-weight: 500;
-    }
-
-    .toast-container {
-      position: fixed;
-      top: 24px; right: 24px;
-      z-index: 10000;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-
-    .toast {
-      background: white;
-      border-radius: var(--radius-sm);
-      padding: 16px 20px;
-      box-shadow: var(--shadow-lg);
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      min-width: 300px;
-      animation: slideIn 0.3s ease;
-      border-left: 4px solid var(--primary);
-    }
-
-    .toast.success { border-left-color: var(--success); }
-    .toast.error { border-left-color: var(--danger); }
-    
-    @keyframes slideIn {
-      from { transform: translateX(100%); opacity: 0; }
-      to { transform: translateX(0); opacity: 1; }
-    }
-
-    .login-screen {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      padding: 24px;
-    }
-
-    .login-card {
-      background: white;
-      border-radius: var(--radius);
-      padding: 40px;
-      width: 100%;
-      max-width: 420px;
-      box-shadow: var(--shadow-lg);
-    }
-
-    .login-logo {
-      text-align: center;
-      margin-bottom: 32px;
-    }
-
-    .login-logo .material-icons {
-      font-size: 56px;
-      color: var(--primary);
-      margin-bottom: 16px;
-    }
-
-    .login-logo h1 {
-      font-size: 24px;
-      font-weight: 700;
-      color: var(--gray-900);
-    }
-
-    .login-logo p {
-      color: var(--gray-500);
-      margin-top: 8px;
-    }
-
-    .form-group {
-      margin-bottom: 20px;
-    }
-
-    .form-label {
-      display: block;
-      font-size: 14px;
-      font-weight: 600;
-      color: var(--gray-700);
-      margin-bottom: 8px;
-    }
-
-    .form-input, .form-select {
-      width: 100%;
-      padding: 12px 16px;
-      border: 1.5px solid var(--gray-200);
-      border-radius: var(--radius-sm);
-      font-family: inherit;
-      font-size: 15px;
-      transition: var(--transition);
-      background: white;
-    }
-
-    .form-input:focus, .form-select:focus {
-      outline: none;
-      border-color: var(--primary);
-      box-shadow: 0 0 0 3px rgba(26,86,219,0.1);
-    }
-
-    .btn-block {
-      width: 100%;
-      justify-content: center;
-      padding: 12px;
-      font-size: 15px;
-    }
-
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 8px 16px;
-      border-radius: var(--radius-sm);
-      font-family: inherit;
-      font-size: 13px;
-      font-weight: 600;
-      cursor: pointer;
-      border: none;
-      transition: var(--transition);
-      white-space: nowrap;
-    }
-
-    .btn-primary { background: var(--primary); color: white; }
-    .btn-primary:hover { background: var(--primary-dark); }
-    .btn-success { background: var(--success); color: white; }
-    .btn-success:hover { background: #0d8a5f; }
-    .btn-danger { background: var(--danger); color: white; }
-    .btn-danger:hover { background: #e02424; }
-    .btn-warning { background: var(--warning); color: #78350f; }
-    .btn-ghost { background: transparent; color: var(--gray-600); border: 1px solid var(--gray-200); }
-    .btn-ghost:hover { background: var(--gray-50); }
-    .btn-sm { padding: 6px 12px; font-size: 12px; }
-
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 16px;
-      margin-bottom: 24px;
-    }
-
-    .stat-card {
-      background: white;
-      border-radius: var(--radius);
-      padding: 20px;
-      box-shadow: var(--shadow-sm);
-      border: 1px solid var(--gray-100);
-      transition: var(--transition);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .stat-card:hover {
-      transform: translateY(-2px);
-      box-shadow: var(--shadow);
-    }
-
-    .stat-card::before {
-      content: ''; position: absolute;
-      top: 0; left: 0; right: 0; height: 4px;
-      background: var(--primary);
-      border-radius: var(--radius) var(--radius) 0 0;
-    }
-
-    .stat-card.warning::before { background: var(--warning); }
-    .stat-card.success::before { background: var(--success); }
-    .stat-card.danger::before { background: var(--danger); }
-
-    .stat-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      margin-bottom: 12px;
-    }
-
-    .stat-icon {
-      width: 40px; height: 40px;
-      border-radius: var(--radius-sm);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .stat-card.primary .stat-icon { background: var(--primary-light); color: var(--primary); }
-    .stat-card.warning .stat-icon { background: var(--warning-light); color: #b45309; }
-    .stat-card.success .stat-icon { background: var(--success-light); color: var(--success); }
-    .stat-card.danger .stat-icon { background: var(--danger-light); color: var(--danger); }
-
-    .stat-value {
-      font-size: 32px; font-weight: 700;
-      color: var(--gray-900); line-height: 1;
-      margin-bottom: 4px;
-    }
-
-    .stat-label {
-      font-size: 13px; color: var(--gray-500); font-weight: 500;
-    }
-
-    .stat-period {
-      font-size: 11px; color: var(--gray-400);
-      margin-top: 8px; padding-top: 8px;
-      border-top: 1px solid var(--gray-100);
-    }
-
-    .controls-section {
-      background: white;
-      border-radius: var(--radius);
-      padding: 20px;
-      margin-bottom: 24px;
-      box-shadow: var(--shadow-sm);
-      display: flex;
-      gap: 16px;
-      flex-wrap: wrap;
-      align-items: center;
-    }
-
-    .control-group {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-      flex: 1;
-      min-width: 200px;
-    }
-
-    .control-label {
-      font-size: 12px; font-weight: 600;
-      color: var(--gray-600);
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    .control-input {
-      padding: 10px 14px;
-      border: 1.5px solid var(--gray-200);
-      border-radius: var(--radius-sm);
-      font-family: inherit;
-      font-size: 14px;
-      transition: var(--transition);
-      background: white;
-      width: 100%;
-    }
-
-    .control-input:focus {
-      outline: none;
-      border-color: var(--primary);
-      box-shadow: 0 0 0 3px rgba(26,86,219,0.1);
-    }
-
-    .search-wrapper {
-      position: relative;
-      flex: 2;
-      min-width: 300px;
-    }
-
-    .search-wrapper .material-icons {
-      position: absolute;
-      left: 12px; top: 50%;
-      transform: translateY(-50%);
-      color: var(--gray-400);
-      font-size: 20px;
-    }
-
-    .search-wrapper input {
-      padding-left: 40px;
-    }
-
-    .table-container {
-      background: white;
-      border-radius: var(--radius);
-      box-shadow: var(--shadow-sm);
-      overflow: hidden;
-    }
-
-    .table-header {
-      padding: 20px;
-      border-bottom: 1px solid var(--gray-100);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .table-title {
-      font-size: 16px;
-      font-weight: 700;
-      color: var(--gray-900);
-    }
-
-    .table-count {
-      font-size: 13px;
-      color: var(--gray-500);
-      background: var(--gray-100);
-      padding: 4px 12px;
-      border-radius: 20px;
-      font-weight: 600;
-    }
-
-    .data-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 14px;
-    }
-
-    .data-table thead {
-      background: var(--gray-50);
-    }
-
-    .data-table th {
-      padding: 14px 20px;
-      text-align: left;
-      font-weight: 600;
-      color: var(--gray-600);
-      font-size: 12px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      border-bottom: 1px solid var(--gray-200);
-      cursor: pointer;
-      user-select: none;
-      white-space: nowrap;
-      transition: var(--transition);
-    }
-
-    .data-table th:hover {
-      background: var(--gray-100);
-      color: var(--gray-900);
-    }
-
-    .data-table th .th-content {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .data-table th .sort-icon {
-      font-size: 16px;
-      color: var(--gray-400);
-    }
-
-    .data-table th.sort-asc .sort-icon,
-    .data-table th.sort-desc .sort-icon {
-      color: var(--primary);
-    }
-
-    .data-table td {
-      padding: 14px 20px;
-      border-bottom: 1px solid var(--gray-100);
-      color: var(--gray-700);
-      vertical-align: middle;
-    }
-
-    .data-table tbody tr {
-      transition: var(--transition);
-      cursor: pointer;
-    }
-
-    .data-table tbody tr:hover {
-      background: var(--gray-50);
-    }
-
-    .data-table tbody tr:last-child td {
-      border-bottom: none;
-    }
-
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 6px 12px;
-      border-radius: 20px;
-      font-size: 12px;
-      font-weight: 600;
-      white-space: nowrap;
-    }
-
-    .badge-success { background: var(--success-light); color: var(--success); }
-    .badge-warning { background: var(--warning-light); color: #b45309; }
-    .badge-danger { background: var(--danger-light); color: var(--danger); }
-    .badge-gray { background: var(--gray-100); color: var(--gray-600); }
-    .badge-dot { width: 6px; height: 6px; border-radius: 50%; display: inline-block; }
-    .badge-success .badge-dot { background: var(--success); }
-    .badge-warning .badge-dot { background: var(--warning); }
-    .badge-danger .badge-dot { background: var(--danger); }
-    .badge-gray .badge-dot { background: var(--gray-400); }
-
-    .page-section {
-      display: none;
-      animation: fadeIn 0.3s ease;
-    }
-
-    .page-section.active {
-      display: block;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    .placeholder-page {
-      background: white;
-      border-radius: var(--radius);
-      padding: 60px 40px;
-      text-align: center;
-      box-shadow: var(--shadow-sm);
-    }
-
-    .placeholder-page .material-icons {
-      font-size: 64px;
-      color: var(--gray-300);
-      margin-bottom: 20px;
-    }
-
-    .placeholder-page h2 {
-      font-size: 20px;
-      font-weight: 700;
-      color: var(--gray-800);
-      margin-bottom: 8px;
-    }
-
-    .placeholder-page p {
-      color: var(--gray-500);
-      font-size: 14px;
-    }
-
-    .modal-overlay {
-      position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(0,0,0,0.5);
-      backdrop-filter: blur(4px);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 1000;
-      opacity: 0;
-      visibility: hidden;
-      transition: all 0.3s ease;
-      padding: 20px;
-    }
-
-    .modal-overlay.active {
-      opacity: 1;
-      visibility: visible;
-    }
-
-    .modal-container {
-      background: white;
-      border-radius: var(--radius);
-      width: 100%;
-      max-width: 700px;
-      max-height: 90vh;
-      overflow-y: auto;
-      box-shadow: var(--shadow-xl);
-      transform: scale(0.95);
-      transition: transform 0.3s ease;
-    }
-
-    .modal-overlay.active .modal-container {
-      transform: scale(1);
-    }
-
-    .modal-header {
-      padding: 20px 24px;
-      border-bottom: 1px solid var(--gray-100);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .modal-title {
-      font-size: 18px;
-      font-weight: 700;
-      color: var(--gray-900);
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .modal-close {
-      background: none;
-      border: none;
-      cursor: pointer;
-      color: var(--gray-400);
-      padding: 4px;
-      border-radius: var(--radius-sm);
-      transition: var(--transition);
-    }
-
-    .modal-close:hover {
-      background: var(--gray-100);
-      color: var(--gray-600);
-    }
-
-    .modal-body {
-      padding: 24px;
-    }
-
-    .modal-footer {
-      padding: 16px 24px;
-      border-top: 1px solid var(--gray-100);
-      display: flex;
-      justify-content: flex-end;
-      gap: 10px;
-    }
-
-    .form-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-      margin-bottom: 16px;
-    }
-
-    .form-hint {
-      font-size: 12px;
-      color: var(--gray-400);
-      margin-top: 4px;
-    }
-
-    .empty-state {
-      text-align: center;
-      padding: 60px 20px;
-      color: var(--gray-500);
-    }
-
-    .empty-state .material-icons {
-      font-size: 48px;
-      color: var(--gray-300);
-      margin-bottom: 16px;
-    }
-
-    .empty-state h3 {
-      font-size: 16px;
-      font-weight: 600;
-      color: var(--gray-700);
-      margin-bottom: 8px;
-    }
-
-    .action-btns {
-      display: flex;
-      gap: 6px;
-    }
-
-    .btn-icon {
-      padding: 6px;
-      border-radius: var(--radius-sm);
-      min-width: auto;
-    }
-
-    .autocomplete-wrapper {
-      position: relative;
-    }
-
-    .autocomplete-list {
-      position: absolute;
-      top: 100%;
-      left: 0;
-      right: 0;
-      background: white;
-      border: 1px solid var(--gray-200);
-      border-radius: var(--radius-sm);
-      max-height: 200px;
-      overflow-y: auto;
-      z-index: 100;
-      box-shadow: var(--shadow-lg);
-      display: none;
-    }
-
-    .autocomplete-list.active {
-      display: block;
-    }
-
-    .autocomplete-item {
-      padding: 10px 14px;
-      cursor: pointer;
-      font-size: 14px;
-      transition: var(--transition);
-    }
-
-    .autocomplete-item:hover {
-      background: var(--gray-50);
-    }
-
-    .autocomplete-item .npk-text {
-      font-size: 12px;
-      color: var(--gray-400);
-    }
-
-    .confirm-dialog {
-      background: white;
-      border-radius: var(--radius);
-      padding: 24px;
-      max-width: 400px;
-      width: 100%;
-      text-align: center;
-    }
-
-    .confirm-icon {
-      width: 56px;
-      height: 56px;
-      background: var(--danger-light);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 0 auto 16px;
-    }
-
-    .confirm-icon .material-icons {
-      font-size: 28px;
-      color: var(--danger);
-    }
-
-    .confirm-title {
-      font-size: 18px;
-      font-weight: 700;
-      color: var(--gray-900);
-      margin-bottom: 8px;
-    }
-
-    .confirm-text {
-      color: var(--gray-500);
-      font-size: 14px;
-      line-height: 1.6;
-      margin-bottom: 20px;
-    }
-
-    .confirm-details {
-      background: var(--gray-50);
-      border-radius: var(--radius-sm);
-      padding: 12px;
-      margin-bottom: 20px;
-      text-align: left;
-      font-size: 13px;
-    }
-
-    .confirm-details div {
-      margin-bottom: 4px;
-    }
-
-    .confirm-actions {
-      display: flex;
-      gap: 10px;
-      justify-content: center;
-    }
-
-    @media (max-width: 768px) {
-      .sidebar { transform: translateX(-100%); }
-      .sidebar.open { transform: translateX(0); }
-      .content-area { margin-left: 0; }
-      .loading-overlay { left: 0; }
-      .stats-grid { grid-template-columns: 1fr; }
-      .controls-section { flex-direction: column; }
-      .control-group, .search-wrapper { width: 100%; min-width: auto; }
-      .data-table { font-size: 13px; }
-      .data-table th, .data-table td { padding: 10px 12px; }
-      .form-row { grid-template-columns: 1fr; }
-    }
-
-    .hidden { display: none !important; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coaching Monitoring System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        /* ==================== LIGHT THEME ==================== */
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f1f5f9;  /* Slate-100 - cerah */
+            color: #334155;  /* Slate-700 */
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Loading Spinner */
+        .loading-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(241, 245, 249, 0.95);  /* Light overlay */
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            z-index: 9999; transition: opacity 0.3s;
+        }
+        .loading-overlay.hidden { opacity: 0; pointer-events: none; }
+        .spinner {
+            width: 50px; height: 50px;
+            border: 3px solid rgba(59, 130, 246, 0.2);
+            border-top-color: #2563eb;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .loading-text { margin-top: 16px; color: #64748b; font-size: 14px; font-weight: 500; }
+
+        /* Layout */
+        .app-container { display: flex; min-height: 100vh; }
+        
+        /* Sidebar - Light */
+        .sidebar {
+            width: 280px; background: #ffffff;  /* White */
+            border-right: 1px solid #e2e8f0;  /* Slate-200 */
+            display: flex; flex-direction: column;
+            position: fixed; height: 100vh; z-index: 100;
+            transition: transform 0.3s;
+            box-shadow: 4px 0 24px rgba(0,0,0,0.05);
+        }
+        .sidebar-header {
+            padding: 24px 20px;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex; align-items: center; gap: 12px;
+        }
+        .sidebar-logo {
+            width: 40px; height: 40px;
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+            border-radius: 10px; display: flex;
+            align-items: center; justify-content: center;
+        }
+        .sidebar-logo .material-icons { color: white; font-size: 20px; }
+        .sidebar-title { font-size: 18px; font-weight: 700; color: #0f172a; }  /* Dark slate */
+        .sidebar-subtitle { font-size: 11px; color: #64748b; margin-top: 2px; }
+
+        .sidebar-menu { flex: 1; overflow-y: auto; padding: 16px 12px; }
+        .menu-section { margin-bottom: 24px; }
+        .menu-section-title {
+            font-size: 10px; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 0.5px;
+            color: #94a3b8; padding: 0 12px; margin-bottom: 8px;
+        }
+        .menu-item {
+            display: flex; align-items: center; gap: 12px;
+            padding: 12px 16px; margin-bottom: 4px;
+            border-radius: 8px; cursor: pointer;
+            transition: all 0.2s; color: #64748b;
+            text-decoration: none; font-size: 14px;
+        }
+        .menu-item:hover { background: #eff6ff; color: #2563eb; }  /* Blue-50 */
+        .menu-item.active {
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+            color: white; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+        }
+        .menu-item .material-icons { font-size: 20px; }
+        .menu-item-text { font-weight: 500; }
+
+        .sidebar-footer {
+            padding: 16px; border-top: 1px solid #e2e8f0;
+            background: #f8fafc;
+        }
+        .user-profile {
+            display: flex; align-items: center; gap: 12px;
+            padding: 12px; border-radius: 8px;
+            background: #ffffff; margin-bottom: 12px;
+            border: 1px solid #e2e8f0;
+        }
+        .user-avatar {
+            width: 36px; height: 36px;
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+            border-radius: 50%; display: flex;
+            align-items: center; justify-content: center;
+            font-weight: 600; font-size: 14px; color: white;
+        }
+        .user-info { flex: 1; }
+        .user-name { font-size: 13px; font-weight: 600; color: #0f172a; }
+        .user-role { font-size: 11px; color: #64748b; }
+        .logout-btn {
+            display: flex; align-items: center; gap: 8px;
+            padding: 10px 16px; border-radius: 6px;
+            background: transparent; border: 1px solid #e2e8f0;
+            color: #64748b; cursor: pointer; width: 100%;
+            font-size: 13px; transition: all 0.2s;
+        }
+        .logout-btn:hover { background: #fee2e2; color: #dc2626; border-color: #fecaca; }
+
+        /* Main Content - Light */
+        .main-content {
+            flex: 1; margin-left: 280px;
+            padding: 24px 32px; min-height: 100vh;
+        }
+        .page-header {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 24px; padding-bottom: 20px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .page-title { font-size: 24px; font-weight: 700; color: #0f172a; }
+        .page-subtitle { font-size: 13px; color: #64748b; margin-top: 4px; }
+
+        /* Cards - Light */
+        .card {
+            background: #ffffff; border: 1px solid #e2e8f0;
+            border-radius: 12px; padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        .card-header {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 16px;
+        }
+        .card-title { font-size: 16px; font-weight: 600; color: #0f172a; }
+
+        /* Stats Grid - Light */
+        .stats-grid {
+            display: grid; grid-template-columns: repeat(4, 1fr);
+            gap: 16px; margin-bottom: 24px;
+        }
+        .stat-card {
+            background: #ffffff; border: 1px solid #e2e8f0;
+            border-radius: 12px; padding: 20px;
+            position: relative; overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        .stat-card::before {
+            content: ''; position: absolute; top: 0; left: 0;
+            width: 4px; height: 100%;
+        }
+        .stat-card.blue::before { background: #3b82f6; }
+        .stat-card.orange::before { background: #f97316; }
+        .stat-card.red::before { background: #ef4444; }
+        .stat-card.green::before { background: #10b981; }
+        .stat-label { font-size: 12px; color: #64748b; margin-bottom: 8px; font-weight: 500; }
+        .stat-value { font-size: 28px; font-weight: 700; color: #0f172a; }
+        .stat-change { font-size: 12px; margin-top: 4px; font-weight: 500; }
+        .stat-change.positive { color: #059669; }
+        .stat-change.negative { color: #dc2626; }
+
+        /* Filters - Light */
+        .filters-row {
+            display: flex; gap: 12px; margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        .filter-input, .filter-select {
+            background: #ffffff; border: 1px solid #cbd5e1;
+            border-radius: 8px; padding: 10px 14px;
+            color: #334155; font-size: 13px;
+            min-width: 200px;
+        }
+        .filter-input:focus, .filter-select:focus {
+            outline: none; border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+        .btn {
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 10px 20px; border-radius: 8px;
+            font-size: 13px; font-weight: 600;
+            cursor: pointer; border: none; transition: all 0.2s;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+            color: white;
+        }
+        .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3); }
+        .btn-success {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+        }
+        .btn-danger {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+        }
+        .btn-secondary {
+            background: #f1f5f9; color: #475569;
+            border: 1px solid #cbd5e1;
+        }
+        .btn-secondary:hover { background: #e2e8f0; }
+
+        /* Table - Light */
+        .table-container { overflow-x: auto; }
+        .data-table {
+            width: 100%; border-collapse: collapse;
+        }
+        .data-table th {
+            text-align: left; padding: 12px 16px;
+            font-size: 11px; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 0.5px;
+            color: #64748b; background: #f8fafc;
+            border-bottom: 1px solid #e2e8f0;
+            white-space: nowrap; cursor: pointer;
+        }
+        .data-table th:hover { color: #0f172a; background: #f1f5f9; }
+        .data-table td {
+            padding: 14px 16px; font-size: 13px;
+            border-bottom: 1px solid #f1f5f9;
+            color: #334155;
+        }
+        .data-table tr:hover td { background: #f8fafc; }
+        .badge {
+            display: inline-flex; align-items: center;
+            padding: 4px 10px; border-radius: 20px;
+            font-size: 11px; font-weight: 600;
+        }
+        .badge-success { background: #dcfce7; color: #166534; }
+        .badge-warning { background: #ffedd5; color: #9a3412; }
+        .badge-danger { background: #fee2e2; color: #991b1b; }
+        .badge-info { background: #dbeafe; color: #1e40af; }
+
+        /* Action Buttons */
+        .action-btns { display: flex; gap: 6px; }
+        .action-btn {
+            width: 32px; height: 32px;
+            border-radius: 6px; border: none;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; transition: all 0.2s;
+        }
+        .action-btn.edit { background: #eff6ff; color: #2563eb; }
+        .action-btn.delete { background: #fee2e2; color: #dc2626; }
+        .action-btn.view { background: #dcfce7; color: #059669; }
+        .action-btn:hover { transform: scale(1.1); }
+
+        /* Modal - Light */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(15, 23, 42, 0.5);  /* Darker overlay for light theme */
+            display: none; justify-content: center; align-items: center;
+            z-index: 1000; padding: 20px;
+        }
+        .modal-overlay.active { display: flex; }
+        .modal {
+            background: #ffffff; border: 1px solid #e2e8f0;
+            border-radius: 16px; width: 100%; max-width: 600px;
+            max-height: 90vh; overflow-y: auto;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+        }
+        .modal-header {
+            padding: 20px 24px; border-bottom: 1px solid #e2e8f0;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .modal-title { font-size: 18px; font-weight: 700; color: #0f172a; }
+        .modal-close {
+            background: none; border: none; color: #94a3b8;
+            cursor: pointer; font-size: 24px; line-height: 1;
+        }
+        .modal-close:hover { color: #0f172a; }
+        .modal-body { padding: 24px; }
+        .form-group { margin-bottom: 16px; }
+        .form-label {
+            display: block; font-size: 12px; font-weight: 600;
+            color: #475569; margin-bottom: 6px; text-transform: uppercase;
+        }
+        .form-input, .form-select, .form-textarea {
+            width: 100%; background: #ffffff;
+            border: 1px solid #cbd5e1; border-radius: 8px;
+            padding: 10px 14px; color: #334155;
+            font-size: 14px; font-family: inherit;
+        }
+        .form-input:focus, .form-select:focus, .form-textarea:focus {
+            outline: none; border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+        .form-textarea { min-height: 100px; resize: vertical; }
+        .modal-footer {
+            padding: 16px 24px; border-top: 1px solid #e2e8f0;
+            display: flex; justify-content: flex-end; gap: 12px;
+        }
+
+        /* Empty State - Light */
+        .empty-state {
+            text-align: center; padding: 60px 20px;
+        }
+        .empty-state .material-icons { font-size: 64px; color: #cbd5e1; margin-bottom: 16px; }
+        .empty-state h3 { font-size: 18px; color: #64748b; margin-bottom: 8px; }
+        .empty-state p { font-size: 13px; color: #94a3b8; }
+
+        /* Mobile Menu Toggle */
+        .mobile-toggle {
+            display: none; position: fixed; top: 16px; left: 16px;
+            z-index: 101; background: #ffffff;
+            border: 1px solid #e2e8f0; border-radius: 8px;
+            padding: 8px; color: #334155; cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 768px) {
+            .sidebar { transform: translateX(-100%); }
+            .sidebar.open { transform: translateX(0); }
+            .main-content { margin-left: 0; padding: 16px; }
+            .mobile-toggle { display: block; }
+            .stats-grid { grid-template-columns: 1fr; }
+        }
+
+        /* Hide sections */
+        .section { display: none; }
+        .section.active { display: block; }
+
+        /* Toast Notification */
+        .toast {
+            position: fixed; bottom: 24px; right: 24px;
+            padding: 14px 20px; border-radius: 10px;
+            color: white; font-size: 13px; font-weight: 500;
+            z-index: 10000; transform: translateY(100px);
+            transition: transform 0.3s; box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+        .toast.show { transform: translateY(0); }
+        .toast.success { background: #059669; }
+        .toast.error { background: #dc2626; }
+    </style>
 </head>
 <body>
-
-  <div id="toastContainer" class="toast-container"></div>
-
-  <div id="loginScreen" class="login-screen">
-    <div class="login-card">
-      <div class="login-logo">
-        <span class="material-icons">groups</span>
-        <h1>Coaching Monitoring</h1>
-        <p>Sistem Monitoring Coaching Karyawan</p>
-      </div>
-      <form id="loginForm">
-        <div class="form-group">
-          <label class="form-label">NPK</label>
-          <input type="text" id="npkInput" class="form-input" placeholder="Masukkan NPK Anda" required autocomplete="off">
-        </div>
-        <button type="submit" class="btn btn-primary btn-block">
-          <span class="material-icons">login</span>
-          Masuk ke Sistem
-        </button>
-      </form>
-    </div>
-  </div>
-
-  <div id="mainApp" class="app-layout hidden">
-    
-    <aside class="sidebar" id="sidebar">
-      <div class="sidebar-header">
-        <div class="sidebar-logo">
-          <span class="material-icons">groups</span>
-        </div>
-        <div class="sidebar-brand">Coaching System</div>
-      </div>
-
-      <nav class="sidebar-menu" id="sidebarMenu"></nav>
-
-      <div class="sidebar-footer">
-        <div class="user-profile">
-          <div class="user-avatar" id="userAvatar">U</div>
-          <div>
-            <div class="user-name" id="sidebarUserName">User</div>
-            <div class="user-role" id="sidebarUserRole">Role</div>
-          </div>
-        </div>
-        <button class="logout-btn" onclick="app.logout()">
-          <span class="material-icons">logout</span>
-          Keluar
-        </button>
-      </div>
-    </aside>
-
-    <main class="content-area" id="contentArea">
-      
-      <div id="loadingOverlay" class="loading-overlay">
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
         <div class="spinner"></div>
-        <div class="loading-text">Memuat data...</div>
-      </div>
-
-      <header class="content-header">
-        <div class="page-title" id="pageTitle">
-          <span class="material-icons">dashboard</span>
-          Dashboard
-        </div>
-      </header>
-
-      <div class="content-body" id="contentBody">
-        
-        <section id="pageDashboard" class="page-section active">
-          <div class="stats-grid">
-            <div class="stat-card primary">
-              <div class="stat-header">
-                <div>
-                  <div class="stat-value" id="statTotal">0</div>
-                  <div class="stat-label">Total Coaching Aktif</div>
-                </div>
-                <div class="stat-icon"><span class="material-icons">pending_actions</span></div>
-              </div>
-              <div class="stat-period" id="periodTotal">Periode: -</div>
-            </div>
-            <div class="stat-card warning">
-              <div class="stat-header">
-                <div>
-                  <div class="stat-value" id="statBelumUpdate">0</div>
-                  <div class="stat-label">Sudah Coaching Belum Update</div>
-                </div>
-                <div class="stat-icon"><span class="material-icons">pending</span></div>
-              </div>
-              <div class="stat-period">Butuh update mingguan</div>
-            </div>
-            <div class="stat-card success">
-              <div class="stat-header">
-                <div>
-                  <div class="stat-value" id="statSudahUpdate">0</div>
-                  <div class="stat-label">Sudah Coaching &amp; Sudah Update</div>
-                </div>
-                <div class="stat-icon"><span class="material-icons">check_circle</span></div>
-              </div>
-              <div class="stat-period">Update mingguan OK</div>
-            </div>
-            <div class="stat-card danger">
-              <div class="stat-header">
-                <div>
-                  <div class="stat-value" id="statBelumCoaching">0</div>
-                  <div class="stat-label">Belum Coaching</div>
-                </div>
-                <div class="stat-icon"><span class="material-icons">person_off</span></div>
-              </div>
-              <div class="stat-period">Perlu coaching segera</div>
-            </div>
-          </div>
-
-          <div class="controls-section">
-            <div class="control-group">
-              <label class="control-label">Filter Cabang</label>
-              <select id="cabangFilter" class="control-input" onchange="app.handleCabangChange()">
-                <option value="">Semua Cabang</option>
-              </select>
-            </div>
-            <div class="search-wrapper control-group">
-              <label class="control-label">Pencarian</label>
-              <span class="material-icons">search</span>
-              <input type="text" id="searchInput" class="control-input" placeholder="Cari NPK, Nama, Jabatan, Cabang, Status..." autocomplete="off">
-            </div>
-          </div>
-
-          <div class="table-container">
-            <div class="table-header">
-              <div class="table-title">Daftar Karyawan</div>
-              <div class="table-count" id="tableCount">0 karyawan</div>
-            </div>
-            <div style="overflow-x: auto;">
-              <table class="data-table">
-                <thead>
-                  <tr>
-                    <th onclick="app.sort('npk')"><div class="th-content">NPK<span class="material-icons sort-icon">unfold_more</span></div></th>
-                    <th onclick="app.sort('nama')"><div class="th-content">Nama<span class="material-icons sort-icon">unfold_more</span></div></th>
-                    <th onclick="app.sort('jabatan')"><div class="th-content">Jabatan<span class="material-icons sort-icon">unfold_more</span></div></th>
-                    <th onclick="app.sort('cabang')"><div class="th-content">Cabang<span class="material-icons sort-icon">unfold_more</span></div></th>
-                    <th onclick="app.sort('status')"><div class="th-content">Status Coaching<span class="material-icons sort-icon">unfold_more</span></div></th>
-                    <th>Aksi</th>
-                  </tr>
-                </thead>
-                <tbody id="tableBody"></tbody>
-              </table>
-            </div>
-            <div id="emptyState" class="empty-state hidden">
-              <span class="material-icons">search_off</span>
-              <h3>Tidak ada data</h3>
-              <p>Belum ada karyawan yang sesuai dengan filter</p>
-            </div>
-          </div>
-        </section>
-
-        <section id="pageDataKaryawan" class="page-section">
-          <div class="controls-section" style="justify-content: space-between;">
-            <div class="search-wrapper control-group" style="flex: 2; margin-bottom: 0;">
-              <span class="material-icons">search</span>
-              <input type="text" id="karyawanSearchInput" class="control-input" placeholder="Cari NIK, Nama, Jabatan, CL, Cabang, Region, Atasan, Email, HP..." autocomplete="off">
-            </div>
-            <button class="btn btn-success" onclick="app.openKaryawanModal()">
-              <span class="material-icons">add</span>
-              Tambah Karyawan
-            </button>
-          </div>
-
-          <div class="table-container">
-            <div class="table-header">
-              <div class="table-title">Data Karyawan</div>
-              <div class="table-count" id="karyawanCount">0 karyawan</div>
-            </div>
-            <div style="overflow-x: auto;">
-              <table class="data-table" id="karyawanTable">
-                <thead>
-                  <tr>
-                    <th onclick="app.sortKaryawan('npk')"><div class="th-content">NIK<span class="material-icons sort-icon">unfold_more</span></div></th>
-                    <th onclick="app.sortKaryawan('nama')"><div class="th-content">Nama<span class="material-icons sort-icon">unfold_more</span></div></th>
-                    <th onclick="app.sortKaryawan('jabatan')"><div class="th-content">Jabatan<span class="material-icons sort-icon">unfold_more</span></div></th>
-                    <th onclick="app.sortKaryawan('cl')"><div class="th-content">CL<span class="material-icons sort-icon">unfold_more</span></div></th>
-                    <th onclick="app.sortKaryawan('cabang')"><div class="th-content">Cabang<span class="material-icons sort-icon">unfold_more</span></div></th>
-                    <th onclick="app.sortKaryawan('region')"><div class="th-content">Region<span class="material-icons sort-icon">unfold_more</span></div></th>
-                    <th onclick="app.sortKaryawan('atasan_npk')"><div class="th-content">Atasan<span class="material-icons sort-icon">unfold_more</span></div></th>
-                    <th>Aksi</th>
-                  </tr>
-                </thead>
-                <tbody id="karyawanTableBody"></tbody>
-              </table>
-            </div>
-            <div id="karyawanEmptyState" class="empty-state hidden">
-              <span class="material-icons">search_off</span>
-              <h3>Tidak ada data</h3>
-              <p>Belum ada karyawan yang sesuai dengan filter</p>
-            </div>
-          </div>
-        </section>
-
-        <section id="pageManagementUser" class="page-section">
-          <div class="placeholder-page">
-            <span class="material-icons">manage_accounts</span>
-            <h2>Management User ID</h2>
-            <p>Fitur admin untuk mengelola user ID sistem.</p>
-          </div>
-        </section>
-
-        <section id="pageInputCoaching" class="page-section">
-          <div class="placeholder-page">
-            <span class="material-icons">edit_note</span>
-            <h2>Input Data Coaching</h2>
-            <p>Fitur ini akan segera hadir.</p>
-          </div>
-        </section>
-
-        <section id="pageUpdateCoaching" class="page-section">
-          <div class="placeholder-page">
-            <span class="material-icons">update</span>
-            <h2>Update &amp; Follow Up Coaching</h2>
-            <p>Fitur ini akan segera hadir.</p>
-          </div>
-        </section>
-
-        <section id="pageReminder" class="page-section">
-          <div class="placeholder-page">
-            <span class="material-icons">notifications_active</span>
-            <h2>Reminder</h2>
-            <p>Fitur ini akan segera hadir.</p>
-          </div>
-        </section>
-
-        <section id="pagePreviewChat" class="page-section">
-          <div class="placeholder-page">
-            <span class="material-icons">chat</span>
-            <h2>Preview Coaching Chat</h2>
-            <p>Fitur ini akan segera hadir.</p>
-          </div>
-        </section>
-
-        <section id="pageDownload" class="page-section">
-          <div class="placeholder-page">
-            <span class="material-icons">download</span>
-            <h2>Download Data</h2>
-            <p>Fitur ini akan segera hadir.</p>
-          </div>
-        </section>
-
-      </div>
-    </main>
-  </div>
-
-  <div id="karyawanModal" class="modal-overlay">
-    <div class="modal-container">
-      <div class="modal-header">
-        <div class="modal-title">
-          <span class="material-icons">badge</span>
-          <span id="karyawanModalTitle">Tambah Karyawan</span>
-        </div>
-        <button class="modal-close" onclick="app.closeKaryawanModal()">
-          <span class="material-icons">close</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form id="karyawanForm">
-          <input type="hidden" id="karyawanMode" value="add">
-          <div class="form-row">
-            <div class="form-group">
-              <label class="form-label">NIK / NPK *</label>
-              <input type="text" id="formNpk" class="form-input" required autocomplete="off">
-            </div>
-            <div class="form-group">
-              <label class="form-label">Nama Lengkap *</label>
-              <input type="text" id="formNama" class="form-input" required autocomplete="off">
-            </div>
-          </div>
-          <div class="form-row">
-            <div class="form-group">
-              <label class="form-label">Jabatan *</label>
-              <input type="text" id="formJabatan" class="form-input" required autocomplete="off">
-            </div>
-            <div class="form-group">
-              <label class="form-label">CL Level *</label>
-              <select id="formCl" class="form-select" required>
-                <option value="0">0 - Direksi/HR/Konsultan</option>
-                <option value="1">1 - Level 3</option>
-                <option value="2">2 - Level 2</option>
-                <option value="3">3 - Level 1</option>
-                <option value="4">4 - Level 1</option>
-                <option value="5" selected>5 - Level 1</option>
-              </select>
-            </div>
-          </div>
-          <div class="form-row">
-            <div class="form-group">
-              <label class="form-label">Cabang / Lokasi</label>
-              <input type="text" id="formCabang" class="form-input" autocomplete="off">
-            </div>
-            <div class="form-group">
-              <label class="form-label">Region</label>
-              <input type="text" id="formRegion" class="form-input" autocomplete="off">
-            </div>
-          </div>
-          <div class="form-row">
-            <div class="form-group">
-              <label class="form-label">Atasan (Nama)</label>
-              <div class="autocomplete-wrapper">
-                <input type="text" id="formAtasanNama" class="form-input" placeholder="Ketik nama atasan..." autocomplete="off">
-                <div id="atasanAutocomplete" class="autocomplete-list"></div>
-              </div>
-              <div class="form-hint">Ketik nama, sistem akan cari NPK otomatis</div>
-            </div>
-            <div class="form-group">
-              <label class="form-label">Atasan NPK</label>
-              <input type="text" id="formAtasanNpk" class="form-input" readonly style="background: var(--gray-50);">
-            </div>
-          </div>
-          <div class="form-row">
-            <div class="form-group">
-              <label class="form-label">Email</label>
-              <input type="email" id="formEmail" class="form-input" autocomplete="off">
-            </div>
-            <div class="form-group">
-              <label class="form-label">No. HP / WA</label>
-              <input type="text" id="formNoHp" class="form-input" autocomplete="off">
-            </div>
-          </div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button class="btn btn-ghost" onclick="app.closeKaryawanModal()">Batal</button>
-        <button class="btn btn-primary" onclick="app.saveKaryawanForm()">
-          <span class="material-icons">save</span>
-          Simpan
-        </button>
-      </div>
+        <div class="loading-text">Memuat aplikasi...</div>
     </div>
-  </div>
 
-  <div id="deleteModal" class="modal-overlay">
-    <div class="confirm-dialog">
-      <div class="confirm-icon">
-        <span class="material-icons">warning</span>
-      </div>
-      <div class="confirm-title">Hapus Data Karyawan?</div>
-      <div class="confirm-text">
-        Data yang sudah dihapus tidak dapat dikembalikan.
-      </div>
-      <div class="confirm-details" id="deleteDetails"></div>
-      <div class="confirm-actions">
-        <button class="btn btn-ghost" onclick="app.closeDeleteModal()">Batal</button>
-        <button class="btn btn-danger" onclick="app.confirmDelete()">
-          <span class="material-icons">delete</span>
-          Ya, Hapus
-        </button>
-      </div>
+    <!-- Toast -->
+    <div class="toast" id="toast"></div>
+
+    <!-- Mobile Toggle -->
+    <button class="mobile-toggle" onclick="toggleSidebar()">
+        <span class="material-icons">menu</span>
+    </button>
+
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo">
+                    <span class="material-icons">groups</span>
+                </div>
+                <div>
+                    <div class="sidebar-title">Coaching System</div>
+                    <div class="sidebar-subtitle">Monitoring & Tracking</div>
+                </div>
+            </div>
+
+            <nav class="sidebar-menu">
+                <!-- CMS Section -->
+                <div class="menu-section">
+                    <div class="menu-section-title">CMS</div>
+                    <a href="#" class="menu-item active" onclick="showSection('dashboard', this); return false;">
+                        <span class="material-icons">dashboard</span>
+                        <span class="menu-item-text">Dashboard</span>
+                    </a>
+                    <a href="#" class="menu-item" onclick="showSection('input-coaching', this); return false;">
+                        <span class="material-icons">edit_note</span>
+                        <span class="menu-item-text">Input Coaching</span>
+                    </a>
+                    <a href="#" class="menu-item" onclick="showSection('update-coaching', this); return false;">
+                        <span class="material-icons">update</span>
+                        <span class="menu-item-text">Update & Follow Up</span>
+                    </a>
+                    <a href="#" class="menu-item" onclick="showSection('reminder', this); return false;">
+                        <span class="material-icons">notifications_active</span>
+                        <span class="menu-item-text">Reminder</span>
+                    </a>
+                    <a href="#" class="menu-item" onclick="showSection('preview-chat', this); return false;">
+                        <span class="material-icons">chat</span>
+                        <span class="menu-item-text">Preview Chat</span>
+                    </a>
+                    <a href="#" class="menu-item" onclick="showSection('download', this); return false;">
+                        <span class="material-icons">download</span>
+                        <span class="menu-item-text">Download Data</span>
+                    </a>
+                </div>
+
+                <!-- Admin Section -->
+                <div class="menu-section">
+                    <div class="menu-section-title">Admin</div>
+                    <a href="#" class="menu-item" onclick="showSection('management-user', this); return false;">
+                        <span class="material-icons">manage_accounts</span>
+                        <span class="menu-item-text">Management User</span>
+                    </a>
+                    <a href="#" class="menu-item" onclick="showSection('data-karyawan', this); return false;">
+                        <span class="material-icons">badge</span>
+                        <span class="menu-item-text">Data Karyawan</span>
+                    </a>
+                </div>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="user-profile">
+                    <div class="user-avatar" id="userAvatar">Y</div>
+                    <div class="user-info">
+                        <div class="user-name" id="userName">Loading...</div>
+                        <div class="user-role" id="userRole">Loading...</div>
+                    </div>
+                </div>
+                <button class="logout-btn" onclick="logout()">
+                    <span class="material-icons">logout</span>
+                    <span>Keluar</span>
+                </button>
+            </div>
+        </aside>
+                <!-- Main Content -->
+        <main class="main-content">
+            <!-- DASHBOARD SECTION -->
+            <section class="section active" id="dashboard">
+                <div class="page-header">
+                    <div>
+                        <h1 class="page-title">Dashboard</h1>
+                        <p class="page-subtitle">Monitoring coaching periode <span id="currentPeriod">-</span></p>
+                    </div>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card blue">
+                        <div class="stat-label">Total Coaching Aktif</div>
+                        <div class="stat-value" id="statTotal">0</div>
+                        <div class="stat-change positive">Karyawan dalam coaching</div>
+                    </div>
+                    <div class="stat-card orange">
+                        <div class="stat-label">Belum Coaching</div>
+                        <div class="stat-value" id="statBelum">0</div>
+                        <div class="stat-change negative">Perlu coaching minggu ini</div>
+                    </div>
+                    <div class="stat-card red">
+                        <div class="stat-label">Belum Update</div>
+                        <div class="stat-value" id="statBelumUpdate">0</div>
+                        <div class="stat-change negative">Coaching tanpa progress</div>
+                    </div>
+                    <div class="stat-card green">
+                        <div class="stat-label">Sudah Update</div>
+                        <div class="stat-value" id="statSudahUpdate">0</div>
+                        <div class="stat-change positive">Progress terupdate</div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Monitoring Karyawan</h3>
+                        <div class="filters-row">
+                            <select class="filter-select" id="filterCabang" onchange="filterDashboard()">
+                                <option value="">Semua Cabang</option>
+                            </select>
+                            <input type="text" class="filter-input" id="searchKaryawan" placeholder="Cari nama/npk..." onkeyup="filterDashboard()">
+                        </div>
+                    </div>
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th onclick="sortTable('npk')">NPK <span class="material-icons" style="font-size:14px;vertical-align:middle;">unfold_more</span></th>
+                                    <th onclick="sortTable('nama')">Nama <span class="material-icons" style="font-size:14px;vertical-align:middle;">unfold_more</span></th>
+                                    <th onclick="sortTable('jabatan')">Jabatan <span class="material-icons" style="font-size:14px;vertical-align:middle;">unfold_more</span></th>
+                                    <th onclick="sortTable('cabang')">Cabang <span class="material-icons" style="font-size:14px;vertical-align:middle;">unfold_more</span></th>
+                                    <th onclick="sortTable('status')">Status Coaching <span class="material-icons" style="font-size:14px;vertical-align:middle;">unfold_more</span></th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="dashboardTableBody">
+                                <tr>
+                                    <td colspan="6" class="empty-state">
+                                        <span class="material-icons">hourglass_empty</span>
+                                        <h3>Memuat data...</h3>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- INPUT COACHING SECTION -->
+            <section class="section" id="input-coaching">
+                <div class="page-header">
+                    <div>
+                        <h1 class="page-title">Input Data Coaching</h1>
+                        <p class="page-subtitle">Buat sesi coaching baru untuk karyawan</p>
+                    </div>
+                </div>
+
+                <div class="card" style="max-width: 800px;">
+                    <div class="card-header">
+                        <h3 class="card-title">Form Coaching Baru</h3>
+                    </div>
+                    <div class="modal-body" style="padding: 0;">
+                        <div class="form-group">
+                            <label class="form-label">Cabang</label>
+                            <select class="form-select" id="inputCabang" onchange="loadCoachees()">
+                                <option value="">Pilih Cabang</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Karyawan (Coachee)</label>
+                            <select class="form-select" id="inputCoachee">
+                                <option value="">Pilih Karyawan</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Root Cause / Masalah</label>
+                            <textarea class="form-textarea" id="inputRootCause" placeholder="Jelaskan akar masalah..."></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Topic / Topik Coaching</label>
+                            <input type="text" class="form-input" id="inputTopic" placeholder="Topik yang akan dibahas...">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Target Date</label>
+                            <input type="date" class="form-input" id="inputTargetDate">
+                        </div>
+                    </div>
+                    <div class="modal-footer" style="border-top: none; padding-top: 0;">
+                        <button class="btn btn-secondary" onclick="resetFormCoaching()">Reset</button>
+                        <button class="btn btn-primary" onclick="saveCoaching()">
+                            <span class="material-icons">save</span>
+                            Simpan Coaching
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- UPDATE COACHING SECTION -->
+            <section class="section" id="update-coaching">
+                <div class="page-header">
+                    <div>
+                        <h1 class="page-title">Update & Follow Up Coaching</h1>
+                        <p class="page-subtitle">Update progress coaching mingguan</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Cari Coaching Aktif</h3>
+                    </div>
+                    <div class="modal-body" style="padding: 20px 0;">
+                        <div class="form-group">
+                            <label class="form-label">Masukkan Coaching ID atau Pilih Karyawan</label>
+                            <div style="display: flex; gap: 12px;">
+                                <input type="text" class="form-input" id="searchCoachingId" placeholder="Coaching ID..." style="flex: 1;">
+                                <button class="btn btn-primary" onclick="searchCoaching()">
+                                    <span class="material-icons">search</span>
+                                    Cari
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="coachingDetailContainer" style="display: none;">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Detail Coaching</h3>
+                            <span class="badge badge-warning" id="detailStatus">ON PROGRESS</span>
+                        </div>
+                        <div class="modal-body" style="padding: 20px 0;">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px;">
+                                <div class="form-group">
+                                    <label class="form-label">Coach</label>
+                                    <input type="text" class="form-input" id="detailCoach" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Coachee</label>
+                                    <input type="text" class="form-input" id="detailCoachee" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Root Cause</label>
+                                    <input type="text" class="form-input" id="detailRootCause" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Topic</label>
+                                    <input type="text" class="form-input" id="detailTopic" readonly>
+                                </div>
+                            </div>
+
+                            <h4 style="font-size: 14px; color: #64748b; margin-bottom: 16px; text-transform: uppercase; font-weight: 600;">Update Mingguan</h4>
+                            <div class="form-group">
+                                <label class="form-label">Minggu</label>
+                                <select class="form-select" id="updateWeek">
+                                    <option value="">Pilih Minggu</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Action / Tindakan</label>
+                                <textarea class="form-textarea" id="updateAction" placeholder="Tindakan yang dilakukan..."></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">How / Cara</label>
+                                <textarea class="form-textarea" id="updateHow" placeholder="Bagaimana pelaksanaannya..."></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Result / Hasil</label>
+                                <textarea class="form-textarea" id="updateResult" placeholder="Hasil yang dicapai..."></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Feedback</label>
+                                <textarea class="form-textarea" id="updateFeedback" placeholder="Feedback dari atasan..."></textarea>
+                            </div>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                                <div class="form-group">
+                                    <label class="form-label">Target Nominal</label>
+                                    <input type="text" class="form-input" id="updateTargetNominal" placeholder="Contoh: 1000000">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Satuan</label>
+                                    <input type="text" class="form-input" id="updateTargetSatuan" placeholder="Contoh: IDR / Unit / %">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer" style="border-top: none;">
+                            <button class="btn btn-success" onclick="saveUpdate()">
+                                <span class="material-icons">save</span>
+                                Simpan Update
+                            </button>
+                            <button class="btn btn-primary" onclick="completeCoaching()" id="btnComplete">
+                                <span class="material-icons">check_circle</span>
+                                Selesaikan Coaching
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="card" style="margin-top: 20px;">
+                        <div class="card-header">
+                            <h3 class="card-title">Riwayat Update</h3>
+                        </div>
+                        <div class="table-container">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Minggu</th>
+                                        <th>Action</th>
+                                        <th>Result</th>
+                                        <th>Feedback</th>
+                                        <th>Tanggal Update</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="historyTableBody">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- REMINDER SECTION -->
+            <section class="section" id="reminder">
+                <div class="page-header">
+                    <div>
+                        <h1 class="page-title">Reminder</h1>
+                        <p class="page-subtitle">Kirim pengingat ke coach dan coachee</p>
+                    </div>
+                </div>
+
+                <div class="card" style="max-width: 600px;">
+                    <div class="card-header">
+                        <h3 class="card-title">Kirim Reminder</h3>
+                    </div>
+                    <div class="modal-body" style="padding: 0;">
+                        <div class="form-group">
+                            <label class="form-label">Coaching ID</label>
+                            <input type="text" class="form-input" id="reminderCoachingId" placeholder="Masukkan Coaching ID...">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Channel</label>
+                            <div style="display: flex; gap: 12px;">
+                                <button class="btn btn-primary" onclick="sendReminder('email')" style="flex: 1;">
+                                    <span class="material-icons">email</span>
+                                    Email
+                                </button>
+                                <button class="btn btn-success" onclick="sendReminder('wa')" style="flex: 1;">
+                                    <span class="material-icons">chat</span>
+                                    WhatsApp
+                                </button>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Pesan (Opsional)</label>
+                            <textarea class="form-textarea" id="reminderMessage" placeholder="Tulis pesan reminder..."></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer" style="border-top: none; padding-top: 0;">
+                        <button class="btn btn-secondary" onclick="resetReminder()">Reset</button>
+                    </div>
+                </div>
+
+                <div class="card" style="margin-top: 20px;">
+                    <div class="card-header">
+                        <h3 class="card-title">Log Reminder</h3>
+                    </div>
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Reminder ID</th>
+                                    <th>Coaching ID</th>
+                                    <th>Channel</th>
+                                    <th>Status</th>
+                                    <th>Waktu</th>
+                                </tr>
+                            </thead>
+                            <tbody id="reminderLogTable">
+                                <tr>
+                                    <td colspan="5" class="empty-state">
+                                        <span class="material-icons">notifications_none</span>
+                                        <h3>Belum ada reminder</h3>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- PREVIEW CHAT SECTION -->
+            <section class="section" id="preview-chat">
+                <div class="page-header">
+                    <div>
+                        <h1 class="page-title">Preview Chat</h1>
+                        <p class="page-subtitle">Lihat riwayat komunikasi coaching</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Chat Preview</h3>
+                    </div>
+                    <div class="empty-state">
+                        <span class="material-icons">chat_bubble_outline</span>
+                        <h3>Fitur Preview Chat</h3>
+                        <p>Fitur ini akan segera hadir. Anda akan dapat melihat riwayat chat antara coach dan coachee.</p>
+                    </div>
+                </div>
+            </section>
+                        <!-- DOWNLOAD SECTION -->
+            <section class="section" id="download">
+                <div class="page-header">
+                    <div>
+                        <h1 class="page-title">Download Data</h1>
+                        <p class="page-subtitle">Export data coaching dan karyawan</p>
+                    </div>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Export Coaching</h3>
+                        </div>
+                        <div class="modal-body" style="padding: 0;">
+                            <div class="form-group">
+                                <label class="form-label">Filter Cabang (Opsional)</label>
+                                <select class="form-select" id="exportCabang">
+                                    <option value="">Semua Cabang</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Filter Status (Opsional)</label>
+                                <select class="form-select" id="exportStatus">
+                                    <option value="">Semua Status</option>
+                                    <option value="OPEN">OPEN</option>
+                                    <option value="ON PROGRESS">ON PROGRESS</option>
+                                    <option value="DONE">DONE</option>
+                                    <option value="OVERDUE">OVERDUE</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="modal-footer" style="border-top: none; padding-top: 0;">
+                            <button class="btn btn-primary" onclick="exportCoaching()">
+                                <span class="material-icons">file_download</span>
+                                Export Coaching
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Export Karyawan</h3>
+                        </div>
+                        <div class="empty-state" style="padding: 40px 20px;">
+                            <span class="material-icons">people_outline</span>
+                            <h3>Export Data Karyawan</h3>
+                            <p>Download seluruh data karyawan dalam format Excel.</p>
+                        </div>
+                        <div class="modal-footer" style="border-top: none;">
+                            <button class="btn btn-success" onclick="exportKaryawan()">
+                                <span class="material-icons">file_download</span>
+                                Export Karyawan
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- MANAGEMENT USER SECTION -->
+            <section class="section" id="management-user">
+                <div class="page-header">
+                    <div>
+                        <h1 class="page-title">Management User</h1>
+                        <p class="page-subtitle">Kelola user ID dan akses sistem</p>
+                    </div>
+                    <button class="btn btn-primary" onclick="openUserModal()">
+                        <span class="material-icons">person_add</span>
+                        Tambah User
+                    </button>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Daftar User</h3>
+                        <div class="filters-row">
+                            <input type="text" class="filter-input" id="searchUser" placeholder="Cari nama/npk..." onkeyup="filterUsers()">
+                            <select class="filter-select" id="filterUserRole" onchange="filterUsers()">
+                                <option value="">Semua Role</option>
+                                <option value="Admin">Admin</option>
+                                <option value="User">User</option>
+                                <option value="HR">HR</option>
+                                <option value="Direksi">Direksi</option>
+                            </select>
+                            <select class="filter-select" id="filterUserStatus" onchange="filterUsers()">
+                                <option value="">Semua Status</option>
+                                <option value="Active">Active</option>
+                                <option value="Inactive">Inactive</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th onclick="sortUserTable('npk')">NPK <span class="material-icons" style="font-size:14px;vertical-align:middle;">unfold_more</span></th>
+                                    <th onclick="sortUserTable('nama')">Nama <span class="material-icons" style="font-size:14px;vertical-align:middle;">unfold_more</span></th>
+                                    <th onclick="sortUserTable('role')">Role <span class="material-icons" style="font-size:14px;vertical-align:middle;">unfold_more</span></th>
+                                    <th onclick="sortUserTable('status')">Status <span class="material-icons" style="font-size:14px;vertical-align:middle;">unfold_more</span></th>
+                                    <th>Created At</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="userTableBody">
+                                <tr>
+                                    <td colspan="6" class="empty-state">
+                                        <span class="material-icons">hourglass_empty</span>
+                                        <h3>Memuat data user...</h3>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- DATA KARYAWAN SECTION -->
+            <section class="section" id="data-karyawan">
+                <div class="page-header">
+                    <div>
+                        <h1 class="page-title">Data Karyawan</h1>
+                        <p class="page-subtitle">Kelola data master karyawan</p>
+                    </div>
+                    <button class="btn btn-primary" onclick="openKaryawanModal()">
+                        <span class="material-icons">person_add</span>
+                        Tambah Karyawan
+                    </button>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Daftar Karyawan</h3>
+                        <div class="filters-row">
+                            <input type="text" class="filter-input" id="searchKaryawanAdmin" placeholder="Cari nama/npk..." onkeyup="filterKaryawanAdmin()">
+                            <select class="filter-select" id="filterCabangAdmin" onchange="filterKaryawanAdmin()">
+                                <option value="">Semua Cabang</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="table-container">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th onclick="sortKaryawanTable('npk')">NIK <span class="material-icons" style="font-size:14px;vertical-align:middle;">unfold_more</span></th>
+                                    <th onclick="sortKaryawanTable('nama')">Nama <span class="material-icons" style="font-size:14px;vertical-align:middle;">unfold_more</span></th>
+                                    <th onclick="sortKaryawanTable('jabatan')">Jabatan <span class="material-icons" style="font-size:14px;vertical-align:middle;">unfold_more</span></th>
+                                    <th onclick="sortKaryawanTable('cl')">CL <span class="material-icons" style="font-size:14px;vertical-align:middle;">unfold_more</span></th>
+                                    <th onclick="sortKaryawanTable('cabang')">Cabang <span class="material-icons" style="font-size:14px;vertical-align:middle;">unfold_more</span></th>
+                                    <th onclick="sortKaryawanTable('region')">Region <span class="material-icons" style="font-size:14px;vertical-align:middle;">unfold_more</span></th>
+                                    <th>Atasan</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="karyawanTableBody">
+                                <tr>
+                                    <td colspan="8" class="empty-state">
+                                        <span class="material-icons">hourglass_empty</span>
+                                        <h3>Memuat data karyawan...</h3>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+        </main>
     </div>
-  </div>
 
-  <script>
-      //==================== APPLICATION STATE ====================
-  var app = {
-    state: {
-      user: null,
-      userLevel: 0,
-      allEmployees: [],
-      filteredEmployees: [],
-      cabangs: [],
-      currentPeriod: '',
-      stats: { totalCoaching: 0, belumCoaching: 0, sudahCoachingBelumUpdate: 0, sudahCoachingSudahUpdate: 0 },
-      sort: { column: null, direction: 'asc' },
-      filter: { cabang: '', search: '' },
-      isLoading: false,
-      initDone: false,
-      currentPage: 'dashboard',
-      allKaryawan: [],
-      filteredKaryawan: [],
-      karyawanSort: { column: null, direction: 'asc' },
-      karyawanFilter: '',
-      deleteTarget: null
-    },
+    <!-- MODAL: USER FORM -->
+    <div class="modal-overlay" id="userModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title" id="userModalTitle">Tambah User</h3>
+                <button class="modal-close" onclick="closeUserModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="userNpkOld">
+                <div class="form-group">
+                    <label class="form-label">NPK</label>
+                    <input type="text" class="form-input" id="userNpk" placeholder="Masukkan NPK...">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Nama Lengkap</label>
+                    <input type="text" class="form-input" id="userNama" placeholder="Masukkan nama...">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Role</label>
+                    <select class="form-select" id="userRole">
+                        <option value="User">User</option>
+                        <option value="Admin">Admin</option>
+                        <option value="HR">HR</option>
+                        <option value="Direksi">Direksi</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Status</label>
+                    <select class="form-select" id="userStatus">
+                        <option value="Active">Active</option>
+                        <option value="Inactive">Inactive</option>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeUserModal()">Batal</button>
+                <button class="btn btn-primary" onclick="saveUserForm()">
+                    <span class="material-icons">save</span>
+                    Simpan
+                </button>
+            </div>
+        </div>
+    </div>
 
-    menuConfig: [
-      {
-        id: 'admin',
-        label: 'Admin',
-        icon: 'admin_panel_settings',
-        access: ['owner', 'direksi', 'hr', 'level4'],
-        items: [
-          { id: 'managementUser', label: 'Management User ID', icon: 'manage_accounts', page: 'pageManagementUser' },
-          { id: 'dataKaryawan', label: 'Data Karyawan', icon: 'badge', page: 'pageDataKaryawan' }
-        ]
-      },
-      {
-        id: 'cms',
-        label: 'CMS',
-        icon: 'co_present',
-        access: ['all'],
-        items: [
-          { id: 'dashboard', label: 'Dashboard', icon: 'dashboard', page: 'pageDashboard' },
-          { id: 'inputCoaching', label: 'Input Data Coaching', icon: 'edit_note', page: 'pageInputCoaching' },
-          { id: 'updateCoaching', label: 'Update & Follow Up', icon: 'update', page: 'pageUpdateCoaching' }
-        ]
-      },
-      {
-        id: 'report',
-        label: 'Reminder & Report',
-        icon: 'assessment',
-        access: ['all'],
-        items: [
-          { id: 'reminder', label: 'Reminder', icon: 'notifications_active', page: 'pageReminder' },
-          { id: 'previewChat', label: 'Preview Chat', icon: 'chat', page: 'pagePreviewChat' },
-          { id: 'download', label: 'Download Data', icon: 'download', page: 'pageDownload' }
-        ]
-      }
-    ],
+    <!-- MODAL: KARYAWAN FORM -->
+    <div class="modal-overlay" id="karyawanModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title" id="karyawanModalTitle">Tambah Karyawan</h3>
+                <button class="modal-close" onclick="closeKaryawanModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="karyawanNpkOld">
+                <div class="form-group">
+                    <label class="form-label">NPK / NIK</label>
+                    <input type="text" class="form-input" id="karyawanNpk" placeholder="Masukkan NPK...">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Nama Lengkap</label>
+                    <input type="text" class="form-input" id="karyawanNama" placeholder="Masukkan nama...">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Jabatan</label>
+                    <input type="text" class="form-input" id="karyawanJabatan" placeholder="Masukkan jabatan...">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">CL (Access Level)</label>
+                    <input type="number" class="form-input" id="karyawanCl" placeholder="0-5" min="0" max="5">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Cabang</label>
+                    <input type="text" class="form-input" id="karyawanCabang" placeholder="Masukkan cabang...">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Region</label>
+                    <input type="text" class="form-input" id="karyawanRegion" placeholder="Masukkan region...">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Atasan NPK</label>
+                    <input type="text" class="form-input" id="karyawanAtasan" placeholder="NPK atasan...">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Email</label>
+                    <input type="email" class="form-input" id="karyawanEmail" placeholder="email@domain.com">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">No HP</label>
+                    <input type="text" class="form-input" id="karyawanHp" placeholder="08xxxxxxxxxx">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeKaryawanModal()">Batal</button>
+                <button class="btn btn-primary" onclick="saveKaryawanForm()">
+                    <span class="material-icons">save</span>
+                    Simpan
+                </button>
+            </div>
+        </div>
+    </div>
+        <script>
+        // ==================== GLOBAL VARIABLES ====================
+        let currentUser = null;
+        let dashboardData = [];
+        let userData = [];
+        let karyawanData = [];
+        let currentCoachingId = null;
+        let sortDirection = {};
 
-    init: function() {
-      this.bindEvents();
-      this.checkSession();
-    },
+        // ==================== INITIALIZATION ====================
+        document.addEventListener('DOMContentLoaded', function() {
+            checkSession();
+        });
 
-    bindEvents: function() {
-      document.getElementById('loginForm').addEventListener('submit', function(e) {
-        e.preventDefault();
-        app.handleLogin();
-      });
+        function showLoading(text) {
+            const overlay = document.getElementById('loadingOverlay');
+            if (text) overlay.querySelector('.loading-text').textContent = text;
+            overlay.classList.remove('hidden');
+        }
 
-      var searchInput = document.getElementById('searchInput');
-      var debounceTimer;
-      searchInput.addEventListener('input', function(e) {
-        clearTimeout(debounceTimer);
-        debounceTimer = setTimeout(function() {
-          app.handleSearch(e.target.value);
-        }, 300);
-      });
+        function hideLoading() {
+            document.getElementById('loadingOverlay').classList.add('hidden');
+        }
 
-      var karyawanSearch = document.getElementById('karyawanSearchInput');
-      var kDebounce;
-      karyawanSearch.addEventListener('input', function(e) {
-        clearTimeout(kDebounce);
-        kDebounce = setTimeout(function() {
-          app.handleKaryawanSearch(e.target.value);
-        }, 300);
-      });
+        function showToast(message, type) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.className = 'toast ' + (type || 'success');
+            setTimeout(() => toast.classList.add('show'), 10);
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
 
-      var atasanInput = document.getElementById('formAtasanNama');
-      atasanInput.addEventListener('input', function(e) {
-        app.handleAtasanSearch(e.target.value);
-      });
-      atasanInput.addEventListener('blur', function() {
-        setTimeout(function() {
-          document.getElementById('atasanAutocomplete').classList.remove('active');
-        }, 200);
-      });
-    },
+        // ==================== SESSION MANAGEMENT ====================
+        function checkSession() {
+            showLoading('Memuat sesi...');
+            google.script.run
+                .withSuccessHandler(function(result) {
+                    hideLoading();
+                    if (result && result.userData) {
+                        currentUser = result.userData;
+                        initApp();
+                    } else {
+                        showLoginModal();
+                    }
+                })
+                .withFailureHandler(function(error) {
+                    hideLoading();
+                    showLoginModal();
+                })
+                .getCurrentUser();
+        }
 
-    checkSession: function() {
-      this.showLoading('Memeriksa sesi...');
-      google.script.run
-        .withSuccessHandler(function(result) {
-          app.hideLoading();
-          if (result && result.npk) {
-            app.state.user = result;
-            app.showMainApp();
-            app.loadInitialData();
-          } else {
-            app.showLoginScreen();
-          }
-        })
-        .withFailureHandler(function() {
-          app.hideLoading();
-          app.showLoginScreen();
-        })
-        .getCurrentUser();
-    },
+        function initApp() {
+            document.getElementById('userName').textContent = currentUser.nama || 'User';
+            document.getElementById('userRole').textContent = currentUser.jabatan || '-';
+            document.getElementById('userAvatar').textContent = (currentUser.nama || 'U').charAt(0).toUpperCase();
+            
+            loadDashboard();
+            loadCabangOptions();
+            loadWeeks();
+        }
 
-    handleLogin: function() {
-      var npk = document.getElementById('npkInput').value.trim();
-      if (!npk) {
-        this.showToast('NPK harus diisi', 'error');
-        return;
-      }
+        function logout() {
+            showLoading('Keluar...');
+            google.script.run
+                .withSuccessHandler(function() {
+                    location.reload();
+                })
+                .logoutUser();
+        }
 
-      this.showLoading('Login...');
-      google.script.run
-        .withSuccessHandler(function(result) {
-          app.hideLoading();
-          if (result.success) {
-            app.state.user = result.user;
-            app.showToast('Selamat datang, ' + result.user.nama, 'success');
-            app.showMainApp();
-            app.loadInitialData();
-          } else {
-            app.showToast(result.message || 'Login gagal', 'error');
-          }
-        })
-        .withFailureHandler(function() {
-          app.hideLoading();
-          app.showToast('Terjadi kesalahan saat login', 'error');
-        })
-        .loginUser({ npk: npk });
-    },
+        // ==================== NAVIGATION ====================
+        function showSection(sectionId, element) {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.getElementById(sectionId).classList.add('active');
+            
+            document.querySelectorAll('.menu-item').forEach(m => m.classList.remove('active'));
+            if (element) element.classList.add('active');
 
-    logout: function() {
-      this.showLoading('Keluar...');
-      google.script.run
-        .withSuccessHandler(function() {
-          app.hideLoading();
-          app.resetState();
-          app.showLoginScreen();
-          app.showToast('Berhasil keluar', 'success');
-        })
-        .logoutUser();
-    },
+            if (sectionId === 'management-user') loadUsers();
+            if (sectionId === 'data-karyawan') loadKaryawanAdmin();
+            if (sectionId === 'input-coaching') loadInputCabang();
+            
+            if (window.innerWidth <= 768) {
+                document.getElementById('sidebar').classList.remove('open');
+            }
+        }
 
-    resetState: function() {
-      this.state = {
-        user: null, userLevel: 0, allEmployees: [], filteredEmployees: [],
-        cabangs: [], currentPeriod: '', stats: { totalCoaching: 0, belumCoaching: 0, sudahCoachingBelumUpdate: 0, sudahCoachingSudahUpdate: 0 },
-        sort: { column: null, direction: 'asc' }, filter: { cabang: '', search: '' },
-        isLoading: false, initDone: false, currentPage: 'dashboard',
-        allKaryawan: [], filteredKaryawan: [], karyawanSort: { column: null, direction: 'asc' },
-        karyawanFilter: '', deleteTarget: null
-      };
-      document.getElementById('npkInput').value = '';
-    },
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('open');
+        }
 
-    checkAccess: function(accessRules) {
-      var user = this.state.user;
-      if (!user) return false;
-      if (accessRules.indexOf('owner') !== -1 && user.npk === '1025825') return true;
-      if (accessRules.indexOf('direksi') !== -1 && user.jabatan && user.jabatan.toLowerCase().indexOf('direksi') !== -1) return true;
-      if (accessRules.indexOf('hr') !== -1 && user.jabatan && user.jabatan.toLowerCase().indexOf('hr') !== -1) return true;
-      if (accessRules.indexOf('level4') !== -1 && this.state.userLevel >= 4) return true;
-      if (accessRules.indexOf('all') !== -1) return true;
-      return false;
-    },
+        // ==================== DASHBOARD - FIXED ====================
+        function loadDashboard() {
+            showLoading('Memuat dashboard...');
+            google.script.run
+                .withSuccessHandler(function(result) {
+                    hideLoading();
+                    if (result.success) {
+                        renderDashboard(result.data);
+                    } else {
+                        showToast(result.message, 'error');
+                    }
+                })
+                .withFailureHandler(function(error) {
+                    hideLoading();
+                    showToast('Gagal memuat dashboard: ' + error.message, 'error');
+                    console.error('Dashboard error:', error);
+                })
+                .getInitialData();
+        }
 
-    renderSidebar: function() {
-      var menuContainer = document.getElementById('sidebarMenu');
-      menuContainer.innerHTML = '';
+        function renderDashboard(data) {
+            document.getElementById('currentPeriod').textContent = data.currentPeriod || '-';
+            document.getElementById('statTotal').textContent = data.totalCoaching || 0;
+            document.getElementById('statBelum').textContent = data.belumCoaching || 0;
+            document.getElementById('statBelumUpdate').textContent = data.sudahCoachingBelumUpdate || 0;
+            document.getElementById('statSudahUpdate').textContent = data.sudahCoachingSudahUpdate || 0;
 
-      var user = this.state.user;
-      if (user) {
-        document.getElementById('sidebarUserName').textContent = user.nama || user.npk;
-        document.getElementById('userAvatar').textContent = (user.nama || 'U').charAt(0).toUpperCase();
-        var levelLabels = { 4: 'Admin', 3: 'Regional', 2: 'Cabang', 1: 'Karyawan' };
-        document.getElementById('sidebarUserRole').textContent = levelLabels[this.state.userLevel] || 'User';
-      }
+            dashboardData = data.employees || [];
+            
+            // Populate cabang filter
+            const cabangSelect = document.getElementById('filterCabang');
+            cabangSelect.innerHTML = '<option value="">Semua Cabang</option>';
+            if (data.cabangs && Array.isArray(data.cabangs)) {
+                data.cabangs.forEach(function(cabang) {
+                    if (cabang) {
+                        const option = document.createElement('option');
+                        option.value = cabang;
+                        option.textContent = cabang;
+                        cabangSelect.appendChild(option);
+                    }
+                });
+            }
 
-      for (var s = 0; s < this.menuConfig.length; s++) {
-        var section = this.menuConfig[s];
-        if (!this.checkAccess(section.access)) continue;
+            renderDashboardTable(dashboardData);
+        }
 
-        var sectionEl = document.createElement('div');
-        sectionEl.className = 'menu-section';
+        function renderDashboardTable(employees) {
+            const tbody = document.getElementById('dashboardTableBody');
+            if (!employees || employees.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" class="empty-state"><span class="material-icons">inbox</span><h3>Tidak ada data karyawan</h3></td></tr>';
+                return;
+            }
 
-        var labelEl = document.createElement('div');
-        labelEl.className = 'menu-label';
-        labelEl.textContent = section.label;
-        sectionEl.appendChild(labelEl);
+            let html = '';
+            employees.forEach(function(emp) {
+                // FIX: Handle undefined values with fallback
+                const npk = emp.npk || '-';
+                const nama = emp.nama || '-';
+                const jabatan = emp.jabatan || '-';
+                const cabang = emp.cabang || '-';
+                
+                let statusBadge = '';
+                if (emp.status === 'BELUM_COACHING') statusBadge = '<span class="badge badge-danger">Belum Coaching</span>';
+                else if (emp.status === 'BELUM_UPDATE') statusBadge = '<span class="badge badge-warning">Belum Update</span>';
+                else if (emp.status === 'SUDAH_UPDATE') statusBadge = '<span class="badge badge-success">Sudah Update</span>';
+                else statusBadge = '<span class="badge badge-info">-</span>';
 
-        for (var i = 0; i < section.items.length; i++) {
-          var item = section.items[i];
-          var itemEl = document.createElement('div');
-          itemEl.className = 'menu-item';
-          itemEl.setAttribute('data-page', item.page);
-          itemEl.setAttribute('data-id', item.id);
-          if (item.id === this.state.currentPage) itemEl.classList.add('active');
-          itemEl.innerHTML = '<span class="material-icons">' + item.icon + '</span><span>' + item.label + '</span>';
-          
-          (function(itemId, pageId) {
-            itemEl.addEventListener('click', function() {
-              app.navigateTo(itemId, pageId);
+                let actionBtn = '';
+                if (emp.status === 'BELUM_COACHING') {
+                    actionBtn = '<button class="action-btn edit" onclick="quickCoaching(\'' + npk + '\')" title="Buat Coaching"><span class="material-icons">add_circle</span></button>';
+                } else if (emp.coaching_id) {
+                    actionBtn = '<button class="action-btn view" onclick="viewCoaching(\'' + emp.coaching_id + '\')" title="Lihat Detail"><span class="material-icons">visibility</span></button>';
+                }
+
+                html += '<tr>' +
+                    '<td>' + npk + '</td>' +
+                    '<td>' + nama + '</td>' +
+                    '<td>' + jabatan + '</td>' +
+                    '<td>' + cabang + '</td>' +
+                    '<td>' + statusBadge + '</td>' +
+                    '<td><div class="action-btns">' + actionBtn + '</div></td>' +
+                    '</tr>';
             });
-          })(item.id, item.page);
-          
-          sectionEl.appendChild(itemEl);
+            tbody.innerHTML = html;
         }
 
-        menuContainer.appendChild(sectionEl);
-      }
-    },
-
-    navigateTo: function(pageId, pageSectionId) {
-      this.state.currentPage = pageId;
-      var items = document.querySelectorAll('.menu-item');
-      for (var i = 0; i < items.length; i++) {
-        items[i].classList.remove('active');
-        if (items[i].getAttribute('data-id') === pageId) items[i].classList.add('active');
-      }
-      var sections = document.querySelectorAll('.page-section');
-      for (var i = 0; i < sections.length; i++) sections[i].classList.remove('active');
-      document.getElementById(pageSectionId).classList.add('active');
-      this.updatePageTitle(pageId);
-
-      if (pageId === 'dashboard' && this.state.initDone) {
-        this.renderDashboard();
-        this.renderTable();
-      } else if (pageId === 'dataKaryawan') {
-        this.loadKaryawanData();
-      }
-    },
-
-    updatePageTitle: function(pageId) {
-      var titles = {
-        'dashboard': { icon: 'dashboard', text: 'Dashboard' },
-        'inputCoaching': { icon: 'edit_note', text: 'Input Data Coaching' },
-        'updateCoaching': { icon: 'update', text: 'Update & Follow Up Coaching' },
-        'managementUser': { icon: 'manage_accounts', text: 'Management User ID' },
-        'dataKaryawan': { icon: 'badge', text: 'Data Karyawan' },
-        'reminder': { icon: 'notifications_active', text: 'Reminder' },
-        'previewChat': { icon: 'chat', text: 'Preview Coaching Chat' },
-        'download': { icon: 'download', text: 'Download Data' }
-      };
-      var t = titles[pageId] || { icon: 'dashboard', text: 'Dashboard' };
-      document.getElementById('pageTitle').innerHTML = '<span class="material-icons">' + t.icon + '</span>' + t.text;
-    },
-
-    loadInitialData: function() {
-      if (this.state.isLoading) return;
-      this.showLoading('Memuat data...');
-      this.state.isLoading = true;
-
-      google.script.run
-        .withSuccessHandler(function(result) {
-          app.state.isLoading = false;
-          app.hideLoading();
-          if (!result.success) {
-            app.showToast(result.message || 'Gagal memuat data', 'error');
-            return;
-          }
-
-          var data = result.data;
-          app.state.user = data.user || app.state.user;
-          app.state.userLevel = data.userLevel || 0;
-          app.state.currentPeriod = data.currentPeriod || '-';
-          app.state.cabangs = data.cabangs || [];
-          app.state.allEmployees = data.employees || [];
-          app.state.filteredEmployees = app.state.allEmployees.slice();
-          app.state.stats = {
-            totalCoaching: data.totalCoaching || 0,
-            belumCoaching: data.belumCoaching || 0,
-            sudahCoachingBelumUpdate: data.sudahCoachingBelumUpdate || 0,
-            sudahCoachingSudahUpdate: data.sudahCoachingSudahUpdate || 0
-          };
-          app.state.initDone = true;
-
-          app.renderSidebar();
-          app.renderCabangFilter();
-          app.renderDashboard();
-          app.renderTable();
-        })
-        .withFailureHandler(function() {
-          app.state.isLoading = false;
-          app.hideLoading();
-          app.showToast('Gagal memuat data', 'error');
-        })
-        .getInitialData();
-    },
-
-    renderCabangFilter: function() {
-      var select = document.getElementById('cabangFilter');
-      var val = select.value;
-      select.innerHTML = '<option value="">Semua Cabang</option>';
-      for (var i = 0; i < this.state.cabangs.length; i++) {
-        var c = this.state.cabangs[i];
-        if (c && c.trim()) {
-          var opt = document.createElement('option');
-          opt.value = c;
-          opt.textContent = c;
-          select.appendChild(opt);
+        function filterDashboard() {
+            const cabang = document.getElementById('filterCabang').value;
+            const search = document.getElementById('searchKaryawan').value.toLowerCase();
+            
+            let filtered = dashboardData.filter(function(emp) {
+                const matchCabang = !cabang || emp.cabang === cabang;
+                const matchSearch = !search || 
+                    (emp.nama && emp.nama.toLowerCase().includes(search)) || 
+                    (emp.npk && emp.npk.toLowerCase().includes(search));
+                return matchCabang && matchSearch;
+            });
+            
+            renderDashboardTable(filtered);
         }
-      }
-      if (val && this.state.cabangs.indexOf(val) !== -1) select.value = val;
-    },
 
-    renderDashboard: function() {
-      this.animateCounter('statTotal', this.state.stats.totalCoaching);
-      this.animateCounter('statBelumUpdate', this.state.stats.sudahCoachingBelumUpdate);
-      this.animateCounter('statSudahUpdate', this.state.stats.sudahCoachingSudahUpdate);
-      this.animateCounter('statBelumCoaching', this.state.stats.belumCoaching);
-      document.getElementById('periodTotal').textContent = 'Periode: ' + this.state.currentPeriod;
-    },
+        function sortTable(field) {
+            sortDirection[field] = !sortDirection[field];
+            dashboardData.sort(function(a, b) {
+                let valA = (a[field] || '').toString().toLowerCase();
+                let valB = (b[field] || '').toString().toLowerCase();
+                if (valA < valB) return sortDirection[field] ? -1 : 1;
+                if (valA > valB) return sortDirection[field] ? 1 : -1;
+                return 0;
+            });
+            renderDashboardTable(dashboardData);
+        }
 
-    animateCounter: function(elementId, targetValue) {
-      var element = document.getElementById(elementId);
-      var startValue = parseInt(element.textContent) || 0;
-      var duration = 600;
-      var startTime = performance.now();
+        // ==================== INPUT COACHING ====================
+        function loadCabangOptions() {
+            google.script.run
+                .withSuccessHandler(function(result) {
+                    if (result.success && result.data && result.data.cabangs) {
+                        const select = document.getElementById('inputCabang');
+                        select.innerHTML = '<option value="">Pilih Cabang</option>';
+                        result.data.cabangs.forEach(function(cabang) {
+                            if (cabang) {
+                                const option = document.createElement('option');
+                                option.value = cabang;
+                                option.textContent = cabang;
+                                select.appendChild(option);
+                            }
+                        });
+                        
+                        // Also populate export cabang
+                        const exportSelect = document.getElementById('exportCabang');
+                        if (exportSelect) {
+                            exportSelect.innerHTML = '<option value="">Semua Cabang</option>';
+                            result.data.cabangs.forEach(function(cabang) {
+                                if (cabang) {
+                                    const option = document.createElement('option');
+                                    option.value = cabang;
+                                    option.textContent = cabang;
+                                    exportSelect.appendChild(option);
+                                }
+                            });
+                        }
+                    }
+                })
+                .getInitialData();
+        }
 
-      function animate(currentTime) {
-        var elapsed = currentTime - startTime;
-        var progress = Math.min(elapsed / duration, 1);
-        var easeProgress = 1 - Math.pow(1 - progress, 3);
-        var currentValue = Math.floor(startValue + (targetValue - startValue) * easeProgress);
-        element.textContent = currentValue.toLocaleString('id-ID');
-        if (progress < 1) requestAnimationFrame(animate);
-      }
-      requestAnimationFrame(animate);
-    },
+        function loadInputCabang() {
+            loadCabangOptions();
+        }
 
-    renderTable: function() {
-      var tbody = document.getElementById('tableBody');
-      var empty = document.getElementById('emptyState');
-      var count = document.getElementById('tableCount');
-      tbody.innerHTML = '';
-      var c = this.state.filteredEmployees.length;
-      count.textContent = c + ' karyawan';
-      if (c === 0) { empty.classList.remove('hidden'); return; }
-      empty.classList.add('hidden');
+        function loadCoachees() {
+            const cabang = document.getElementById('inputCabang').value;
+            if (!cabang) return;
+            
+            showLoading('Memuat karyawan...');
+            google.script.run
+                .withSuccessHandler(function(result) {
+                    hideLoading();
+                    const select = document.getElementById('inputCoachee');
+                    select.innerHTML = '<option value="">Pilih Karyawan</option>';
+                    if (result.success && result.data) {
+                        result.data.forEach(function(emp) {
+                            const option = document.createElement('option');
+                            option.value = emp.npk;
+                            option.textContent = emp.nama + ' (' + emp.npk + ')';
+                            select.appendChild(option);
+                        });
+                    }
+                })
+                .getAvailableCoachees(cabang);
+        }
 
-      for (var i = 0; i < this.state.filteredEmployees.length; i++) {
-        var emp = this.state.filteredEmployees[i];
-        var badgeClass = 'badge-gray';
-        var badgeText = 'Belum Coaching';
-        if (emp.status === 'SUDAH_UPDATE') { badgeClass = 'badge-success'; badgeText = 'Sudah Update'; }
-        else if (emp.status === 'BELUM_UPDATE') { badgeClass = 'badge-warning'; badgeText = 'Belum Update'; }
-        else if (emp.status === 'BELUM_COACHING') { badgeClass = 'badge-danger'; badgeText = 'Belum Coaching'; }
+        function saveCoaching() {
+            const data = {
+                coachee_npk: document.getElementById('inputCoachee').value,
+                cabang: document.getElementById('inputCabang').value,
+                root_cause: document.getElementById('inputRootCause').value,
+                topic: document.getElementById('inputTopic').value,
+                target_date: document.getElementById('inputTargetDate').value
+            };
 
-        var row = document.createElement('tr');
-        row.innerHTML = '<td><strong>' + this.escapeHtml(emp.npk) + '</strong></td>' +
-          '<td>' + this.escapeHtml(emp.nama) + '</td>' +
-          '<td>' + this.escapeHtml(emp.jabatan) + '</td>' +
-          '<td>' + this.escapeHtml(emp.cabang) + '</td>' +
-          '<td><span class="badge ' + badgeClass + '"><span class="badge-dot"></span>' + badgeText + '</span></td>' +
-          '<td><button class="btn btn-primary btn-sm" onclick="app.viewDetail(\'' + emp.npk + '\')"><span class="material-icons" style="font-size:16px">visibility</span>Detail</button></td>';
-        tbody.appendChild(row);
-      }
-    },
+            if (!data.coachee_npk || !data.cabang || !data.root_cause || !data.topic) {
+                showToast('Semua field wajib diisi!', 'error');
+                return;
+            }
 
-    handleCabangChange: function() {
-      this.state.filter.cabang = document.getElementById('cabangFilter').value;
-      this.applyFilters();
-    },
+            showLoading('Menyimpan coaching...');
+            google.script.run
+                .withSuccessHandler(function(result) {
+                    hideLoading();
+                    if (result.success) {
+                        showToast('Coaching berhasil dibuat!');
+                        resetFormCoaching();
+                        showSection('dashboard', document.querySelector('[onclick*="dashboard"]'));
+                        loadDashboard();
+                    } else {
+                        showToast(result.message, 'error');
+                    }
+                })
+                .withFailureHandler(function(error) {
+                    hideLoading();
+                    showToast('Gagal menyimpan coaching', 'error');
+                })
+                .saveCoachingHeader(data);
+        }
 
-    handleSearch: function(query) {
-      this.state.filter.search = query.toLowerCase().trim();
-      this.applyFilters();
-    },
+        function resetFormCoaching() {
+            document.getElementById('inputCabang').value = '';
+            document.getElementById('inputCoachee').innerHTML = '<option value="">Pilih Karyawan</option>';
+            document.getElementById('inputRootCause').value = '';
+            document.getElementById('inputTopic').value = '';
+            document.getElementById('inputTargetDate').value = '';
+        }
 
-    applyFilters: function() {
-      var result = this.state.allEmployees.slice();
-      if (this.state.filter.cabang) result = result.filter(function(e) { return e.cabang === app.state.filter.cabang; });
-      if (this.state.filter.search) {
-        var s = this.state.filter.search;
-        result = result.filter(function(e) {
-          return (e.npk || '').toLowerCase().indexOf(s) !== -1 ||
-            (e.nama || '').toLowerCase().indexOf(s) !== -1 ||
-            (e.jabatan || '').toLowerCase().indexOf(s) !== -1 ||
-            (e.cabang || '').toLowerCase().indexOf(s) !== -1 ||
-            (e.status || '').toLowerCase().indexOf(s) !== -1;
+        function quickCoaching(npk) {
+            showSection('input-coaching', document.querySelector('[onclick*="input-coaching"]'));
+            // Auto-fill akan dilakukan setelah load
+        }
+
+        // ==================== UPDATE COACHING ====================
+        function loadWeeks() {
+            google.script.run
+                .withSuccessHandler(function(result) {
+                    if (result.success && result.data) {
+                        const select = document.getElementById('updateWeek');
+                        select.innerHTML = '<option value="">Pilih Minggu</option>';
+                        result.data.forEach(function(week) {
+                            const option = document.createElement('option');
+                            option.value = week;
+                            option.textContent = week;
+                            select.appendChild(option);
+                        });
+                    }
+                })
+                .getWeeksList();
+        }
+
+        function searchCoaching() {
+            const coachingId = document.getElementById('searchCoachingId').value;
+            if (!coachingId) {
+                showToast('Masukkan Coaching ID', 'error');
+                return;
+            }
+            loadCoachingDetail(coachingId);
+        }
+
+        function loadCoachingDetail(coachingId) {
+            showLoading('Memuat detail coaching...');
+            google.script.run
+                .withSuccessHandler(function(result) {
+                    hideLoading();
+                    if (result.success) {
+                        renderCoachingDetail(result.data);
+                    } else {
+                        showToast(result.message, 'error');
+                    }
+                })
+                .withFailureHandler(function(error) {
+                    hideLoading();
+                    showToast('Gagal memuat detail', 'error');
+                })
+                .getCoachingDetail(coachingId);
+        }
+
+        function renderCoachingDetail(data) {
+            currentCoachingId = data.header.coaching_id;
+            document.getElementById('coachingDetailContainer').style.display = 'block';
+            
+            document.getElementById('detailCoach').value = (data.header.coach_nama || '-') + ' (' + (data.header.coach_npk || '-') + ')';
+            document.getElementById('detailCoachee').value = (data.header.coachee_nama || '-') + ' (' + (data.header.coachee_npk || '-') + ')';
+            document.getElementById('detailRootCause').value = data.header.root_cause || '-';
+            document.getElementById('detailTopic').value = data.header.topic || '-';
+            
+            const statusBadge = document.getElementById('detailStatus');
+            statusBadge.textContent = data.header.display_status || 'ON PROGRESS';
+            statusBadge.className = 'badge ' + 
+                (data.header.display_status === 'DONE' ? 'badge-success' : 
+                 data.header.display_status === 'OVERDUE' ? 'badge-danger' : 'badge-warning');
+
+            const tbody = document.getElementById('historyTableBody');
+            if (!data.details || data.details.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" class="empty-state">Belum ada update</td></tr>';
+            } else {
+                let html = '';
+                data.details.forEach(function(d) {
+                    html += '<tr>' +
+                        '<td>' + (d.week || '-') + '</td>' +
+                        '<td>' + (d.action || '-') + '</td>' +
+                        '<td>' + (d.result || '-') + '</td>' +
+                        '<td>' + (d.feedback || '-') + '</td>' +
+                        '<td>' + (d.update_date || '-') + '</td>' +
+                        '</tr>';
+                });
+                tbody.innerHTML = html;
+            }
+        }
+
+        function saveUpdate() {
+            const data = {
+                coaching_id: currentCoachingId,
+                week: document.getElementById('updateWeek').value,
+                action: document.getElementById('updateAction').value,
+                how: document.getElementById('updateHow').value,
+                result: document.getElementById('updateResult').value,
+                feedback: document.getElementById('updateFeedback').value,
+                target_nominal: document.getElementById('updateTargetNominal').value,
+                target_satuan: document.getElementById('updateTargetSatuan').value
+            };
+
+            if (!data.week || !data.action) {
+                showToast('Minggu dan Action wajib diisi!', 'error');
+                return;
+            }
+
+            showLoading('Menyimpan update...');
+            google.script.run
+                .withSuccessHandler(function(result) {
+                    hideLoading();
+                    if (result.success) {
+                        showToast('Update berhasil disimpan!');
+                        loadCoachingDetail(currentCoachingId);
+                        document.getElementById('updateAction').value = '';
+                        document.getElementById('updateHow').value = '';
+                        document.getElementById('updateResult').value = '';
+                        document.getElementById('updateFeedback').value = '';
+                    } else {
+                        showToast(result.message, 'error');
+                    }
+                })
+                .saveCoachingDetail(data);
+        }
+
+        function completeCoaching() {
+            if (!confirm('Yakin ingin menyelesaikan coaching ini?')) return;
+            
+            showLoading('Menyelesaikan coaching...');
+            google.script.run
+                .withSuccessHandler(function(result) {
+                    hideLoading();
+                    if (result.success) {
+                        showToast('Coaching berhasil diselesaikan!');
+                        loadCoachingDetail(currentCoachingId);
+                        loadDashboard();
+                    } else {
+                        showToast(result.message, 'error');
+                    }
+                })
+                .completeCoaching(currentCoachingId);
+        }
+
+        function viewCoaching(coachingId) {
+            showSection('update-coaching', document.querySelector('[onclick*="update-coaching"]'));
+            document.getElementById('searchCoachingId').value = coachingId;
+            loadCoachingDetail(coachingId);
+        }
+                // ==================== MANAGEMENT USER ====================
+        function loadUsers() {
+            showLoading('Memuat data user...');
+            google.script.run
+                .withSuccessHandler(function(result) {
+                    hideLoading();
+                    if (result.success) {
+                        userData = result.data || [];
+                        renderUserTable(userData);
+                    } else {
+                        showToast(result.message, 'error');
+                    }
+                })
+                .withFailureHandler(function(error) {
+                    hideLoading();
+                    showToast('Gagal memuat data user', 'error');
+                })
+                .getAllUsers();
+        }
+
+        function renderUserTable(users) {
+            const tbody = document.getElementById('userTableBody');
+            if (!users || users.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" class="empty-state"><span class="material-icons">people_outline</span><h3>Tidak ada data user</h3></td></tr>';
+                return;
+            }
+
+            let html = '';
+            users.forEach(function(u) {
+                const statusBadge = u.status === 'Active' ? 
+                    '<span class="badge badge-success">Active</span>' : 
+                    '<span class="badge badge-danger">Inactive</span>';
+                
+                const roleBadge = u.role === 'Admin' ? 
+                    '<span class="badge badge-danger">Admin</span>' : 
+                    u.role === 'Direksi' ? 
+                    '<span class="badge badge-warning">Direksi</span>' : 
+                    u.role === 'HR' ? 
+                    '<span class="badge badge-info">HR</span>' : 
+                    '<span class="badge badge-info">User</span>';
+
+                html += '<tr>' +
+                    '<td>' + (u.npk || '-') + '</td>' +
+                    '<td>' + (u.nama || '-') + '</td>' +
+                    '<td>' + roleBadge + '</td>' +
+                    '<td>' + statusBadge + '</td>' +
+                    '<td>' + (u.created_at || '-') + '</td>' +
+                    '<td>' +
+                        '<div class="action-btns">' +
+                            '<button class="action-btn edit" onclick="editUser(\'' + u.npk + '\')" title="Edit"><span class="material-icons">edit</span></button>' +
+                            '<button class="action-btn delete" onclick="deleteUserConfirm(\'' + u.npk + '\')" title="Hapus"><span class="material-icons">delete</span></button>' +
+                        '</div>' +
+                    '</td>' +
+                    '</tr>';
+            });
+            tbody.innerHTML = html;
+        }
+
+        function filterUsers() {
+            const search = document.getElementById('searchUser').value.toLowerCase();
+            const role = document.getElementById('filterUserRole').value;
+            const status = document.getElementById('filterUserStatus').value;
+
+            let filtered = userData.filter(function(u) {
+                const matchSearch = !search || 
+                    (u.nama && u.nama.toLowerCase().includes(search)) || 
+                    (u.npk && u.npk.toLowerCase().includes(search));
+                const matchRole = !role || u.role === role;
+                const matchStatus = !status || u.status === status;
+                return matchSearch && matchRole && matchStatus;
+            });
+
+            renderUserTable(filtered);
+        }
+
+        function sortUserTable(field) {
+            sortDirection[field] = !sortDirection[field];
+            userData.sort(function(a, b) {
+                let valA = (a[field] || '').toString().toLowerCase();
+                let valB = (b[field] || '').toString().toLowerCase();
+                if (valA < valB) return sortDirection[field] ? -1 : 1;
+                if (valA > valB) return sortDirection[field] ? 1 : -1;
+                return 0;
+            });
+            renderUserTable(userData);
+        }
+
+        function openUserModal() {
+            document.getElementById('userModalTitle').textContent = 'Tambah User';
+            document.getElementById('userNpkOld').value = '';
+            document.getElementById('userNpk').value = '';
+            document.getElementById('userNama').value = '';
+            document.getElementById('userRole').value = 'User';
+            document.getElementById('userStatus').value = 'Active';
+            document.getElementById('userNpk').readOnly = false;
+            document.getElementById('userModal').classList.add('active');
+        }
+
+        function editUser(npk) {
+            const user = userData.find(function(u) { return u.npk === npk; });
+            if (!user) return;
+
+            document.getElementById('userModalTitle').textContent = 'Edit User';
+            document.getElementById('userNpkOld').value = user.npk;
+            document.getElementById('userNpk').value = user.npk;
+            document.getElementById('userNama').value = user.nama;
+            document.getElementById('userRole').value = user.role;
+            document.getElementById('userStatus').value = user.status;
+            document.getElementById('userNpk').readOnly = true;
+            document.getElementById('userModal').classList.add('active');
+        }
+
+        function closeUserModal() {
+            document.getElementById('userModal').classList.remove('active');
+        }
+
+        function saveUserForm() {
+            const data = {
+                npk: document.getElementById('userNpk').value,
+                nama: document.getElementById('userNama').value,
+                role: document.getElementById('userRole').value,
+                status: document.getElementById('userStatus').value
+            };
+
+            if (!data.npk || !data.nama) {
+                showToast('NPK dan Nama wajib diisi!', 'error');
+                return;
+            }
+
+            showLoading('Menyimpan user...');
+            google.script.run
+                .withSuccessHandler(function(result) {
+                    hideLoading();
+                    if (result.success) {
+                        showToast(result.message);
+                        closeUserModal();
+                        loadUsers();
+                    } else {
+                        showToast(result.message, 'error');
+                    }
+                })
+                .saveUser(data);
+        }
+
+        function deleteUserConfirm(npk) {
+            if (!confirm('Yakin ingin menghapus user ' + npk + '?')) return;
+            
+            showLoading('Menghapus user...');
+            google.script.run
+                .withSuccessHandler(function(result) {
+                    hideLoading();
+                    if (result.success) {
+                        showToast(result.message);
+                        loadUsers();
+                    } else {
+                        showToast(result.message, 'error');
+                    }
+                })
+                .deleteUser(npk);
+        }
+
+        // ==================== DATA KARYAWAN ADMIN ====================
+        function loadKaryawanAdmin() {
+            showLoading('Memuat data karyawan...');
+            google.script.run
+                .withSuccessHandler(function(result) {
+                    hideLoading();
+                    if (result.success) {
+                        karyawanData = result.data || [];
+                        
+                        // Populate cabang filter
+                        const cabangs = [...new Set(karyawanData.map(function(k) { return k.cabang; }))].sort();
+                        const select = document.getElementById('filterCabangAdmin');
+                        select.innerHTML = '<option value="">Semua Cabang</option>';
+                        cabangs.forEach(function(c) {
+                            if (c) {
+                                const option = document.createElement('option');
+                                option.value = c;
+                                option.textContent = c;
+                                select.appendChild(option);
+                            }
+                        });
+
+                        renderKaryawanTable(karyawanData);
+                    } else {
+                        showToast(result.message, 'error');
+                    }
+                })
+                .getAllKaryawan();
+        }
+
+        function renderKaryawanTable(data) {
+            const tbody = document.getElementById('karyawanTableBody');
+            if (!data || data.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="8" class="empty-state"><span class="material-icons">people_outline</span><h3>Tidak ada data karyawan</h3></td></tr>';
+                return;
+            }
+
+            let html = '';
+            data.forEach(function(k) {
+                html += '<tr>' +
+                    '<td>' + (k.npk || '-') + '</td>' +
+                    '<td>' + (k.nama || '-') + '</td>' +
+                    '<td>' + (k.jabatan || '-') + '</td>' +
+                    '<td>' + (k.cl || '-') + '</td>' +
+                    '<td>' + (k.cabang || '-') + '</td>' +
+                    '<td>' + (k.region || '-') + '</td>' +
+                    '<td>' + (k.atasan_npk || '-') + '</td>' +
+                    '<td>' +
+                        '<div class="action-btns">' +
+                            '<button class="action-btn edit" onclick="editKaryawan(\'' + k.npk + '\')" title="Edit"><span class="material-icons">edit</span></button>' +
+                            '<button class="action-btn delete" onclick="deleteKaryawanConfirm(\'' + k.npk + '\')" title="Hapus"><span class="material-icons">delete</span></button>' +
+                        '</div>' +
+                    '</td>' +
+                    '</tr>';
+            });
+            tbody.innerHTML = html;
+        }
+
+        function filterKaryawanAdmin() {
+            const search = document.getElementById('searchKaryawanAdmin').value.toLowerCase();
+            const cabang = document.getElementById('filterCabangAdmin').value;
+
+            let filtered = karyawanData.filter(function(k) {
+                const matchSearch = !search || 
+                    (k.nama && k.nama.toLowerCase().includes(search)) || 
+                    (k.npk && k.npk.toLowerCase().includes(search));
+                const matchCabang = !cabang || k.cabang === cabang;
+                return matchSearch && matchCabang;
+            });
+
+            renderKaryawanTable(filtered);
+        }
+
+        function sortKaryawanTable(field) {
+            sortDirection[field] = !sortDirection[field];
+            karyawanData.sort(function(a, b) {
+                let valA = (a[field] || '').toString().toLowerCase();
+                let valB = (b[field] || '').toString().toLowerCase();
+                if (valA < valB) return sortDirection[field] ? -1 : 1;
+                if (valA > valB) return sortDirection[field] ? 1 : -1;
+                return 0;
+            });
+            renderKaryawanTable(karyawanData);
+        }
+
+        function openKaryawanModal() {
+            document.getElementById('karyawanModalTitle').textContent = 'Tambah Karyawan';
+            document.getElementById('karyawanNpkOld').value = '';
+            document.getElementById('karyawanNpk').value = '';
+            document.getElementById('karyawanNama').value = '';
+            document.getElementById('karyawanJabatan').value = '';
+            document.getElementById('karyawanCl').value = '5';
+            document.getElementById('karyawanCabang').value = '';
+            document.getElementById('karyawanRegion').value = '';
+            document.getElementById('karyawanAtasan').value = '';
+            document.getElementById('karyawanEmail').value = '';
+            document.getElementById('karyawanHp').value = '';
+            document.getElementById('karyawanNpk').readOnly = false;
+            document.getElementById('karyawanModal').classList.add('active');
+        }
+
+        function editKaryawan(npk) {
+            const k = karyawanData.find(function(item) { return item.npk === npk; });
+            if (!k) return;
+
+            document.getElementById('karyawanModalTitle').textContent = 'Edit Karyawan';
+            document.getElementById('karyawanNpkOld').value = k.npk;
+            document.getElementById('karyawanNpk').value = k.npk;
+            document.getElementById('karyawanNama').value = k.nama;
+            document.getElementById('karyawanJabatan').value = k.jabatan;
+            document.getElementById('karyawanCl').value = k.cl;
+            document.getElementById('karyawanCabang').value = k.cabang;
+            document.getElementById('karyawanRegion').value = k.region;
+            document.getElementById('karyawanAtasan').value = k.atasan_npk;
+            document.getElementById('karyawanEmail').value = k.email;
+            document.getElementById('karyawanHp').value = k.no_hp;
+            document.getElementById('karyawanNpk').readOnly = true;
+            document.getElementById('karyawanModal').classList.add('active');
+        }
+
+        function closeKaryawanModal() {
+            document.getElementById('karyawanModal').classList.remove('active');
+        }
+
+        function saveKaryawanForm() {
+            const data = {
+                npk: document.getElementById('karyawanNpk').value,
+                nama: document.getElementById('karyawanNama').value,
+                jabatan: document.getElementById('karyawanJabatan').value,
+                cl: parseInt(document.getElementById('karyawanCl').value) || 5,
+                cabang: document.getElementById('karyawanCabang').value,
+                region: document.getElementById('karyawanRegion').value,
+                atasan_npk: document.getElementById('karyawanAtasan').value,
+                email: document.getElementById('karyawanEmail').value,
+                no_hp: document.getElementById('karyawanHp').value
+            };
+
+            if (!data.npk || !data.nama) {
+                showToast('NPK dan Nama wajib diisi!', 'error');
+                return;
+            }
+
+            showLoading('Menyimpan karyawan...');
+            google.script.run
+                .withSuccessHandler(function(result) {
+                    hideLoading();
+                    if (result.success) {
+                        showToast(result.message);
+                        closeKaryawanModal();
+                        loadKaryawanAdmin();
+                    } else {
+                        showToast(result.message, 'error');
+                    }
+                })
+                .saveKaryawan(data);
+        }
+
+        function deleteKaryawanConfirm(npk) {
+            if (!confirm('Yakin ingin menghapus karyawan ' + npk + '?')) return;
+            
+            showLoading('Menghapus karyawan...');
+            google.script.run
+                .withSuccessHandler(function(result) {
+                    hideLoading();
+                    if (result.success) {
+                        showToast(result.message);
+                        loadKaryawanAdmin();
+                    } else {
+                        showToast(result.message, 'error');
+                    }
+                })
+                .deleteKaryawan(npk);
+        }
+
+        // ==================== REMINDER & EXPORT ====================
+        function sendReminder(channel) {
+            const data = {
+                coaching_id: document.getElementById('reminderCoachingId').value,
+                message: document.getElementById('reminderMessage').value
+            };
+
+            if (!data.coaching_id) {
+                showToast('Masukkan Coaching ID!', 'error');
+                return;
+            }
+
+            showLoading('Mengirim reminder ' + channel + '...');
+            const func = channel === 'email' ? 'sendReminderEmail' : 'sendReminderWA';
+            
+            google.script.run
+                .withSuccessHandler(function(result) {
+                    hideLoading();
+                    if (result.success) {
+                        showToast(result.message);
+                        resetReminder();
+                    } else {
+                        showToast(result.message, 'error');
+                    }
+                })
+                [func](data);
+        }
+
+        function resetReminder() {
+            document.getElementById('reminderCoachingId').value = '';
+            document.getElementById('reminderMessage').value = '';
+        }
+
+        function exportCoaching() {
+            const filters = {
+                cabang: document.getElementById('exportCabang').value,
+                status: document.getElementById('exportStatus').value
+            };
+
+            showLoading('Mengekspor data coaching...');
+            google.script.run
+                .withSuccessHandler(function(result) {
+                    hideLoading();
+                    if (result.success) {
+                        showToast(result.message + ' - URL: ' + result.download_url);
+                        window.open(result.download_url, '_blank');
+                    } else {
+                        showToast(result.message, 'error');
+                    }
+                })
+                .exportCoachingToExcel(filters);
+        }
+
+        function exportKaryawan() {
+            showLoading('Mengekspor data karyawan...');
+            google.script.run
+                .withSuccessHandler(function(result) {
+                    hideLoading();
+                    if (result.success) {
+                        showToast(result.message + ' - URL: ' + result.download_url);
+                        window.open(result.download_url, '_blank');
+                    } else {
+                        showToast(result.message, 'error');
+                    }
+                })
+                .exportKaryawanToExcel();
+        }
+
+        // ==================== LOGIN MODAL ====================
+        function showLoginModal() {
+            document.body.innerHTML = `
+                <div style="min-height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#f1f5f9,#e2e8f0);padding:20px;">
+                    <div style="width:100%;max-width:400px;background:#ffffff;border:1px solid #e2e8f0;border-radius:16px;padding:40px;box-shadow:0 25px 50px rgba(0,0,0,0.1);">
+                        <div style="text-align:center;margin-bottom:32px;">
+                            <div style="width:64px;height:64px;background:linear-gradient(135deg,#2563eb,#1d4ed8);border-radius:16px;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;">
+                                <span class="material-icons" style="color:white;font-size:32px;">groups</span>
+                            </div>
+                            <h1 style="font-size:24px;font-weight:700;color:#0f172a;margin-bottom:8px;">Coaching System</h1>
+                            <p style="font-size:13px;color:#64748b;">Masukkan NPK untuk mengakses sistem</p>
+                        </div>
+                        <div style="margin-bottom:20px;">
+                            <label style="display:block;font-size:12px;font-weight:600;color:#475569;margin-bottom:6px;text-transform:uppercase;">NPK</label>
+                            <input type="text" id="loginNpk" placeholder="Masukkan NPK..." style="width:100%;background:#ffffff;border:1px solid #cbd5e1;border-radius:8px;padding:12px 16px;color:#334155;font-size:14px;" onkeypress="if(event.key==='Enter')login()">
+                        </div>
+                        <button onclick="login()" style="width:100%;background:linear-gradient(135deg,#2563eb,#1d4ed8);color:white;border:none;border-radius:8px;padding:12px;font-size:14px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;">
+                            <span class="material-icons">login</span>
+                            Masuk
+                        </button>
+                        <div id="loginError" style="margin-top:16px;padding:12px;background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.3);border-radius:8px;color:#dc2626;font-size:13px;display:none;text-align:center;"></div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function login() {
+            const npk = document.getElementById('loginNpk').value;
+            if (!npk) {
+                showLoginError('NPK harus diisi!');
+                return;
+            }
+
+            showLoading('Memverifikasi...');
+            google.script.run
+                .withSuccessHandler(function(result) {
+                    hideLoading();
+                    if (result.success) {
+                        location.reload();
+                    } else {
+                        showLoginError(result.message);
+                    }
+                })
+                .withFailureHandler(function(error) {
+                    hideLoading();
+                    showLoginError('Terjadi kesalahan: ' + error.message);
+                })
+                .loginUser({ npk: npk });
+        }
+
+        function showLoginError(msg) {
+            const err = document.getElementById('loginError');
+            err.textContent = msg;
+            err.style.display = 'block';
+        }
+
+        // Close modal on outside click
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('modal-overlay')) {
+                e.target.classList.remove('active');
+            }
         });
-      }
-      if (this.state.sort.column) result = this.sortData(result, this.state.sort.column, this.state.sort.direction);
-      this.state.filteredEmployees = result;
-      this.renderTable();
-    },
-
-    sort: function(column) {
-      if (this.state.sort.column === column) {
-        this.state.sort.direction = this.state.sort.direction === 'asc' ? 'desc' : 'asc';
-      } else {
-        this.state.sort.column = column;
-        this.state.sort.direction = 'asc';
-      }
-      this.updateSortIcons(column, this.state.sort.direction);
-      this.applyFilters();
-    },
-
-    sortData: function(data, column, direction) {
-      var sorted = data.slice();
-      sorted.sort(function(a, b) {
-        var va = a[column] || '';
-        var vb = b[column] || '';
-        if (typeof va === 'string') va = va.toLowerCase();
-        if (typeof vb === 'string') vb = vb.toLowerCase();
-        if (va < vb) return direction === 'asc' ? -1 : 1;
-        if (va > vb) return direction === 'asc' ? 1 : -1;
-        return 0;
-      });
-      return sorted;
-    },
-
-    updateSortIcons: function(activeColumn, direction) {
-      var headers = document.querySelectorAll('.data-table th');
-      for (var i = 0; i < headers.length; i++) {
-        var th = headers[i];
-        var icon = th.querySelector('.sort-icon');
-        if (!icon) continue;
-        icon.textContent = 'unfold_more';
-        th.classList.remove('sort-asc', 'sort-desc');
-        var onclickAttr = th.getAttribute('onclick') || '';
-        if (onclickAttr.indexOf("'" + activeColumn + "'") !== -1) {
-          th.classList.add(direction === 'asc' ? 'sort-asc' : 'sort-desc');
-          icon.textContent = direction === 'asc' ? 'expand_less' : 'expand_more';
-        }
-      }
-    },
-
-    //==================== KARYAWAN ADMIN ====================
-
-    loadKaryawanData: function() {
-      if (this.state.allKaryawan.length > 0) {
-        this.renderKaryawanTable();
-        return;
-      }
-      this.showLoading('Memuat data karyawan...');
-      google.script.run
-        .withSuccessHandler(function(result) {
-          app.hideLoading();
-          if (!result.success) {
-            app.showToast(result.message || 'Gagal memuat data', 'error');
-            return;
-          }
-          app.state.allKaryawan = result.data || [];
-          app.state.filteredKaryawan = app.state.allKaryawan.slice();
-          app.renderKaryawanTable();
-        })
-        .withFailureHandler(function() {
-          app.hideLoading();
-          app.showToast('Gagal memuat data karyawan', 'error');
-        })
-        .getAllKaryawan();
-    },
-
-    renderKaryawanTable: function() {
-      var tbody = document.getElementById('karyawanTableBody');
-      var empty = document.getElementById('karyawanEmptyState');
-      var count = document.getElementById('karyawanCount');
-      tbody.innerHTML = '';
-      var c = this.state.filteredKaryawan.length;
-      count.textContent = c + ' karyawan';
-      if (c === 0) { empty.classList.remove('hidden'); return; }
-      empty.classList.add('hidden');
-
-      for (var i = 0; i < this.state.filteredKaryawan.length; i++) {
-        var k = this.state.filteredKaryawan[i];
-        var row = document.createElement('tr');
-        row.setAttribute('data-npk', k.npk);
-        row.addEventListener('dblclick', (function(npk) {
-          return function() { app.editKaryawan(npk); };
-        })(k.npk));
-        
-        row.innerHTML = '<td>' + this.escapeHtml(k.npk) + '</td>' +
-          '<td><strong>' + this.escapeHtml(k.nama) + '</strong></td>' +
-          '<td>' + this.escapeHtml(k.jabatan) + '</td>' +
-          '<td>' + this.escapeHtml(k.cl) + '</td>' +
-          '<td>' + this.escapeHtml(k.cabang) + '</td>' +
-          '<td>' + this.escapeHtml(k.region) + '</td>' +
-          '<td>' + this.escapeHtml(k.atasan_npk) + '</td>' +
-          '<td>' +
-          '<div class="action-btns">' +
-          '<button class="btn btn-primary btn-sm btn-icon" onclick="app.editKaryawan(\'' + k.npk + '\')" title="Edit"><span class="material-icons" style="font-size:16px">edit</span></button>' +
-          '<button class="btn btn-danger btn-sm btn-icon" onclick="app.deleteKaryawan(\'' + k.npk + '\')" title="Hapus"><span class="material-icons" style="font-size:16px">delete</span></button>' +
-          '</div></td>';
-        tbody.appendChild(row);
-      }
-    },
-
-    handleKaryawanSearch: function(query) {
-      this.state.karyawanFilter = query.toLowerCase().trim();
-      var result = this.state.allKaryawan.slice();
-      if (this.state.karyawanFilter) {
-        var s = this.state.karyawanFilter;
-        result = result.filter(function(k) {
-          return (k.npk || '').toLowerCase().indexOf(s) !== -1 ||
-            (k.nama || '').toLowerCase().indexOf(s) !== -1 ||
-            (k.jabatan || '').toLowerCase().indexOf(s) !== -1 ||
-            String(k.cl || '').indexOf(s) !== -1 ||
-            (k.cabang || '').toLowerCase().indexOf(s) !== -1 ||
-            (k.region || '').toLowerCase().indexOf(s) !== -1 ||
-            (k.atasan_npk || '').toLowerCase().indexOf(s) !== -1 ||
-            (k.email || '').toLowerCase().indexOf(s) !== -1 ||
-            (k.no_hp || '').toLowerCase().indexOf(s) !== -1;
-        });
-      }
-      if (this.state.karyawanSort.column) result = this.sortData(result, this.state.karyawanSort.column, this.state.karyawanSort.direction);
-      this.state.filteredKaryawan = result;
-      this.renderKaryawanTable();
-    },
-
-    sortKaryawan: function(column) {
-      if (this.state.karyawanSort.column === column) {
-        this.state.karyawanSort.direction = this.state.karyawanSort.direction === 'asc' ? 'desc' : 'asc';
-      } else {
-        this.state.karyawanSort.column = column;
-        this.state.karyawanSort.direction = 'asc';
-      }
-      this.updateKaryawanSortIcons(column, this.state.karyawanSort.direction);
-      this.handleKaryawanSearch(this.state.karyawanFilter);
-    },
-
-    updateKaryawanSortIcons: function(active, dir) {
-      var headers = document.querySelectorAll('#karyawanTable th');
-      for (var i = 0; i < headers.length; i++) {
-        var th = headers[i];
-        var icon = th.querySelector('.sort-icon');
-        if (!icon) continue;
-        icon.textContent = 'unfold_more';
-        th.classList.remove('sort-asc', 'sort-desc');
-        var onclickAttr = th.getAttribute('onclick') || '';
-        if (onclickAttr.indexOf("'" + active + "'") !== -1) {
-          th.classList.add(dir === 'asc' ? 'sort-asc' : 'sort-desc');
-          icon.textContent = dir === 'asc' ? 'expand_less' : 'expand_more';
-        }
-      }
-    },
-
-    //==================== MODAL KARYAWAN ====================
-
-    openKaryawanModal: function(mode, data) {
-      document.getElementById('karyawanMode').value = mode || 'add';
-      document.getElementById('karyawanModalTitle').textContent = mode === 'edit' ? 'Edit Karyawan' : 'Tambah Karyawan';
-      
-      if (data) {
-        document.getElementById('formNpk').value = data.npk || '';
-        document.getElementById('formNama').value = data.nama || '';
-        document.getElementById('formJabatan').value = data.jabatan || '';
-        document.getElementById('formCl').value = data.cl || 5;
-        document.getElementById('formCabang').value = data.cabang || '';
-        document.getElementById('formRegion').value = data.region || '';
-        document.getElementById('formAtasanNpk').value = data.atasan_npk || '';
-        document.getElementById('formEmail').value = data.email || '';
-        document.getElementById('formNoHp').value = data.no_hp || '';
-        
-        var atasan = this.state.allKaryawan.find(function(k) { return k.npk === data.atasan_npk; });
-        document.getElementById('formAtasanNama').value = atasan ? atasan.nama : '';
-      } else {
-        document.getElementById('karyawanForm').reset();
-        document.getElementById('formAtasanNpk').value = '';
-      }
-      
-      document.getElementById('karyawanModal').classList.add('active');
-    },
-
-    closeKaryawanModal: function() {
-      document.getElementById('karyawanModal').classList.remove('active');
-    },
-
-    saveKaryawanForm: function() {
-      var mode = document.getElementById('karyawanMode').value;
-      var data = {
-        npk: document.getElementById('formNpk').value.trim(),
-        nama: document.getElementById('formNama').value.trim(),
-        jabatan: document.getElementById('formJabatan').value.trim(),
-        cl: parseInt(document.getElementById('formCl').value) || 5,
-        cabang: document.getElementById('formCabang').value.trim(),
-        region: document.getElementById('formRegion').value.trim(),
-        atasan_npk: document.getElementById('formAtasanNpk').value.trim(),
-        email: document.getElementById('formEmail').value.trim(),
-        no_hp: document.getElementById('formNoHp').value.trim()
-      };
-
-      if (!data.npk || !data.nama || !data.jabatan) {
-        this.showToast('NIK, Nama, dan Jabatan wajib diisi', 'error');
-        return;
-      }
-
-      this.showLoading('Menyimpan data...');
-      google.script.run
-        .withSuccessHandler(function(result) {
-          app.hideLoading();
-          if (result.success) {
-            app.showToast(result.message, 'success');
-            app.closeKaryawanModal();
-            app.refreshKaryawanData();
-          } else {
-            app.showToast(result.message || 'Gagal menyimpan', 'error');
-          }
-        })
-        .withFailureHandler(function() {
-          app.hideLoading();
-          app.showToast('Terjadi kesalahan', 'error');
-        })
-        .saveKaryawan(data);
-    },
-
-    editKaryawan: function(npk) {
-      var k = this.state.allKaryawan.find(function(x) { return x.npk === npk; });
-      if (!k) { this.showToast('Data tidak ditemukan', 'error'); return; }
-      this.openKaryawanModal('edit', k);
-    },
-
-    deleteKaryawan: function(npk) {
-      var k = this.state.allKaryawan.find(function(x) { return x.npk === npk; });
-      if (!k) return;
-      this.state.deleteTarget = npk;
-      document.getElementById('deleteDetails').innerHTML = 
-        '<div><strong>Nama:</strong> ' + this.escapeHtml(k.nama) + '</div>' +
-        '<div><strong>NPK:</strong> ' + this.escapeHtml(k.npk) + '</div>' +
-        '<div><strong>Jabatan:</strong> ' + this.escapeHtml(k.jabatan) + '</div>' +
-        '<div><strong>Cabang:</strong> ' + this.escapeHtml(k.cabang || '-') + '</div>';
-      document.getElementById('deleteModal').classList.add('active');
-    },
-
-    closeDeleteModal: function() {
-      this.state.deleteTarget = null;
-      document.getElementById('deleteModal').classList.remove('active');
-    },
-
-    confirmDelete: function() {
-      if (!this.state.deleteTarget) return;
-      this.showLoading('Menghapus data...');
-      google.script.run
-        .withSuccessHandler(function(result) {
-          app.hideLoading();
-          app.closeDeleteModal();
-          if (result.success) {
-            app.showToast('Data berhasil dihapus', 'success');
-            app.refreshKaryawanData();
-          } else {
-            app.showToast(result.message || 'Gagal menghapus', 'error');
-          }
-        })
-        .withFailureHandler(function() {
-          app.hideLoading();
-          app.showToast('Terjadi kesalahan', 'error');
-        })
-        .deleteKaryawan(this.state.deleteTarget);
-    },
-
-    refreshKaryawanData: function() {
-      this.state.allKaryawan = [];
-      this.state.filteredKaryawan = [];
-      this.loadKaryawanData();
-    },
-
-    //==================== ATASAN AUTOCOMPLETE ====================
-
-    handleAtasanSearch: function(query) {
-      var list = document.getElementById('atasanAutocomplete');
-      if (!query || query.length < 2) {
-        list.classList.remove('active');
-        return;
-      }
-      
-      var matches = this.state.allKaryawan.filter(function(k) {
-        return k.nama.toLowerCase().indexOf(query.toLowerCase()) !== -1;
-      }).slice(0, 5);
-
-      if (matches.length === 0) {
-        list.classList.remove('active');
-        return;
-      }
-
-      var html = '';
-      for (var i = 0; i < matches.length; i++) {
-        var k = matches[i];
-        html += '<div class="autocomplete-item" onclick="app.selectAtasan(\'' + k.npk + '\', \'' + this.escapeHtml(k.nama) + '\')">' +
-          '<div>' + this.escapeHtml(k.nama) + '</div>' +
-          '<div class="npk-text">NPK: ' + k.npk + '</div></div>';
-      }
-      list.innerHTML = html;
-      list.classList.add('active');
-    },
-
-    selectAtasan: function(npk, nama) {
-      document.getElementById('formAtasanNama').value = nama;
-      document.getElementById('formAtasanNpk').value = npk;
-      document.getElementById('atasanAutocomplete').classList.remove('active');
-    },
-
-    //==================== UI HELPERS ====================
-
-    showLoginScreen: function() {
-      document.getElementById('loginScreen').classList.remove('hidden');
-      document.getElementById('mainApp').classList.add('hidden');
-    },
-
-    showMainApp: function() {
-      document.getElementById('loginScreen').classList.add('hidden');
-      document.getElementById('mainApp').classList.remove('hidden');
-    },
-
-    showLoading: function(text) {
-      var overlay = document.getElementById('loadingOverlay');
-      overlay.querySelector('.loading-text').textContent = text || 'Memuat...';
-      overlay.classList.add('active');
-    },
-
-    hideLoading: function() {
-      document.getElementById('loadingOverlay').classList.remove('active');
-    },
-
-    showToast: function(message, type) {
-      var container = document.getElementById('toastContainer');
-      var toast = document.createElement('div');
-      toast.className = 'toast ' + type;
-      var icon = type === 'success' ? 'check_circle' : type === 'error' ? 'error' : 'info';
-      var color = type === 'success' ? 'success' : type === 'error' ? 'danger' : 'primary';
-      toast.innerHTML = '<span class="material-icons" style="color:var(--' + color + ')">' + icon + '</span><span style="font-weight:500;font-size:14px">' + message + '</span>';
-      container.appendChild(toast);
-      setTimeout(function() {
-        toast.style.opacity = '0';
-        toast.style.transform = 'translateX(100%)';
-        setTimeout(function() { toast.remove(); }, 300);
-      }, 3000);
-    },
-
-    escapeHtml: function(text) {
-      if (!text) return '';
-      var div = document.createElement('div');
-      div.textContent = text;
-      return div.innerHTML;
-    },
-
-    viewDetail: function(npk) {
-      var emp = this.state.allEmployees.find(function(e) { return e.npk === npk; });
-      if (!emp) return;
-      this.showToast('Detail coaching untuk ' + emp.nama + ' - Coming soon', 'success');
-    }
-  };
-
-  document.addEventListener('DOMContentLoaded', function() {
-    app.init();
-  });
-  </script>
-
+    </script>
 </body>
 </html>
