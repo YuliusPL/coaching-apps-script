@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Coaching Monitoring System</title>
+  <title>Coaching Monitoring System v8.0</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <style>
@@ -15,6 +15,8 @@
       --warning: #fbbc04;
       --danger: #ea4335;
       --info: #4285f4;
+      --purple: #9334e6;
+      --teal: #009688;
       --gray-50: #f8f9fa;
       --gray-100: #f1f3f4;
       --gray-200: #e8eaed;
@@ -106,6 +108,7 @@
     .btn-danger { background: var(--danger); color: white; }
     .btn-warning { background: var(--warning); color: var(--gray-900); }
     .btn-secondary { background: var(--gray-100); color: var(--gray-700); }
+    .btn-purple { background: var(--purple); color: white; }
     .btn-sm { padding: 8px 16px; font-size: 12px; }
     .btn-icon { width: 36px; height: 36px; padding: 0; border-radius: 50%; }
 
@@ -187,29 +190,31 @@
 
     /* Stats Cards */
     .stats-grid {
-      display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px;
+      display: grid; grid-template-columns: repeat(6, 1fr); gap: 16px;
       margin-bottom: 24px;
     }
     .stat-card {
-      background: white; border-radius: var(--radius); padding: 20px;
+      background: white; border-radius: var(--radius); padding: 16px;
       box-shadow: var(--shadow-sm); border: 1px solid var(--gray-200);
       transition: var(--transition);
     }
     .stat-card:hover { transform: translateY(-2px); box-shadow: var(--shadow); }
     .stat-header {
-      display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;
+      display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;
     }
-    .stat-label { font-size: 13px; font-weight: 600; color: var(--gray-600); }
+    .stat-label { font-size: 12px; font-weight: 600; color: var(--gray-600); }
     .stat-icon {
-      width: 40px; height: 40px; border-radius: 50%; display: flex;
+      width: 36px; height: 36px; border-radius: 50%; display: flex;
       align-items: center; justify-content: center;
     }
     .stat-icon.blue { background: var(--primary-light); color: var(--primary); }
     .stat-icon.orange { background: #fff3e0; color: #f57c00; }
     .stat-icon.red { background: #fce8e6; color: var(--danger); }
     .stat-icon.green { background: #e6f4ea; color: var(--success); }
-    .stat-value { font-size: 32px; font-weight: 700; color: var(--gray-900); line-height: 1; }
-    .stat-desc { font-size: 12px; color: var(--gray-500); margin-top: 8px; }
+    .stat-icon.purple { background: #f3e8fd; color: var(--purple); }
+    .stat-icon.teal { background: #e0f2f1; color: var(--teal); }
+    .stat-value { font-size: 28px; font-weight: 700; color: var(--gray-900); line-height: 1; }
+    .stat-desc { font-size: 11px; color: var(--gray-500); margin-top: 6px; }
 
     /* Cards */
     .card {
@@ -227,7 +232,7 @@
     .table-container { overflow-x: auto; }
     .data-table { width: 100%; border-collapse: collapse; }
     .data-table th {
-      padding: 12px 16px; text-align: left; font-size: 12px;
+      padding: 12px 16px; text-align: left; font-size: 11px;
       font-weight: 700; color: var(--gray-600); text-transform: uppercase;
       letter-spacing: 0.5px; border-bottom: 2px solid var(--gray-200);
       background: var(--gray-50); white-space: nowrap;
@@ -243,33 +248,49 @@
     .data-table th.sort-desc .sort-icon { opacity: 1; color: var(--primary); }
     .data-table th.sort-asc .sort-icon { transform: rotate(180deg); }
     .data-table td {
-      padding: 14px 16px; font-size: 14px; color: var(--gray-800);
+      padding: 12px 16px; font-size: 13px; color: var(--gray-800);
       border-bottom: 1px solid var(--gray-100); vertical-align: middle;
     }
     .data-table tr:hover td { background: var(--gray-50); }
     .data-table tr { transition: var(--transition); cursor: pointer; }
     .data-table tr:hover { background: var(--primary-light); }
 
+    /* Progress Bar */
+    .progress-bar {
+      width: 100%; height: 8px; background: var(--gray-200);
+      border-radius: 4px; overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%; background: var(--primary); border-radius: 4px;
+      transition: width 0.3s ease;
+    }
+    .progress-fill.green { background: var(--success); }
+    .progress-fill.orange { background: var(--warning); }
+    .progress-fill.red { background: var(--danger); }
+    .progress-text { font-size: 11px; color: var(--gray-600); margin-top: 4px; }
+
     /* Status Badges */
     .badge {
-      display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px;
-      border-radius: 20px; font-size: 12px; font-weight: 600;
+      display: inline-flex; align-items: center; gap: 4px; padding: 4px 10px;
+      border-radius: 20px; font-size: 11px; font-weight: 600;
     }
     .badge-red { background: #fce8e6; color: var(--danger); }
     .badge-green { background: #e6f4ea; color: var(--success); }
     .badge-orange { background: #fff3e0; color: #f57c00; }
     .badge-blue { background: var(--primary-light); color: var(--primary); }
+    .badge-purple { background: #f3e8fd; color: var(--purple); }
+    .badge-teal { background: #e0f2f1; color: var(--teal); }
     .badge-gray { background: var(--gray-100); color: var(--gray-600); }
 
     /* Action Buttons */
-    .action-btns { display: flex; gap: 8px; }
+    .action-btns { display: flex; gap: 6px; }
     .action-btn {
-      width: 32px; height: 32px; border-radius: 50%; border: none;
+      width: 28px; height: 28px; border-radius: 50%; border: none;
       display: flex; align-items: center; justify-content: center;
       cursor: pointer; transition: var(--transition); background: transparent;
     }
     .action-btn:hover { background: var(--gray-100); }
-    .action-btn .material-icons { font-size: 18px; color: var(--gray-600); }
+    .action-btn .material-icons { font-size: 16px; color: var(--gray-600); }
     .action-btn:hover .material-icons { color: var(--primary); }
     .action-btn.delete:hover { background: #fce8e6; }
     .action-btn.delete:hover .material-icons { color: var(--danger); }
@@ -283,7 +304,7 @@
     .filter-select, .filter-input {
       padding: 8px 12px; border: 1px solid var(--gray-300);
       border-radius: var(--radius-sm); font-size: 14px; font-family: inherit;
-      background: white; outline: none; min-width: 160px;
+      background: white; outline: none; min-width: 140px;
     }
     .filter-select:focus, .filter-input:focus { border-color: var(--primary); }
 
@@ -296,9 +317,10 @@
     .modal-overlay.active { display: flex; }
     .modal {
       background: white; border-radius: var(--radius-lg); width: 90%;
-      max-width: 600px; max-height: 90vh; overflow-y: auto;
+      max-width: 1000px; max-height: 90vh; overflow-y: auto;
       box-shadow: var(--shadow-lg); animation: modalSlide 0.3s ease;
     }
+    .modal.modal-wide { max-width: 1100px; }
     @keyframes modalSlide {
       from { opacity: 0; transform: translateY(-20px); }
       to { opacity: 1; transform: translateY(0); }
@@ -323,14 +345,21 @@
       position: sticky; bottom: 0; background: white;
     }
 
-    /* Form in Modal */
-    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-    .form-group { margin-bottom: 16px; }
-    .form-group:last-child { margin-bottom: 0; }
-    .form-label {
-      display: block; font-size: 12px; font-weight: 600;
-      color: var(--gray-700); margin-bottom: 6px; text-transform: uppercase;
+    /* Form Grid - 2 Column Layout */
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px 24px;
     }
+    .form-group { margin-bottom: 0; }
+    .form-group.full-width { grid-column: 1 / -1; }
+    .form-group.half-width { grid-column: span 1; }
+    .form-label {
+      display: block; font-size: 11px; font-weight: 700;
+      color: var(--gray-700); margin-bottom: 6px; text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .form-label .required { color: var(--danger); margin-left: 2px; }
     .form-input, .form-select, .form-textarea {
       width: 100%; padding: 10px 14px; border: 1px solid var(--gray-300);
       border-radius: var(--radius-sm); font-size: 14px; font-family: inherit;
@@ -341,7 +370,69 @@
     }
     .form-textarea { resize: vertical; min-height: 80px; }
     .form-select { cursor: pointer; }
-    .form-hint { font-size: 12px; color: var(--gray-500); margin-top: 4px; }
+    .form-hint { font-size: 11px; color: var(--gray-500); margin-top: 4px; }
+
+    /* Section Divider in Form */
+    .form-section {
+      grid-column: 1 / -1;
+      display: flex; align-items: center; gap: 12px;
+      margin: 8px 0 4px 0; padding-top: 8px;
+      border-top: 1px solid var(--gray-200);
+    }
+    .form-section:first-of-type {
+      border-top: none; margin-top: 0; padding-top: 0;
+    }
+    .form-section-title {
+      font-size: 12px; font-weight: 700; color: var(--primary);
+      text-transform: uppercase; letter-spacing: 0.5px;
+      white-space: nowrap;
+    }
+    .form-section-line {
+      flex: 1; height: 1px; background: var(--gray-200);
+    }
+
+    /* Target Type Selector */
+    .target-type-selector {
+      display: flex; gap: 12px; margin-bottom: 16px;
+    }
+    .target-type-card {
+      flex: 1; padding: 16px; border: 2px solid var(--gray-200);
+      border-radius: var(--radius); cursor: pointer; text-align: center;
+      transition: var(--transition);
+    }
+    .target-type-card:hover { border-color: var(--primary); background: var(--primary-light); }
+    .target-type-card.active { 
+      border-color: var(--primary); 
+      background: var(--primary-light); 
+      box-shadow: 0 0 0 3px rgba(26,115,232,0.1);
+    }
+    .target-type-card .material-icons { 
+      font-size: 32px; color: var(--gray-400); margin-bottom: 8px;
+      transition: var(--transition);
+    }
+    .target-type-card.active .material-icons { color: var(--primary); }
+    .target-type-card .type-title { 
+      font-size: 14px; font-weight: 600; color: var(--gray-700); 
+    }
+    .target-type-card .type-desc { 
+      font-size: 12px; color: var(--gray-500); margin-top: 4px;
+    }
+
+    /* Milestone & Checklist Items */
+    .dynamic-item {
+      display: flex; gap: 8px; align-items: center; margin-bottom: 8px;
+    }
+    .dynamic-item input {
+      flex: 1;
+    }
+    .btn-add-item {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 8px 16px; border: 1px dashed var(--primary);
+      border-radius: var(--radius-sm); background: transparent;
+      color: var(--primary); font-size: 13px; cursor: pointer;
+      transition: var(--transition);
+    }
+    .btn-add-item:hover { background: var(--primary-light); }
 
     /* Autocomplete */
     .autocomplete-container { position: relative; }
@@ -387,31 +478,42 @@
     .toast.warning { background: #f57c00; }
     .toast.info { background: var(--info); }
 
-    /* Tabs */
-    .tabs { display: flex; gap: 4px; border-bottom: 2px solid var(--gray-200); margin-bottom: 20px; }
-    .tab {
-      padding: 10px 20px; border: none; background: none; cursor: pointer;
-      font-size: 14px; font-weight: 600; color: var(--gray-600);
-      border-bottom: 2px solid transparent; margin-bottom: -2px;
-      transition: var(--transition);
+    /* Info Card */
+    .info-card {
+      background: linear-gradient(135deg, var(--primary-light), #f8f9fa);
+      border: 1px solid var(--primary-light);
+      border-radius: var(--radius-sm);
+      padding: 16px;
+      margin-bottom: 20px;
     }
-    .tab:hover { color: var(--primary); }
-    .tab.active { color: var(--primary); border-bottom-color: var(--primary); }
+    .info-card-title {
+      font-size: 12px; font-weight: 700; color: var(--primary);
+      text-transform: uppercase; margin-bottom: 8px;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .info-card-content {
+      font-size: 14px; color: var(--gray-700);
+    }
 
     /* Responsive */
+    @media (max-width: 1200px) {
+      .stats-grid { grid-template-columns: repeat(3, 1fr); }
+    }
     @media (max-width: 1024px) {
       .stats-grid { grid-template-columns: repeat(2, 1fr); }
       .sidebar { width: 260px; }
       .main-content { margin-left: 260px; padding: 20px; }
+      .form-grid { grid-template-columns: 1fr; }
+      .target-type-selector { flex-direction: column; }
     }
     @media (max-width: 768px) {
       .sidebar { transform: translateX(-100%); }
       .sidebar.open { transform: translateX(0); }
       .main-content { margin-left: 0; padding: 16px; }
       .stats-grid { grid-template-columns: 1fr; }
-      .form-row { grid-template-columns: 1fr; }
       .filter-bar { flex-direction: column; }
       .modal { width: 95%; margin: 20px; }
+      .form-grid { grid-template-columns: 1fr; }
     }
 
     /* Animations */
@@ -420,15 +522,6 @@
 
     .slide-up { animation: slideUp 0.4s ease; }
     @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-
-    /* Double-click hint */
-    .dblclick-hint {
-      position: absolute; bottom: -20px; left: 50%; transform: translateX(-50%);
-      background: var(--gray-800); color: white; padding: 4px 12px;
-      border-radius: 4px; font-size: 11px; white-space: nowrap;
-      opacity: 0; transition: opacity 0.2s; pointer-events: none;
-    }
-    .data-table tr:hover .dblclick-hint { opacity: 1; }
 
     /* Scrollbar */
     ::-webkit-scrollbar { width: 6px; height: 6px; }
@@ -549,7 +642,7 @@
         <div class="stats-grid">
           <div class="stat-card">
             <div class="stat-header">
-              <span class="stat-label">Total Coaching Aktif</span>
+              <span class="stat-label">Total Aktif</span>
               <div class="stat-icon blue"><span class="material-icons">groups</span></div>
             </div>
             <div class="stat-value" id="statTotalCoaching">0</div>
@@ -573,11 +666,27 @@
           </div>
           <div class="stat-card">
             <div class="stat-header">
-              <span class="stat-label">Sudah Update</span>
-              <div class="stat-icon green"><span class="material-icons">check_circle</span></div>
+              <span class="stat-label">On Track</span>
+              <div class="stat-icon green"><span class="material-icons">trending_up</span></div>
             </div>
-            <div class="stat-value" id="statSudahUpdate">0</div>
-            <div class="stat-desc">Progress terupdate</div>
+            <div class="stat-value" id="statOnTrack">0</div>
+            <div class="stat-desc">Progress sesuai target</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-header">
+              <span class="stat-label">Behind</span>
+              <div class="stat-icon purple"><span class="material-icons">trending_down</span></div>
+            </div>
+            <div class="stat-value" id="statBehind">0</div>
+            <div class="stat-desc">Perlu perhatian khusus</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-header">
+              <span class="stat-label">Overdue</span>
+              <div class="stat-icon red"><span class="material-icons">warning</span></div>
+            </div>
+            <div class="stat-value" id="statOverdue">0</div>
+            <div class="stat-desc">Lewat target date</div>
           </div>
         </div>
 
@@ -600,13 +709,14 @@
                     <th onclick="sortTable('nama')">NAMA <span class="material-icons sort-icon">arrow_drop_down</span></th>
                     <th onclick="sortTable('jabatan')">JABATAN <span class="material-icons sort-icon">arrow_drop_down</span></th>
                     <th onclick="sortTable('cabang')">CABANG <span class="material-icons sort-icon">arrow_drop_down</span></th>
-                    <th onclick="sortTable('status')">STATUS COACHING <span class="material-icons sort-icon">arrow_drop_down</span></th>
+                    <th>PROGRESS</th>
+                    <th onclick="sortTable('status')">STATUS <span class="material-icons sort-icon">arrow_drop_down</span></th>
                     <th>AKSI</th>
                   </tr>
                 </thead>
                 <tbody id="monitoringTableBody">
                   <tr>
-                    <td colspan="6" class="empty-state">
+                    <td colspan="7" class="empty-state">
                       <span class="material-icons">hourglass_empty</span>
                       <h3>Memuat data...</h3>
                     </td>
@@ -642,6 +752,8 @@
                 <option value="">Semua Status</option>
                 <option value="OPEN">OPEN</option>
                 <option value="ON PROGRESS">ON PROGRESS</option>
+                <option value="ON TRACK">ON TRACK</option>
+                <option value="BEHIND">BEHIND</option>
                 <option value="DONE">DONE</option>
                 <option value="OVERDUE">OVERDUE</option>
               </select>
@@ -655,20 +767,17 @@
                   <tr>
                     <th>No</th>
                     <th>Nama RM</th>
-                    <th>Root Causes</th>
-                    <th>Coaching Topics</th>
-                    <th>Coaching Target</th>
+                    <th>Topic</th>
+                    <th>Tipe Target</th>
+                    <th>Progress</th>
                     <th>Target Date</th>
-                    <th>How (it Will Be Done)</th>
-                    <th>Result</th>
-                    <th>Feedback</th>
                     <th>Status</th>
                     <th>Aksi</th>
                   </tr>
                 </thead>
                 <tbody id="coachingTableBody">
                   <tr>
-                    <td colspan="11" class="empty-state">
+                    <td colspan="8" class="empty-state">
                       <span class="material-icons">inbox</span>
                       <h3>Tidak ada data coaching</h3>
                     </td>
@@ -707,7 +816,7 @@
           </div>
         </div>
 
-        <div class="stats-grid" style="grid-template-columns: repeat(2, 1fr); margin-bottom: 20px;">
+        <div class="stats-grid" style="grid-template-columns: repeat(3, 1fr); margin-bottom: 20px;">
           <div class="stat-card">
             <div class="stat-header">
               <span class="stat-label">Mendekati Jatuh Tempo</span>
@@ -724,6 +833,14 @@
             <div class="stat-value" id="statOverdue">0</div>
             <div class="stat-desc">Sudah lewat target</div>
           </div>
+          <div class="stat-card">
+            <div class="stat-header">
+              <span class="stat-label">Behind Schedule</span>
+              <div class="stat-icon purple"><span class="material-icons">trending_down</span></div>
+            </div>
+            <div class="stat-value" id="statBehindReminder">0</div>
+            <div class="stat-desc">Performa di bawah target</div>
+          </div>
         </div>
 
         <div class="card">
@@ -737,8 +854,8 @@
                   <tr>
                     <th>Coaching ID</th>
                     <th>Nama RM</th>
-                    <th>Root Cause</th>
                     <th>Topic</th>
+                    <th>Tipe</th>
                     <th>Target Date</th>
                     <th>Status</th>
                     <th>Sisa Hari</th>
@@ -880,66 +997,212 @@
 
   <!-- Toast Container -->
   <div class="toast-container" id="toastContainer"></div>
-
-  <!-- MODAL: Tambah Coaching -->
+    <!-- MODAL: Tambah Coaching - ENHANCED WITH TARGET TYPES -->
   <div class="modal-overlay" id="tambahCoachingModal">
-    <div class="modal">
+    <div class="modal modal-wide">
       <div class="modal-header">
-        <div class="modal-title">Tambah Coaching</div>
+        <div class="modal-title">Tambah Coaching Baru</div>
         <button class="modal-close" onclick="closeModal('tambahCoachingModal')">
           <span class="material-icons">close</span>
         </button>
       </div>
       <div class="modal-body">
         <form id="tambahCoachingForm">
-          <div class="form-group">
-            <label class="form-label">Cabang</label>
-            <select class="form-select" id="tcCabang" required onchange="loadCoachees()">
-              <option value="">Pilih Cabang</option>
-            </select>
+          
+          <!-- Info Card -->
+          <div class="info-card">
+            <div class="info-card-title">
+              <span class="material-icons" style="font-size: 16px;">info</span>
+              Informasi Coaching
+            </div>
+            <div class="info-card-content">
+              Pilih tipe target coaching sesuai karakteristik topik. Field dengan tanda <span style="color: var(--danger);">*</span> wajib diisi.
+            </div>
+          </div>
+
+          <!-- Target Type Selector -->
+          <div class="form-section">
+            <span class="form-section-title">Tipe Target Coaching</span>
+            <div class="form-section-line"></div>
           </div>
           
-          <div class="form-group">
-            <label class="form-label">Karyawan (Coachee)</label>
-            <select class="form-select" id="tcCoachee" required>
-              <option value="">Pilih Karyawan</option>
-            </select>
-          </div>
-
-          <div class="form-group">
-            <label class="form-label">Atasan (NPK)</label>
-            <div class="autocomplete-container">
-              <input type="text" class="form-input" id="tcAtasanNpk" placeholder="Ketik NPK atasan..." autocomplete="off" oninput="searchAtasanByNpk(this.value)">
-              <div class="autocomplete-list" id="atasanNpkList"></div>
+          <div class="form-group full-width">
+            <div class="target-type-selector">
+              <div class="target-type-card active" data-type="AKUMULATIF" onclick="selectTargetType('AKUMULATIF')">
+                <span class="material-icons">trending_up</span>
+                <div class="type-title">Akumulatif</div>
+                <div class="type-desc">Sales, jumlah, nominal</div>
+              </div>
+              <div class="target-type-card" data-type="MILESTONE" onclick="selectTargetType('MILESTONE')">
+                <span class="material-icons">flag</span>
+                <div class="type-title">Milestone</div>
+                <div class="type-desc">Project, sertifikasi</div>
+              </div>
+              <div class="target-type-card" data-type="CHECKLIST" onclick="selectTargetType('CHECKLIST')">
+                <span class="material-icons">check_box</span>
+                <div class="type-title">Checklist</div>
+                <div class="type-desc">Compliance, task</div>
+              </div>
             </div>
+            <input type="hidden" id="tcTipeTarget" value="AKUMULATIF">
           </div>
 
-          <div class="form-group">
-            <label class="form-label">Atasan (Nama)</label>
-            <div class="autocomplete-container">
-              <input type="text" class="form-input" id="tcAtasanNama" placeholder="Ketik nama atasan..." autocomplete="off" oninput="searchAtasanByNama(this.value)">
-              <div class="autocomplete-list" id="atasanNamaList"></div>
+          <div class="form-grid">
+            
+            <!-- SECTION: Informasi Dasar -->
+            <div class="form-section">
+              <span class="form-section-title">Informasi Dasar</span>
+              <div class="form-section-line"></div>
             </div>
-          </div>
 
-          <div class="form-group">
-            <label class="form-label">Root Causes</label>
-            <textarea class="form-textarea" id="tcRootCause" placeholder="Jelaskan akar masalah..." required></textarea>
-          </div>
+            <div class="form-group half-width">
+              <label class="form-label">Cabang <span class="required">*</span></label>
+              <select class="form-select" id="tcCabang" required onchange="loadCoachees()">
+                <option value="">Pilih Cabang</option>
+              </select>
+            </div>
+            
+            <div class="form-group half-width">
+              <label class="form-label">Karyawan (Coachee) <span class="required">*</span></label>
+              <select class="form-select" id="tcCoachee" required>
+                <option value="">Pilih Karyawan</option>
+              </select>
+            </div>
 
-          <div class="form-group">
-            <label class="form-label">Coaching Topics</label>
-            <input type="text" class="form-input" id="tcTopic" placeholder="Topik coaching..." required>
-          </div>
+            <!-- SECTION: Atasan -->
+            <div class="form-section">
+              <span class="form-section-title">Informasi Atasan</span>
+              <div class="form-section-line"></div>
+            </div>
 
-          <div class="form-group">
-            <label class="form-label">Coaching Target</label>
-            <input type="text" class="form-input" id="tcTarget" placeholder="Target yang ingin dicapai..." required>
-          </div>
+            <div class="form-group half-width">
+              <label class="form-label">Atasan (NPK)</label>
+              <div class="autocomplete-container">
+                <input type="text" class="form-input" id="tcAtasanNpk" placeholder="Ketik NPK atasan..." autocomplete="off" oninput="searchAtasanByNpk(this.value)">
+                <div class="autocomplete-list" id="atasanNpkList"></div>
+              </div>
+              <div class="form-hint">Ketik NPK untuk auto-fill nama</div>
+            </div>
 
-          <div class="form-group">
-            <label class="form-label">Target Date</label>
-            <input type="date" class="form-input" id="tcTargetDate" required>
+            <div class="form-group half-width">
+              <label class="form-label">Atasan (Nama)</label>
+              <div class="autocomplete-container">
+                <input type="text" class="form-input" id="tcAtasanNama" placeholder="Ketik nama atasan..." autocomplete="off" oninput="searchAtasanByNama(this.value)">
+                <div class="autocomplete-list" id="atasanNamaList"></div>
+              </div>
+              <div class="form-hint">Ketik nama untuk auto-fill NPK</div>
+            </div>
+
+            <!-- SECTION: Coaching Content -->
+            <div class="form-section">
+              <span class="form-section-title">Detail Coaching</span>
+              <div class="form-section-line"></div>
+            </div>
+
+            <div class="form-group half-width">
+              <label class="form-label">Root Causes <span class="required">*</span></label>
+              <textarea class="form-textarea" id="tcRootCause" placeholder="Jelaskan akar masalah..." rows="3" required></textarea>
+            </div>
+
+            <div class="form-group half-width">
+              <label class="form-label">Coaching Topics <span class="required">*</span></label>
+              <input type="text" class="form-input" id="tcTopic" placeholder="Topik coaching..." required>
+            </div>
+
+            <div class="form-group half-width">
+              <label class="form-label">Target Date <span class="required">*</span></label>
+              <input type="date" class="form-input" id="tcTargetDate" required>
+            </div>
+
+            <!-- Dynamic Target Fields -->
+            <div id="targetFieldsAkumulatif" class="form-group half-width">
+              <label class="form-label">Target Total <span class="required">*</span></label>
+              <input type="number" class="form-input" id="tcTargetNominal" placeholder="Contoh: 10000000">
+            </div>
+
+            <div id="targetFieldsAkumulatifSatuan" class="form-group half-width">
+              <label class="form-label">Satuan <span class="required">*</span></label>
+              <select class="form-select" id="tcTargetSatuan">
+                <option value="">Pilih Satuan</option>
+                <option value="Rupiah">Rupiah</option>
+                <option value="Unit">Unit</option>
+                <option value="Nasabah">Nasabah</option>
+                <option value="Dokumen">Dokumen</option>
+                <option value="Call">Call</option>
+                <option value="Kunjungan">Kunjungan</option>
+                <option value="Transaksi">Transaksi</option>
+                <option value="Jam">Jam</option>
+                <option value="Menit">Menit</option>
+                <option value="Hari">Hari</option>
+                <option value="Minggu">Minggu</option>
+                <option value="Bulan">Bulan</option>
+                <option value="Presentase">Presentase (%)</option>
+                <option value="Score">Score</option>
+                <option value="Lainnya">Lainnya</option>
+              </select>
+            </div>
+
+            <div id="targetFieldsMilestone" class="form-group full-width" style="display:none;">
+              <label class="form-label">Milestones <span class="required">*</span></label>
+              <div id="milestoneContainer">
+                <div class="dynamic-item">
+                  <input type="text" class="form-input" placeholder="Deskripsi milestone 1...">
+                </div>
+              </div>
+              <button type="button" class="btn-add-item" onclick="addMilestone()">
+                <span class="material-icons">add</span>
+                Tambah Milestone
+              </button>
+            </div>
+
+            <div id="targetFieldsChecklist" class="form-group full-width" style="display:none;">
+              <label class="form-label">Checklist Items <span class="required">*</span></label>
+              <div id="checklistContainer">
+                <div class="dynamic-item">
+                  <input type="text" class="form-input" placeholder="Item checklist 1...">
+                </div>
+              </div>
+              <button type="button" class="btn-add-item" onclick="addChecklist()">
+                <span class="material-icons">add</span>
+                Tambah Item
+              </button>
+            </div>
+
+            <div class="form-group full-width">
+              <label class="form-label">Deskripsi Target (opsional)</label>
+              <textarea class="form-textarea" id="tcTargetDeskripsi" placeholder="Penjelasan detail target jika diperlukan..." rows="2"></textarea>
+            </div>
+
+            <!-- SECTION: Action Plan -->
+            <div class="form-section">
+              <span class="form-section-title">Action Plan</span>
+              <div class="form-section-line"></div>
+            </div>
+
+            <div class="form-group full-width">
+              <label class="form-label">How (it Will Be Done) <span class="required">*</span></label>
+              <textarea class="form-textarea" id="tcHow" placeholder="Jelaskan cara pelaksanaan coaching, metode, langkah-langkah yang akan dilakukan..." rows="4" required></textarea>
+              <div class="form-hint">Deskripsikan metode dan langkah-langkah pelaksanaan coaching</div>
+            </div>
+
+            <!-- SECTION: Hasil & Feedback -->
+            <div class="form-section">
+              <span class="form-section-title">Hasil & Feedback (Opsional)</span>
+              <div class="form-section-line"></div>
+            </div>
+
+            <div class="form-group half-width">
+              <label class="form-label">Result</label>
+              <textarea class="form-textarea" id="tcResult" placeholder="Hasil yang dicapai (bisa diisi nanti saat update)..." rows="3"></textarea>
+              <div class="form-hint">Bisa diisi nanti saat update mingguan</div>
+            </div>
+
+            <div class="form-group half-width">
+              <label class="form-label">Feedback</label>
+              <textarea class="form-textarea" id="tcFeedback" placeholder="Masukan dari atasan (opsional)..." rows="3"></textarea>
+              <div class="form-hint">Feedback dari atasan langsung</div>
+            </div>
+
           </div>
         </form>
       </div>
@@ -965,70 +1228,75 @@
       <div class="modal-body">
         <form id="updateCoachingForm">
           <input type="hidden" id="ucCoachingId">
-          <div class="form-row">
-            <div class="form-group">
+          <input type="hidden" id="ucTipeTarget">
+          
+          <div class="info-card" style="margin-bottom: 20px;">
+            <div class="info-card-title">
+              <span class="material-icons" style="font-size: 16px;">info</span>
+              Informasi Update
+            </div>
+            <div class="info-card-content" id="ucInfoContent">
+              Isi progress coaching minggu ini sesuai tipe target.
+            </div>
+          </div>
+
+          <div class="form-grid">
+            <div class="form-group half-width">
               <label class="form-label">Minggu</label>
               <select class="form-select" id="ucWeek" required></select>
             </div>
-            <div class="form-group">
+            <div class="form-group half-width">
               <label class="form-label">Target Date</label>
               <input type="date" class="form-input" id="ucTargetDate">
             </div>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Action (What)</label>
-            <textarea class="form-textarea" id="ucAction" placeholder="Tindakan yang dilakukan..." required></textarea>
-          </div>
-          <div class="form-group">
-            <label class="form-label">How (it Will Be Done)</label>
-            <textarea class="form-textarea" id="ucHow" placeholder="Cara pelaksanaan..." required></textarea>
-          </div>
-          <div class="form-row">
-            <div class="form-group">
-              <label class="form-label">Target Nominal</label>
-              <input type="text" class="form-input" id="ucTargetNominal" placeholder="Contoh: 1000000">
+            
+            <div class="form-group full-width">
+              <label class="form-label">Action (What)</label>
+              <textarea class="form-textarea" id="ucAction" placeholder="Tindakan yang dilakukan..." required></textarea>
             </div>
-            <div class="form-group">
-              <label class="form-label">Satuan</label>
-              <select class="form-select" id="ucTargetSatuan">
-                <option value="">Pilih Satuan</option>
-                <option value="Rupiah">Rupiah</option>
-                <option value="Unit">Unit</option>
-                <option value="Nasabah">Nasabah</option>
-                <option value="Aplikasi">Aplikasi</option>
-                <option value="Jam">Jam</option>
-                <option value="Menit">Menit</option>
-                <option value="Hari">Hari</option>
-                <option value="Minggu">Minggu</option>
-                <option value="Bulan">Bulan</option>
-                <option value="Transaksi">Transaksi</option>
-                <option value="Dokumen">Dokumen</option>
-                <option value="Kunjungan">Kunjungan</option>
-                <option value="Call">Call</option>
-                <option value="Meeting">Meeting</option>
-                <option value="Training">Training</option>
-                <option value="Presentasi">Presentasi</option>
-                <option value="Laporan">Laporan</option>
-                <option value="Analisa">Analisa</option>
-                <option value="Review">Review</option>
-                <option value="Evaluasi">Evaluasi</option>
-                <option value="Koordinasi">Koordinasi</option>
-                <option value="Follow Up">Follow Up</option>
-                <option value="Monitoring">Monitoring</option>
-                <option value="Sosialisasi">Sosialisasi</option>
-                <option value="Pelatihan">Pelatihan</option>
-                <option value="Pembinaan">Pembinaan</option>
-                <option value="Lainnya">Lainnya</option>
+            
+            <div class="form-group full-width">
+              <label class="form-label">How (it Will Be Done)</label>
+              <textarea class="form-textarea" id="ucHow" placeholder="Cara pelaksanaan..." required></textarea>
+            </div>
+
+            <!-- Dynamic Update Fields based on Tipe Target -->
+            <div id="updateFieldsAkumulatif" class="form-group full-width">
+              <label class="form-label">Realisasi Minggu Ini</label>
+              <div style="display: flex; gap: 12px;">
+                <input type="number" class="form-input" id="ucRealisasi" placeholder="Nominal realisasi..." style="flex: 1;">
+                <input type="text" class="form-input" id="ucRealisasiSatuan" placeholder="Satuan" style="width: 150px;" readonly>
+              </div>
+            </div>
+
+            <div id="updateFieldsMilestone" class="form-group full-width" style="display:none;">
+              <label class="form-label">Status Milestone</label>
+              <select class="form-select" id="ucMilestoneStatus">
+                <option value="">Pilih Status</option>
+                <option value="ON TRACK">On Track</option>
+                <option value="DELAYED">Delayed</option>
+                <option value="DONE">Done</option>
+                <option value="BLOCKED">Blocked</option>
               </select>
+              <textarea class="form-textarea" id="ucMilestoneNote" placeholder="Catatan progress milestone..." rows="2" style="margin-top: 8px;"></textarea>
             </div>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Result</label>
-            <textarea class="form-textarea" id="ucResult" placeholder="Hasil yang dicapai..."></textarea>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Feedback</label>
-            <textarea class="form-textarea" id="ucFeedback" placeholder="Masukan dari atasan..."></textarea>
+
+            <div id="updateFieldsChecklist" class="form-group full-width" style="display:none;">
+              <label class="form-label">Checklist Progress</label>
+              <div id="ucChecklistContainer">
+                <!-- Dynamic checklist items -->
+              </div>
+            </div>
+
+            <div class="form-group half-width">
+              <label class="form-label">Result</label>
+              <textarea class="form-textarea" id="ucResult" placeholder="Hasil yang dicapai..."></textarea>
+            </div>
+            
+            <div class="form-group half-width">
+              <label class="form-label">Feedback</label>
+              <textarea class="form-textarea" id="ucFeedback" placeholder="Masukan dari atasan..."></textarea>
+            </div>
           </div>
         </form>
       </div>
@@ -1037,6 +1305,43 @@
         <button class="btn btn-primary" onclick="saveUpdateCoaching()">
           <span class="material-icons">save</span>
           Simpan Update
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: Force Close -->
+  <div class="modal-overlay" id="forceCloseModal">
+    <div class="modal" style="max-width: 500px;">
+      <div class="modal-header">
+        <div class="modal-title">Force Close Coaching</div>
+        <button class="modal-close" onclick="closeModal('forceCloseModal')">
+          <span class="material-icons">close</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="info-card" style="background: #fce8e6; border-color: #fce8e6;">
+          <div class="info-card-title" style="color: var(--danger);">
+            <span class="material-icons" style="font-size: 16px;">warning</span>
+            Perhatian
+          </div>
+          <div class="info-card-content">
+            Force Close akan menutup coaching ini secara paksa. Pastikan ada alasan yang valid.
+          </div>
+        </div>
+        <form id="forceCloseForm">
+          <input type="hidden" id="fcCoachingId">
+          <div class="form-group" style="margin-top: 16px;">
+            <label class="form-label">Alasan Force Close <span class="required">*</span></label>
+            <textarea class="form-textarea" id="fcReason" placeholder="Jelaskan alasan menutup coaching ini..." rows="4" required></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="closeModal('forceCloseModal')">Batal</button>
+        <button class="btn btn-danger" onclick="saveForceClose()">
+          <span class="material-icons">power_settings_new</span>
+          Force Close
         </button>
       </div>
     </div>
@@ -1054,15 +1359,15 @@
       <div class="modal-body">
         <form id="userForm">
           <input type="hidden" id="userMode" value="add">
-          <div class="form-group">
-            <label class="form-label">NPK</label>
-            <input type="text" class="form-input" id="userNpk" required>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Nama</label>
-            <input type="text" class="form-input" id="userNama" required>
-          </div>
-          <div class="form-row">
+          <div class="form-grid" style="grid-template-columns: 1fr;">
+            <div class="form-group">
+              <label class="form-label">NPK</label>
+              <input type="text" class="form-input" id="userNpk" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Nama</label>
+              <input type="text" class="form-input" id="userNama" required>
+            </div>
             <div class="form-group">
               <label class="form-label">Role</label>
               <select class="form-select" id="userRole">
@@ -1103,46 +1408,40 @@
       <div class="modal-body">
         <form id="karyawanForm">
           <input type="hidden" id="karyawanMode" value="add">
-          <div class="form-row">
-            <div class="form-group">
+          <div class="form-grid">
+            <div class="form-group half-width">
               <label class="form-label">NPK</label>
               <input type="text" class="form-input" id="karNpk" required>
             </div>
-            <div class="form-group">
+            <div class="form-group half-width">
               <label class="form-label">Nama</label>
               <input type="text" class="form-input" id="karNama" required>
             </div>
-          </div>
-          <div class="form-row">
-            <div class="form-group">
+            <div class="form-group half-width">
               <label class="form-label">Jabatan</label>
               <input type="text" class="form-input" id="karJabatan" required>
             </div>
-            <div class="form-group">
+            <div class="form-group half-width">
               <label class="form-label">CL (Access Level)</label>
               <input type="number" class="form-input" id="karCl" min="1" max="5" value="5" required>
             </div>
-          </div>
-          <div class="form-row">
-            <div class="form-group">
+            <div class="form-group half-width">
               <label class="form-label">Cabang</label>
               <input type="text" class="form-input" id="karCabang" required>
             </div>
-            <div class="form-group">
+            <div class="form-group half-width">
               <label class="form-label">Region</label>
               <input type="text" class="form-input" id="karRegion">
             </div>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Atasan NPK</label>
-            <input type="text" class="form-input" id="karAtasanNpk">
-          </div>
-          <div class="form-row">
-            <div class="form-group">
+            <div class="form-group half-width">
+              <label class="form-label">Atasan NPK</label>
+              <input type="text" class="form-input" id="karAtasanNpk">
+            </div>
+            <div class="form-group half-width">
               <label class="form-label">Email</label>
               <input type="email" class="form-input" id="karEmail">
             </div>
-            <div class="form-group">
+            <div class="form-group half-width">
               <label class="form-label">No HP</label>
               <input type="text" class="form-input" id="karNoHp">
             </div>
@@ -1160,13 +1459,14 @@
   </div>
 
   <script>
-    // ==================== GLOBAL VARIABLES ====================
+        // ==================== GLOBAL VARIABLES ====================
     let currentUser = null;
     let allEmployees = [];
     let allCabangs = [];
     let currentSort = { column: null, direction: 'asc' };
     let allKaryawanData = [];
     let allAtasanList = [];
+    let currentCoachingDetail = null;
 
     // ==================== INITIALIZATION ====================
     document.addEventListener('DOMContentLoaded', function() {
@@ -1200,7 +1500,6 @@
       document.getElementById('loginScreen').style.display = 'none';
       document.getElementById('appContainer').classList.add('active');
       
-      // Update user info
       document.getElementById('userName').textContent = currentUser.nama || currentUser.npk;
       document.getElementById('userRole').textContent = currentUser.jabatan || 'Karyawan';
       document.getElementById('userAvatar').textContent = (currentUser.nama || currentUser.npk).charAt(0).toUpperCase();
@@ -1246,23 +1545,19 @@
 
     // ==================== NAVIGATION ====================
     function navigateTo(page) {
-      // Update nav items
       document.querySelectorAll('.nav-item').forEach(item => {
         item.classList.remove('active');
         if (item.dataset.page === page) item.classList.add('active');
       });
 
-      // Hide all pages
       document.querySelectorAll('.page-content').forEach(p => p.style.display = 'none');
       
-      // Show selected page
       const targetPage = document.getElementById('page-' + page);
       if (targetPage) {
         targetPage.style.display = 'block';
         targetPage.classList.add('fade-in');
       }
 
-      // Load data if needed
       if (page === 'dashboard') loadDashboardData();
       if (page === 'dataCoaching') loadCoachingData();
       if (page === 'reminder') loadReminderData();
@@ -1281,14 +1576,14 @@
             allEmployees = data.employees || [];
             allCabangs = data.cabangs || [];
             
-            // Update stats
             document.getElementById('statTotalCoaching').textContent = data.totalCoaching;
             document.getElementById('statBelumCoaching').textContent = data.belumCoaching;
             document.getElementById('statBelumUpdate').textContent = data.sudahCoachingBelumUpdate;
-            document.getElementById('statSudahUpdate').textContent = data.sudahCoachingSudahUpdate;
+            document.getElementById('statOnTrack').textContent = data.onTrack || 0;
+            document.getElementById('statBehind').textContent = data.behindSchedule || 0;
+            document.getElementById('statOverdue').textContent = data.overdueCount || 0;
             document.getElementById('currentPeriod').textContent = data.currentPeriod;
 
-            // Update cabang filter
             const cabangSelect = document.getElementById('dashboardCabangFilter');
             cabangSelect.innerHTML = '<option value="">Semua Cabang</option>';
             allCabangs.forEach(c => {
@@ -1312,12 +1607,10 @@
       const table = document.getElementById('monitoringTable');
       const headers = table.querySelectorAll('th');
       
-      // Reset all headers
       headers.forEach(h => {
         h.classList.remove('sort-asc', 'sort-desc');
       });
 
-      // Toggle direction
       if (currentSort.column === column) {
         currentSort.direction = currentSort.direction === 'asc' ? 'desc' : 'asc';
       } else {
@@ -1325,13 +1618,11 @@
         currentSort.direction = 'asc';
       }
 
-      // Add sort class to active header
       const activeHeader = table.querySelector('th[onclick="sortTable(\'' + column + '\')"]');
       if (activeHeader) {
         activeHeader.classList.add('sort-' + currentSort.direction);
       }
 
-      // Sort data
       let sortedData = [...allEmployees];
       sortedData.sort(function(a, b) {
         let valA = (a[column] || '').toString().toLowerCase();
@@ -1342,7 +1633,6 @@
         return 0;
       });
 
-      // Apply current filters
       const cabangFilter = document.getElementById('dashboardCabangFilter').value;
       const searchTerm = document.getElementById('dashboardSearch').value.toLowerCase();
       
@@ -1364,19 +1654,40 @@
       const tbody = document.getElementById('monitoringTableBody');
       
       if (!employees || employees.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="6" class="empty-state"><span class="material-icons">inbox</span><h3>Tidak ada data karyawan</h3></td></tr>';
+        tbody.innerHTML = '<tr><td colspan="7" class="empty-state"><span class="material-icons">inbox</span><h3>Tidak ada data karyawan</h3></td></tr>';
         return;
       }
 
       let html = '';
       employees.forEach(function(emp) {
         let statusBadge = '';
+        let progressBar = '';
+        
         if (emp.status === 'BELUM_COACHING') {
           statusBadge = '<span class="badge badge-red">Belum Coaching</span>';
         } else if (emp.status === 'BELUM_UPDATE') {
           statusBadge = '<span class="badge badge-orange">Belum Update</span>';
         } else if (emp.status === 'SUDAH_UPDATE') {
-          statusBadge = '<span class="badge badge-green">Sudah Update</span>';
+          if (emp.coaching_status === 'ON TRACK') {
+            statusBadge = '<span class="badge badge-green">On Track</span>';
+          } else if (emp.coaching_status === 'BEHIND') {
+            statusBadge = '<span class="badge badge-purple">Behind</span>';
+          } else {
+            statusBadge = '<span class="badge badge-green">Sudah Update</span>';
+          }
+        }
+
+        // Progress bar
+        if (emp.progress_pct > 0) {
+          let progressColor = 'progress-fill';
+          if (emp.progress_pct >= 80) progressColor += ' green';
+          else if (emp.progress_pct >= 50) progressColor += ' orange';
+          else progressColor += ' red';
+          
+          progressBar = '<div class="progress-bar"><div class="' + progressColor + '" style="width: ' + emp.progress_pct + '%"></div></div>' +
+            '<div class="progress-text">' + emp.progress_pct + '%</div>';
+        } else {
+          progressBar = '<span style="color: var(--gray-400); font-size: 12px;">-</span>';
         }
 
         html += '<tr ondblclick="handleDoubleClick(\'' + emp.npk + '\', \'' + emp.status + '\', \'' + (emp.coaching_id || '') + '\')">' +
@@ -1384,6 +1695,7 @@
           '<td>' + emp.nama + '</td>' +
           '<td>' + emp.jabatan + '</td>' +
           '<td>' + emp.cabang + '</td>' +
+          '<td>' + progressBar + '</td>' +
           '<td>' + statusBadge + '</td>' +
           '<td>' +
             '<div class="action-btns">' +
@@ -1404,10 +1716,8 @@
     // ==================== DOUBLE CLICK HANDLER ====================
     function handleDoubleClick(npk, status, coachingId) {
       if (status === 'BELUM_COACHING') {
-        // Buka form tambah coaching dengan data karyawan terisi
         openTambahCoachingModalWithData(npk);
       } else if (status === 'BELUM_UPDATE' || status === 'SUDAH_UPDATE') {
-        // Buka form update coaching
         if (coachingId) {
           openUpdateCoachingModal(coachingId, npk);
         } else {
@@ -1417,24 +1727,21 @@
     }
 
     function openTambahCoachingModalWithData(npk) {
-      // Reset form
       document.getElementById('tambahCoachingForm').reset();
+      resetTargetType();
       
-      // Cari data karyawan
       const employee = allEmployees.find(e => e.npk === npk);
       if (!employee) {
         showToast('error', 'Data karyawan tidak ditemukan');
         return;
       }
 
-      // Isi cabang dan karyawan
       const cabangSelect = document.getElementById('tcCabang');
       cabangSelect.innerHTML = '<option value="">Pilih Cabang</option>';
       allCabangs.forEach(c => {
         cabangSelect.innerHTML += '<option value="' + c + '"' + (c === employee.cabang ? ' selected' : '') + '>' + c + '</option>';
       });
 
-      // Load coachees untuk cabang tersebut
       loadCoachees(function() {
         const coacheeSelect = document.getElementById('tcCoachee');
         for (let i = 0; i < coacheeSelect.options.length; i++) {
@@ -1445,10 +1752,8 @@
         }
       });
 
-      // Isi atasan jika ada
       if (employee.atasan_npk) {
         document.getElementById('tcAtasanNpk').value = employee.atasan_npk;
-        // Cari nama atasan
         const atasan = allKaryawanData.find(k => k.npk === employee.atasan_npk);
         if (atasan) {
           document.getElementById('tcAtasanNama').value = atasan.nama;
@@ -1475,7 +1780,6 @@
         );
       }
 
-      // Apply current sort
       if (currentSort.column) {
         filtered.sort(function(a, b) {
           let valA = (a[currentSort.column] || '').toString().toLowerCase();
@@ -1506,7 +1810,6 @@
 
     function searchAtasanByNpk(npk) {
       const list = document.getElementById('atasanNpkList');
-      const namaInput = document.getElementById('tcAtasanNama');
       
       if (!npk || npk.length < 2) {
         list.classList.remove('active');
@@ -1528,7 +1831,6 @@
 
     function searchAtasanByNama(nama) {
       const list = document.getElementById('atasanNamaList');
-      const npkInput = document.getElementById('tcAtasanNpk');
       
       if (!nama || nama.length < 2) {
         list.classList.remove('active');
@@ -1555,12 +1857,49 @@
       document.getElementById('atasanNamaList').classList.remove('active');
     }
 
-    // Close autocomplete when clicking outside
     document.addEventListener('click', function(e) {
       if (!e.target.closest('.autocomplete-container')) {
         document.querySelectorAll('.autocomplete-list').forEach(l => l.classList.remove('active'));
       }
     });
+        // ==================== TARGET TYPE SELECTOR ====================
+    function selectTargetType(type) {
+      document.querySelectorAll('.target-type-card').forEach(card => {
+        card.classList.remove('active');
+      });
+      document.querySelector('.target-type-card[data-type="' + type + '"]').classList.add('active');
+      document.getElementById('tcTipeTarget').value = type;
+      
+      // Show/hide relevant fields
+      document.getElementById('targetFieldsAkumulatif').style.display = type === 'AKUMULATIF' ? 'block' : 'none';
+      document.getElementById('targetFieldsAkumulatifSatuan').style.display = type === 'AKUMULATIF' ? 'block' : 'none';
+      document.getElementById('targetFieldsMilestone').style.display = type === 'MILESTONE' ? 'block' : 'none';
+      document.getElementById('targetFieldsChecklist').style.display = type === 'CHECKLIST' ? 'block' : 'none';
+    }
+
+    function resetTargetType() {
+      selectTargetType('AKUMULATIF');
+    }
+
+    function addMilestone() {
+      const container = document.getElementById('milestoneContainer');
+      const count = container.children.length + 1;
+      const div = document.createElement('div');
+      div.className = 'dynamic-item';
+      div.innerHTML = '<input type="text" class="form-input" placeholder="Deskripsi milestone ' + count + '...">' +
+        '<button type="button" class="action-btn delete" onclick="this.parentElement.remove()"><span class="material-icons">delete</span></button>';
+      container.appendChild(div);
+    }
+
+    function addChecklist() {
+      const container = document.getElementById('checklistContainer');
+      const count = container.children.length + 1;
+      const div = document.createElement('div');
+      div.className = 'dynamic-item';
+      div.innerHTML = '<input type="text" class="form-input" placeholder="Item checklist ' + count + '...">' +
+        '<button type="button" class="action-btn delete" onclick="this.parentElement.remove()"><span class="material-icons">delete</span></button>';
+      container.appendChild(div);
+    }
 
     // ==================== COACHING DATA ====================
     function loadCoachingData() {
@@ -1569,7 +1908,6 @@
         .withSuccessHandler(function(result) {
           showLoading(false);
           if (result.success) {
-            // Update cabang filter
             const cabangSelect = document.getElementById('coachingCabangFilter');
             const currentVal = cabangSelect.value;
             cabangSelect.innerHTML = '<option value="">Semua Cabang</option>';
@@ -1578,7 +1916,6 @@
             });
             cabangSelect.value = currentVal;
 
-            // Render table (gunakan data yang sudah ada dari getInitialData)
             filterCoachingData();
           }
         })
@@ -1594,7 +1931,6 @@
       const statusFilter = document.getElementById('coachingStatusFilter').value;
       const searchTerm = document.getElementById('coachingSearch').value.toLowerCase();
 
-      // Filter dari allEmployees yang sudah coaching
       let filtered = allEmployees.filter(e => e.coaching_id);
       
       if (cabangFilter) filtered = filtered.filter(e => e.cabang === cabangFilter);
@@ -1608,7 +1944,7 @@
 
       const tbody = document.getElementById('coachingTableBody');
       if (filtered.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="11" class="empty-state"><span class="material-icons">inbox</span><h3>Tidak ada data coaching</h3></td></tr>';
+        tbody.innerHTML = '<tr><td colspan="8" class="empty-state"><span class="material-icons">inbox</span><h3>Tidak ada data coaching</h3></td></tr>';
         return;
       }
 
@@ -1617,19 +1953,26 @@
         let statusBadge = '';
         if (emp.coaching_status === 'OPEN') statusBadge = '<span class="badge badge-blue">OPEN</span>';
         else if (emp.coaching_status === 'ON PROGRESS') statusBadge = '<span class="badge badge-orange">ON PROGRESS</span>';
+        else if (emp.coaching_status === 'ON TRACK') statusBadge = '<span class="badge badge-green">ON TRACK</span>';
+        else if (emp.coaching_status === 'BEHIND') statusBadge = '<span class="badge badge-purple">BEHIND</span>';
         else if (emp.coaching_status === 'DONE') statusBadge = '<span class="badge badge-green">DONE</span>';
         else if (emp.coaching_status === 'OVERDUE') statusBadge = '<span class="badge badge-red">OVERDUE</span>';
+
+        let progressBar = '';
+        if (emp.progress_pct > 0) {
+          let color = emp.progress_pct >= 80 ? 'green' : emp.progress_pct >= 50 ? 'orange' : 'red';
+          progressBar = '<div class="progress-bar"><div class="progress-fill ' + color + '" style="width: ' + emp.progress_pct + '%"></div></div><div class="progress-text">' + emp.progress_pct + '%</div>';
+        } else {
+          progressBar = '-';
+        }
 
         html += '<tr>' +
           '<td>' + (index + 1) + '</td>' +
           '<td><strong>' + emp.nama + '</strong><br><small>' + emp.npk + '</small></td>' +
-          '<td>' + (emp.root_cause || '-') + '</td>' +
           '<td>' + (emp.topic || '-') + '</td>' +
-          '<td>-</td>' +
+          '<td><span class="badge badge-gray">' + (emp.tipe_target || 'AKUMULATIF') + '</span></td>' +
+          '<td>' + progressBar + '</td>' +
           '<td>' + (emp.target_date || '-') + '</td>' +
-          '<td>-</td>' +
-          '<td>-</td>' +
-          '<td>-</td>' +
           '<td>' + statusBadge + '</td>' +
           '<td>' +
             '<div class="action-btns">' +
@@ -1638,6 +1981,9 @@
               '</button>' +
               '<button class="action-btn" onclick="viewCoachingDetail(\'' + emp.coaching_id + '\')" title="Detail">' +
                 '<span class="material-icons">visibility</span>' +
+              '</button>' +
+              '<button class="action-btn delete" onclick="openForceCloseModal(\'' + emp.coaching_id + '\')" title="Force Close">' +
+                '<span class="material-icons">power_settings_new</span>' +
               '</button>' +
             '</div>' +
           '</td>' +
@@ -1649,6 +1995,7 @@
     // ==================== TAMBAH COACHING MODAL ====================
     function openTambahCoachingModal() {
       document.getElementById('tambahCoachingForm').reset();
+      resetTargetType();
       
       const cabangSelect = document.getElementById('tcCabang');
       cabangSelect.innerHTML = '<option value="">Pilih Cabang</option>';
@@ -1690,12 +2037,50 @@
       const atasanNpk = document.getElementById('tcAtasanNpk').value;
       const rootCause = document.getElementById('tcRootCause').value;
       const topic = document.getElementById('tcTopic').value;
-      const target = document.getElementById('tcTarget').value;
       const targetDate = document.getElementById('tcTargetDate').value;
+      const how = document.getElementById('tcHow').value;
+      const tipeTarget = document.getElementById('tcTipeTarget').value;
+      const targetDeskripsi = document.getElementById('tcTargetDeskripsi').value;
 
-      if (!cabang || !coachee || !rootCause || !topic || !targetDate) {
-        showToast('warning', 'Mohon lengkapi semua field wajib');
+      if (!cabang || !coachee || !rootCause || !topic || !targetDate || !how) {
+        showToast('warning', 'Mohon lengkapi semua field wajib (*)');
         return;
+      }
+
+      // Prepare data based on tipe_target
+      let targetNominal = 0;
+      let targetSatuan = '';
+      let finalDeskripsi = targetDeskripsi;
+
+      if (tipeTarget === 'AKUMULATIF') {
+        targetNominal = parseFloat(document.getElementById('tcTargetNominal').value) || 0;
+        targetSatuan = document.getElementById('tcTargetSatuan').value;
+        if (!targetNominal || !targetSatuan) {
+          showToast('warning', 'Mohon isi target nominal dan satuan');
+          return;
+        }
+      } else if (tipeTarget === 'MILESTONE') {
+        const milestones = [];
+        document.querySelectorAll('#milestoneContainer input').forEach(input => {
+          if (input.value.trim()) milestones.push(input.value.trim());
+        });
+        if (milestones.length === 0) {
+          showToast('warning', 'Mohon isi minimal 1 milestone');
+          return;
+        }
+        finalDeskripsi = milestones.join('\n');
+        targetSatuan = 'MILESTONE';
+      } else if (tipeTarget === 'CHECKLIST') {
+        const items = [];
+        document.querySelectorAll('#checklistContainer input').forEach(input => {
+          if (input.value.trim()) items.push(input.value.trim());
+        });
+        if (items.length === 0) {
+          showToast('warning', 'Mohon isi minimal 1 checklist item');
+          return;
+        }
+        finalDeskripsi = items.join('\n');
+        targetSatuan = 'CHECKLIST';
       }
 
       showLoading(true);
@@ -1706,9 +2091,6 @@
             closeModal('tambahCoachingModal');
             showToast('success', 'Coaching berhasil dibuat');
             loadDashboardData();
-            if (document.getElementById('page-dataCoaching').style.display !== 'none') {
-              loadCoachingData();
-            }
           } else {
             if (result.existing_coaching) {
               showToast('warning', result.message);
@@ -1727,8 +2109,11 @@
           coach_npk: currentUser.npk,
           root_cause: rootCause,
           topic: topic,
-          target: target,
           target_date: targetDate,
+          target_nominal: targetNominal,
+          target_satuan: targetSatuan,
+          tipe_target: tipeTarget,
+          target_deskripsi: finalDeskripsi,
           atasan_npk: atasanNpk
         });
     }
@@ -1743,6 +2128,44 @@
       document.getElementById('ucCoachingId').value = coachingId;
       document.getElementById('updateCoachingForm').reset();
 
+      // Get coaching detail to determine tipe_target
+      google.script.run
+        .withSuccessHandler(function(result) {
+          if (result.success) {
+            currentCoachingDetail = result.data;
+            const header = result.data.header;
+            
+            document.getElementById('ucTipeTarget').value = header.tipe_target;
+            document.getElementById('ucInfoContent').innerHTML = 
+              'Topic: <strong>' + header.topic + '</strong> | Tipe: <span class="badge badge-gray">' + header.tipe_target + '</span>';
+            
+            // Show relevant fields
+            document.getElementById('updateFieldsAkumulatif').style.display = header.tipe_target === 'AKUMULATIF' ? 'block' : 'none';
+            document.getElementById('updateFieldsMilestone').style.display = header.tipe_target === 'MILESTONE' ? 'block' : 'none';
+            document.getElementById('updateFieldsChecklist').style.display = header.tipe_target === 'CHECKLIST' ? 'block' : 'none';
+            
+            // Set satuan for akumulatif
+            if (header.tipe_target === 'AKUMULATIF') {
+              document.getElementById('ucRealisasiSatuan').value = header.target_satuan || '';
+            }
+            
+            // Build checklist items if CHECKLIST
+            if (header.tipe_target === 'CHECKLIST' && header.target_deskripsi) {
+              const container = document.getElementById('ucChecklistContainer');
+              container.innerHTML = '';
+              header.target_deskripsi.split('\n').forEach((item, idx) => {
+                if (item.trim()) {
+                  container.innerHTML += '<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">' +
+                    '<input type="checkbox" id="ucCheck_' + idx + '" style="width:18px;height:18px;">' +
+                    '<label for="ucCheck_' + idx + '" style="font-size:13px;">' + item.trim() + '</label>' +
+                  '</div>';
+                }
+              });
+            }
+          }
+        })
+        .getCoachingDetail(coachingId);
+
       // Load weeks
       google.script.run
         .withSuccessHandler(function(result) {
@@ -1752,7 +2175,6 @@
             result.data.forEach(function(w) {
               weekSelect.innerHTML += '<option value="' + w + '">' + w + '</option>';
             });
-            // Select current week
             const currentPeriod = document.getElementById('currentPeriod').textContent;
             if (currentPeriod) weekSelect.value = currentPeriod;
           }
@@ -1770,12 +2192,31 @@
       const targetDate = document.getElementById('ucTargetDate').value;
       const result = document.getElementById('ucResult').value;
       const feedback = document.getElementById('ucFeedback').value;
-      const targetNominal = document.getElementById('ucTargetNominal').value;
-      const targetSatuan = document.getElementById('ucTargetSatuan').value;
+      const tipeTarget = document.getElementById('ucTipeTarget').value;
 
       if (!week || !action || !how) {
         showToast('warning', 'Minggu, Action, dan How wajib diisi');
         return;
+      }
+
+      // Prepare data based on tipe_target
+      let targetNominal = 0;
+      let targetSatuan = '';
+      let finalResult = result;
+
+      if (tipeTarget === 'AKUMULATIF') {
+        targetNominal = parseFloat(document.getElementById('ucRealisasi').value) || 0;
+        targetSatuan = document.getElementById('ucRealisasiSatuan').value;
+      } else if (tipeTarget === 'MILESTONE') {
+        const status = document.getElementById('ucMilestoneStatus').value;
+        const note = document.getElementById('ucMilestoneNote').value;
+        finalResult = status + (note ? ': ' + note : '');
+      } else if (tipeTarget === 'CHECKLIST') {
+        const checked = [];
+        document.querySelectorAll('#ucChecklistContainer input[type="checkbox"]').forEach(cb => {
+          checked.push(cb.checked ? '✅' : '⬜');
+        });
+        finalResult = checked.join(' | ');
       }
 
       showLoading(true);
@@ -1800,21 +2241,61 @@
           action: action,
           how: how,
           target_date: targetDate,
-          result: result,
+          result: finalResult,
           feedback: feedback,
           target_nominal: targetNominal,
           target_satuan: targetSatuan
         });
     }
 
+    // ==================== FORCE CLOSE ====================
+    function openForceCloseModal(coachingId) {
+      document.getElementById('fcCoachingId').value = coachingId;
+      document.getElementById('fcReason').value = '';
+      openModal('forceCloseModal');
+    }
+
+    function saveForceClose() {
+      const coachingId = document.getElementById('fcCoachingId').value;
+      const reason = document.getElementById('fcReason').value;
+
+      if (!reason) {
+        showToast('warning', 'Alasan force close wajib diisi');
+        return;
+      }
+
+      showLoading(true);
+      google.script.run
+        .withSuccessHandler(function(result) {
+          showLoading(false);
+          if (result.success) {
+            closeModal('forceCloseModal');
+            showToast('success', 'Coaching berhasil ditutup');
+            loadDashboardData();
+            if (document.getElementById('page-dataCoaching').style.display !== 'none') {
+              loadCoachingData();
+            }
+          } else {
+            showToast('error', result.message);
+          }
+        })
+        .withFailureHandler(function(error) {
+          showLoading(false);
+          showToast('error', 'Error: ' + error.message);
+        })
+        .forceCloseCoaching({
+          coaching_id: coachingId,
+          force_close_reason: reason
+        });
+    }
+
+    // ==================== VIEW COACHING DETAIL ====================
     function viewCoachingDetail(coachingId) {
       if (!coachingId) {
         showToast('warning', 'Data coaching tidak ditemukan');
         return;
       }
-      // Navigate to update page and load detail
       navigateTo('updateFollowUp');
-      // Load detail data
       google.script.run
         .withSuccessHandler(function(result) {
           if (result.success) {
@@ -1847,19 +2328,38 @@
         '<div style="padding: 16px; background: var(--primary-light); border-radius: var(--radius); margin-bottom: 20px;">' +
           '<div style="font-size: 12px; color: var(--primary); margin-bottom: 4px;">Status Coaching</div>' +
           '<div style="font-size: 18px; font-weight: 700; color: var(--primary);">' + header.display_status + '</div>' +
-        '</div>' +
-        '<div class="form-group">' +
-          '<label class="form-label">Root Cause</label>' +
-          '<div style="padding: 12px; background: var(--gray-50); border-radius: var(--radius-sm); font-size: 14px;">' + (header.root_cause || '-') + '</div>' +
-        '</div>' +
-        '<div class="form-group">' +
-          '<label class="form-label">Topic</label>' +
-          '<div style="padding: 12px; background: var(--gray-50); border-radius: var(--radius-sm); font-size: 14px;">' + (header.topic || '-') + '</div>' +
+          '<div style="font-size: 13px; color: var(--gray-600); margin-top: 4px;">' +
+            'Progress: ' + header.progress_pct + '% | Sisa: ' + header.sisa_target + ' ' + header.target_satuan +
+          '</div>' +
+        '</div>';
+
+      // Target info
+      html += '<div class="form-group">' +
+        '<label class="form-label">Tipe Target</label>' +
+        '<div style="padding: 12px; background: var(--gray-50); border-radius: var(--radius-sm); font-size: 14px;">' +
+          '<span class="badge badge-gray">' + header.tipe_target + '</span>' +
+          (header.target_satuan ? ' | Satuan: ' + header.target_satuan : '') +
         '</div>' +
       '</div>';
 
+      if (header.target_deskripsi) {
+        html += '<div class="form-group">' +
+          '<label class="form-label">Deskripsi Target</label>' +
+          '<div style="padding: 12px; background: var(--gray-50); border-radius: var(--radius-sm); font-size: 14px; white-space: pre-line;">' + header.target_deskripsi + '</div>' +
+        '</div>';
+      }
+
+      html += '<div class="form-group">' +
+        '<label class="form-label">Root Cause</label>' +
+        '<div style="padding: 12px; background: var(--gray-50); border-radius: var(--radius-sm); font-size: 14px;">' + (header.root_cause || '-') + '</div>' +
+      '</div>' +
+      '<div class="form-group">' +
+        '<label class="form-label">Topic</label>' +
+        '<div style="padding: 12px; background: var(--gray-50); border-radius: var(--radius-sm); font-size: 14px;">' + (header.topic || '-') + '</div>' +
+      '</div>';
+
       if (details.length > 0) {
-        html += '<h3 style="font-size: 16px; font-weight: 700; margin-bottom: 16px;">Riwayat Update</h3>' +
+        html += '<h3 style="font-size: 16px; font-weight: 700; margin: 24px 0 16px;">Riwayat Update</h3>' +
           '<div class="table-container">' +
             '<table class="data-table">' +
               '<thead>' +
@@ -1886,10 +2386,43 @@
         html += '</tbody></table></div>';
       }
 
+      // Action buttons
+      html += '<div style="margin-top: 24px; display: flex; gap: 12px;">' +
+        '<button class="btn btn-primary" onclick="openUpdateCoachingModal(\'' + header.coaching_id + '\', \'' + header.coachee_npk + '\')">' +
+          '<span class="material-icons">edit</span> Update Mingguan' +
+        '</button>' +
+        '<button class="btn btn-success" onclick="completeCoaching(\'' + header.coaching_id + '\')">' +
+          '<span class="material-icons">check_circle</span> Tandai DONE' +
+        '</button>' +
+        '<button class="btn btn-danger" onclick="openForceCloseModal(\'' + header.coaching_id + '\')">' +
+          '<span class="material-icons">power_settings_new</span> Force Close' +
+        '</button>' +
+      '</div>';
+
+      html += '</div>';
+
       container.innerHTML = html;
     }
 
-    // ==================== REMINDER ====================
+    function completeCoaching(coachingId) {
+      showLoading(true);
+      google.script.run
+        .withSuccessHandler(function(result) {
+          showLoading(false);
+          if (result.success) {
+            showToast('success', result.message);
+            loadDashboardData();
+          } else {
+            showToast('error', result.message);
+          }
+        })
+        .withFailureHandler(function(error) {
+          showLoading(false);
+          showToast('error', 'Error: ' + error.message);
+        })
+        .completeCoaching(coachingId);
+    }
+        // ==================== REMINDER ====================
     function loadReminderData() {
       showLoading(true);
       google.script.run
@@ -1899,9 +2432,10 @@
             const data = result.data;
             document.getElementById('statUpcoming').textContent = data.total_upcoming;
             document.getElementById('statOverdue').textContent = data.total_overdue;
+            document.getElementById('statBehindReminder').textContent = data.total_behind;
 
             const tbody = document.getElementById('reminderTableBody');
-            const allItems = [...data.upcoming, ...data.overdue];
+            const allItems = [...data.upcoming, ...data.overdue, ...data.behind];
             
             if (allItems.length === 0) {
               tbody.innerHTML = '<tr><td colspan="8" class="empty-state"><span class="material-icons">notifications_none</span><h3>Tidak ada reminder</h3></td></tr>';
@@ -1911,15 +2445,15 @@
             let html = '';
             allItems.forEach(function(item) {
               let daysClass = item.days_remaining < 0 ? 'badge-red' : 'badge-orange';
-              let daysText = item.days_remaining < 0 ? 'Lewat ' + Math.abs(item.days_remaining) + ' hari' : item.days_remaining + ' hari lagi';
+              let daysText = item.days_remaining < 0 ? 'Lewat ' + Math.abs(item.days_remaining) + ' hari' : (item.days_remaining !== null ? item.days_remaining + ' hari lagi' : '-');
               
               html += '<tr>' +
                 '<td>' + item.coaching_id + '</td>' +
                 '<td><strong>' + item.coachee_nama + '</strong></td>' +
-                '<td>' + item.root_cause + '</td>' +
                 '<td>' + item.topic + '</td>' +
+                '<td><span class="badge badge-gray">' + item.tipe_target + '</span></td>' +
                 '<td>' + item.target_date + '</td>' +
-                '<td><span class="badge ' + (item.status === 'OVERDUE' ? 'badge-red' : 'badge-blue') + '">' + item.status + '</span></td>' +
+                '<td><span class="badge ' + (item.status === 'OVERDUE' ? 'badge-red' : item.status === 'BEHIND' ? 'badge-purple' : 'badge-blue') + '">' + item.status + '</span></td>' +
                 '<td><span class="badge ' + daysClass + '">' + daysText + '</span></td>' +
                 '<td>' +
                   '<button class="action-btn" onclick="viewCoachingDetail(\'' + item.coaching_id + '\')" title="Lihat Detail">' +
@@ -1990,12 +2524,10 @@
     }
 
     function editUser(npk) {
-      // Implementation for edit user
       showToast('info', 'Fitur edit user sedang dikembangkan');
     }
 
     function saveUser() {
-      const mode = document.getElementById('userMode').value;
       const data = {
         npk: document.getElementById('userNpk').value,
         nama: document.getElementById('userNama').value,
@@ -2226,7 +2758,6 @@
       document.body.style.overflow = '';
     }
 
-    // Close modal on overlay click
     document.querySelectorAll('.modal-overlay').forEach(function(overlay) {
       overlay.addEventListener('click', function(e) {
         if (e.target === this) {
