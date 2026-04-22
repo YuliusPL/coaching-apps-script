@@ -9,151 +9,178 @@
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
   <style>
-    :root { --primary: #002D57; --bg: #F4F7FE; }
+    :root { --primary: #002D57; --accent: #00A8E8; --bg: #F4F7FE; }
     body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: var(--bg); padding-bottom: 90px; color: #1A202C; overflow-x: hidden; }
-    .header-box { background: var(--primary); color: white; padding: 18px 20px; border-radius: 0 0 25px 25px; box-shadow: 0 10px 30px rgba(0,45,87,0.1); }
-    .card-mewah { background: white; border-radius: 20px; padding: 15px; margin-bottom: 12px; border: none; }
-    .hero-stat { background: linear-gradient(135deg, #002D57 0%, #00509D 100%); color: white; padding: 12px !important; border-radius: 25px; }
-    .gauge-container { width: 105px; margin: 0 auto; position: relative; }
+    .header-box { background: var(--primary); color: white; padding: 18px 20px; border-radius: 0 0 25px 25px; }
+    .card-mewah { background: white; border-radius: 20px; padding: 15px; margin-bottom: 12px; border: none; box-shadow: 0 4px 15px rgba(0,0,0,0.02); }
+    .hero-stat { background: linear-gradient(135deg, #002D57 0%, #00509D 100%); color: white; padding: 15px !important; border-radius: 25px; }
+    
+    /* Gauge Style */
+    .gauge-container { width: 85px; margin: 0 auto; position: relative; }
     .gauge-label { position: absolute; top: 60%; left: 50%; transform: translate(-50%, -50%); text-align: center; }
-    .jab-card { background: white; border-radius: 18px; padding: 12px 6px; text-align: center; border: 1px solid #f1f5f9; height: 100%; box-shadow: 0 4px 10px rgba(0,0,0,0.02); }
-    .jab-pct { background: var(--primary); color: white; border-radius: 10px; font-size: 19px; font-weight: 800; padding: 5px 0; display: block; margin-bottom: 8px; }
-    .jab-val { font-size: 12px; font-weight: 800; color: var(--primary); display: block; line-height: 1.1; margin-bottom: 6px; }
-    .jab-tgt { font-size: 9px; font-weight: 700; color: #64748B; display: block; border-top: 1px dashed #eee; padding-top: 6px; }
+    
+    /* Jabatan Cards Style */
+    .jab-title { font-weight: 800; font-size: 14px; color: #64748B; margin-bottom: 5px; display: block; }
+    .jab-pct { background: var(--primary); color: white; border-radius: 12px; font-size: 20px; font-weight: 800; padding: 5px 0; display: block; margin-bottom: 10px; }
+    .jab-detail { font-size: 10px; line-height: 1.4; text-align: left; border-top: 1px dashed #eee; padding-top: 8px; }
+    .jab-detail b { color: var(--primary); }
+
+    .cair-row { background: #f8fafc; padding: 12px 16px; border-radius: 15px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; border-left: 4px solid var(--accent); }
     .nav-fix { position: fixed; bottom: 12px; left: 12px; right: 12px; background: white; display: flex; justify-content: space-around; padding: 12px 0; border-radius: 22px; box-shadow: 0 10px 35px rgba(0,0,0,0.12); z-index: 1000; }
     .nav-item { text-align: center; color: #94A3B8; text-decoration: none; font-size: 10px; flex: 1; font-weight: 700; cursor: pointer; }
     .nav-item.active { color: var(--primary); }
-    .nav-item i { font-size: 24px; display: block; margin-bottom: 2px; }
     #loader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white; z-index: 9999; display: flex; flex-direction: column; justify-content: center; align-items: center; }
   </style>
 </head>
 <body>
 
-  <div id="loader">
-    <div class="spinner-grow text-primary"></div>
-    <p class="mt-3 fw-bold">Optimizing Performance...</p>
-    <small class="text-muted">Caching and compressing data...</small>
-  </div>
+  <div id="loader"><div class="spinner-grow text-primary"></div><p class="mt-3 fw-bold">Sinkronisasi Data...</p></div>
 
   <div id="app">
     <div class="header-box d-flex justify-content-between align-items-center">
-      <div><p class="small mb-0 opacity-75 fw-bold" style="font-size:9px;">COMMAND CENTER</p><h6 class="fw-bold mb-0" id="u-nama">Memuat...</h6></div>
-      <button class="btn btn-sm btn-outline-light rounded-pill px-3" style="font-size:10px; font-weight:800;" onclick="location.reload()">REFRESH ALL</button>
+      <div><p class="small mb-0 opacity-75 fw-bold" style="font-size:9px;">COMMAND CENTER</p><h6 class="fw-bold mb-0" id="u-nama">YULIUS PL</h6></div>
+      <button class="btn btn-sm btn-outline-light rounded-pill px-3" style="font-size:10px; font-weight:800;" onclick="location.reload()">REFRESH</button>
     </div>
 
     <div class="p-3" id="view-port">
       <div id="dash-content">
         <div class="card-mewah mb-2 shadow-sm">
-          <div class="row g-2 mb-2">
-            <div class="col-6"><input type="date" id="f-start" class="form-control form-control-sm" onchange="applyLocalFilter()"></div>
-            <div class="col-6"><input type="date" id="f-end" class="form-control form-control-sm" onchange="applyLocalFilter()"></div>
-          </div>
-          <div class="row g-2">
-            <div class="col-6"><select id="f-c" class="form-select form-select-sm" onchange="applyLocalFilter(true)"></select></div>
-            <div class="col-6"><select id="f-n" class="form-select form-select-sm" onchange="applyLocalFilter()"></select></div>
+          <div class="row g-1">
+            <div class="col-6"><input type="date" id="f-start" class="form-control form-control-sm" onchange="runFilter()"></div>
+            <div class="col-6"><input type="date" id="f-end" class="form-control form-control-sm" onchange="runFilter()"></div>
+            <div class="col-6 mt-1"><select id="f-c" class="form-select form-select-sm" onchange="runFilter(true)"></select></div>
+            <div class="col-6 mt-1"><select id="f-n" class="form-select form-select-sm" onchange="runFilter()"></select></div>
           </div>
         </div>
 
-        <div class="card-mewah hero-stat text-center shadow mb-3">
-          <div class="gauge-container"><canvas id="gChart"></canvas><div class="gauge-label"><h3 class="fw-bold mb-0" id="g-p" style="font-size:18px;">0%</h3></div></div>
-          <h4 class="fw-bold mt-2 mb-1" id="g-r">Rp 0</h4>
-          <p class="small opacity-75 mb-0" style="font-size:9px;">Target: <b id="g-t">Rp 0</b></p>
+        <div class="card-mewah hero-stat text-center shadow mb-2">
+          <div class="d-flex justify-content-center mb-1"><div class="gauge-container"><canvas id="gChart"></canvas><div class="gauge-label"><h3 class="fw-bold mb-0" id="g-p" style="font-size:16px;">0%</h3></div></div></div>
+          <h2 class="fw-bold mb-1" id="g-r" style="font-size: 24px;">Rp 0</h2>
+          <div class="mt-2 py-2" style="background: rgba(255,255,255,0.1); border-radius: 15px;">
+            <p class="small mb-0 opacity-75" style="font-size:11px; font-weight: 600;">Target Bulan Ini :</p>
+            <h4 class="fw-bold mb-0" id="g-t" style="font-size: 18px;">Rp 0</h4>
+          </div>
         </div>
 
         <div class="row g-2 mb-3">
-          <div class="col-4"><div class="jab-card shadow-sm"><span class="badge bg-secondary mb-1" style="font-size:8px">CS</span><span class="jab-pct" id="cs-p">0%</span><span class="jab-val" id="cs-r">Rp 0</span><span class="jab-tgt" id="cs-t">Tgt: 0</span></div></div>
-          <div class="col-4"><div class="jab-card shadow-sm"><span class="badge bg-secondary mb-1" style="font-size:8px">SPV</span><span class="jab-pct" id="spv-p" style="background:#10B981">0%</span><span class="jab-val" id="spv-r">Rp 0</span><span class="jab-tgt" id="spv-t">Tgt: 0</span></div></div>
-          <div class="col-4"><div class="jab-card shadow-sm"><span class="badge bg-secondary mb-1" style="font-size:8px">TELE</span><span class="jab-pct" id="tele-p" style="background:#F59E0B">0%</span><span class="jab-val" id="tele-r">Rp 0</span><span class="jab-tgt" id="tele-t">Tgt: 0</span></div></div>
+          <div class="col-4">
+            <div class="card-mewah p-2 text-center" style="height:100%">
+              <span class="jab-title">CS</span>
+              <span class="jab-pct" id="cs-p">0%</span>
+              <div class="jab-detail">
+                Target: <br><b id="cs-tgt">0</b><br>
+                Ach: <br><b id="cs-ach">0</b>
+              </div>
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="card-mewah p-2 text-center" style="height:100%">
+              <span class="jab-title">SPV</span>
+              <span class="jab-pct" id="spv-p" style="background:#10B981">0%</span>
+              <div class="jab-detail">
+                Target: <br><b id="spv-tgt">0</b><br>
+                Ach: <br><b id="spv-ach">0</b>
+              </div>
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="card-mewah p-2 text-center" style="height:100%">
+              <span class="jab-title">TELE</span>
+              <span class="jab-pct" id="tele-p" style="background:#F59E0B">0%</span>
+              <div class="jab-detail">
+                Target: <br><b id="tele-tgt">0</b><br>
+                Ach: <br><b id="tele-ach">0</b>
+              </div>
+            </div>
+          </div>
         </div>
+
+        <h6 class="fw-bold mb-2 small text-muted px-2 text-uppercase" style="font-size:9px;">Rincian Total Pencairan</h6>
+        <div id="cair-list"></div>
       </div>
     </div>
   </div>
 
-  <div class="nav-fix" id="navbar">
-    <a onclick="location.reload()" class="nav-item active"><i class="bi bi-speedometer2"></i>Home</a>
-    <a onclick="showUpl()" class="nav-item"><i class="bi bi-shield-lock-fill"></i>Admin</a>
+  <div class="nav-fix">
+    <a onclick="location.reload()" class="nav-item active"><i class="bi bi-speedometer2" style="font-size:20px; display:block;"></i>Home</a>
+    <a onclick="showUpl()" class="nav-item"><i class="bi bi-shield-lock-fill" style="font-size:20px; display:block;"></i>Admin</a>
   </div>
 
   <script>
-    let db = [];
-    let myChart = null;
+    let dbAch = [], dbCair = [], myChart = null;
 
     window.onload = function() {
       google.script.run.withSuccessHandler(res => {
-        db = res.d;
+        dbAch = res.achv; dbCair = res.cair;
         document.getElementById('u-nama').innerText = res.u.nama;
-        initFilters();
-        applyLocalFilter(true);
+        const cabs = [...new Set(dbAch.map(r => r[1]))].filter(Boolean).sort();
+        const sc = document.getElementById('f-c'); sc.innerHTML = '<option value="">Semua Cabang</option>';
+        cabs.forEach(c => sc.add(new Option(c, c)));
+        runFilter(true);
         document.getElementById('loader').style.display = 'none';
       }).getInitialData();
     };
 
-    function initFilters() {
-      const cabs = [...new Set(db.map(r => r[1]))].filter(Boolean).sort();
-      const sc = document.getElementById('f-c');
-      sc.innerHTML = '<option value="">Semua Cabang</option>';
-      cabs.forEach(c => sc.add(new Option(c, c)));
-    }
+    function runFilter(resetStaff = false) {
+      const s = document.getElementById('f-start').value || "1900-01-01", e = document.getElementById('f-end').value || "2100-12-31";
+      const c = document.getElementById('f-c').value, n = document.getElementById('f-n').value;
 
-    function applyLocalFilter(resetStaff = false) {
-      const s = document.getElementById('f-start').value || "1900-01-01";
-      const e = document.getElementById('f-end').value || "2100-12-31";
-      const c = document.getElementById('f-c').value;
-      const n = document.getElementById('f-n').value;
-
-      // Filter Cepat di Memori HP
-      const filtered = db.filter(r => r[0] >= s && r[0] <= e && (c==="" || r[1]===c) && (n==="" || r[2]===n));
-
+      const fAch = dbAch.filter(r => r[0] >= s && r[0] <= e && (c==="" || r[1]===c) && (n==="" || r[2]===n));
       if (resetStaff) {
-        const staff = [...new Set(filtered.map(r => r[2]))].filter(x => x && x !== "TELEMARKETING").sort();
-        const sn = document.getElementById('f-n');
-        sn.innerHTML = '<option value="">Semua Staff</option>';
+        const staff = [...new Set(fAch.map(r => r[2]))].filter(x => x && x !== "TELEMARKETING").sort();
+        const sn = document.getElementById('f-n'); sn.innerHTML = '<option value="">Semua Staff</option>';
         staff.forEach(x => sn.add(new Option(x, x)));
       }
 
-      let res = { global: { r: 0, t: 0 }, cs: { r: 0, t: 0 }, spv: { r: 0, t: 0 }, tele: { r: 0, t: 0 } };
-      filtered.forEach(r => {
-        res.global.r += r[5]; res.global.t += r[4];
-        res[r[3]].r += r[5]; res[r[3]].t += r[4];
-      });
+      let resA = { global: { r: 0, t: 0 }, cs: { r: 0, t: 0 }, spv: { r: 0, t: 0 }, tele: { r: 0, t: 0 } };
+      fAch.forEach(r => { resA.global.r += r[5]; resA.global.t += r[4]; resA[r[3]].r += r[5]; resA[r[3]].t += r[4]; });
 
-      document.getElementById('g-r').innerText = "Rp " + res.global.r.toLocaleString('id-ID');
-      document.getElementById('g-t').innerText = "Rp " + res.global.t.toLocaleString('id-ID');
-      let pG = res.global.t > 0 ? (res.global.r / res.global.t * 100).toFixed(2) : 0;
+      const fCair = dbCair.filter(r => r[0] >= s && r[0] <= e && (c==="" || r[1]===c) && (n==="" || r[2]===n));
+      let resC = {};
+      fCair.forEach(r => { if(!resC[r[3]]) resC[r[3]] = { q: 0, v: 0 }; resC[r[3]].q += r[4]; resC[r[3]].v += r[5]; });
+
+      // UI Update Global
+      document.getElementById('g-r').innerText = "Rp " + resA.global.r.toLocaleString('id-ID');
+      document.getElementById('g-t').innerText = "Rp " + resA.global.t.toLocaleString('id-ID');
+      let pG = resA.global.t > 0 ? (resA.global.r / resA.global.t * 100).toFixed(1) : 0;
       document.getElementById('g-p').innerText = pG + "%";
 
+      // UI Update Jabatan Cards
       ['cs','spv','tele'].forEach(k => {
-        let p = res[k].t > 0 ? (res[k].r / res[k].t * 100).toFixed(2) : 0;
+        let p = resA[k].t > 0 ? (resA[k].r / resA[k].t * 100).toFixed(1) : 0;
         document.getElementById(k+'-p').innerText = p + "%";
-        document.getElementById(k+'-r').innerText = "Rp " + res[k].r.toLocaleString('id-ID');
-        document.getElementById(k+'-t').innerText = "Tgt: " + res[k].t.toLocaleString('id-ID');
+        document.getElementById(k+'-tgt').innerText = "Rp " + resA[k].t.toLocaleString('id-ID');
+        document.getElementById(k+'-ach').innerText = "Rp " + resA[k].r.toLocaleString('id-ID');
       });
-      drawGauge(pG);
+
+      let cairHtml = "";
+      Object.keys(resC).sort().forEach(p => {
+        cairHtml += `<div class="cair-row"><div><b style="font-size:12px;">${p}</b><br><small class="text-muted" style="font-size:10px;">${resC[p].q.toLocaleString('id-ID')} Item</small></div><div class="text-end"><span class="text-primary fw-bold" style="font-size:13px;">Rp ${resC[p].v.toLocaleString('id-ID')}</span><br><small style="font-size:9px; color:#94A3B8;">Total Pencairan</small></div></div>`;
+      });
+      document.getElementById('cair-list').innerHTML = cairHtml || "<p class='text-center py-2 small text-muted'>Data Pencairan Kosong</p>";
+      drawGauge(Number(pG));
     }
 
     function drawGauge(pct) {
       const ctx = document.getElementById('gChart').getContext('2d');
       if(myChart) myChart.destroy();
-      myChart = new Chart(ctx, {
-        type: 'doughnut',
-        data: { datasets: [{ data: [pct, 100-pct], backgroundColor: ['#00A8E8', 'rgba(255,255,255,0.1)'], borderWidth: 0, cutout: '85%', circumference: 240, rotation: 240 }] },
-        options: { animation: { duration: 400 }, plugins: { tooltip: {enabled: false} } }
-      });
+      myChart = new Chart(ctx, { type: 'doughnut', data: { datasets: [{ data: [pct, 100-pct], backgroundColor: ['#00A8E8', 'rgba(255,255,255,0.1)'], borderWidth: 0, cutout: '80%', circumference: 240, rotation: 240 }] }, options: { animation: { duration: 500 }, plugins: { tooltip: {enabled: false} } } });
     }
 
     function showUpl() {
-      document.getElementById('view-port').innerHTML = `<div class="card-mewah"><h6 class="fw-bold mb-4 text-primary">UPLOAD</h6><input type="date" id="u-t" class="form-control mb-3"><select id="u-j" class="form-select mb-3"><option value="1">Achv CS</option><option value="2">Achv SPV</option><option value="3">Achv Tele</option></select><input type="file" id="u-f" class="form-control mb-4"><button class="btn btn-primary w-100 fw-bold py-3" onclick="execU()">UNGGAH</button><div id="u-m" class="mt-3 text-center small"></div></div>`;
+      document.getElementById('view-port').innerHTML = `<div class="card-mewah shadow"><h6 class="fw-bold mb-4 text-primary">ADMIN PANEL</h6><input type="date" id="u-t" class="form-control mb-3"><select id="u-j" class="form-select mb-3"><option value="1">Achv CS</option><option value="2">Achv SPV</option><option value="3">Achv Tele</option><option value="4">Pencairan CS</option><option value="5">Pencairan SPV</option><option value="6">Pencairan Tele</option></select><input type="file" id="u-f" class="form-control mb-4"><button class="btn btn-primary w-100 fw-bold py-3 shadow" onclick="execU()">UNGGAH DATA</button></div>`;
     }
 
     function execU() {
       const f = document.getElementById('u-f').files[0], t = document.getElementById('u-t').value, j = document.getElementById('u-j').value;
-      if(!f || !t) return alert("Data tidak lengkap!");
+      if(!f || !t) return alert("Lengkapi data!");
       const r = new FileReader();
       r.onload = function(e) {
         const rows = XLSX.utils.sheet_to_json(XLSX.read(new Uint8Array(e.target.result), {type: 'array'}).Sheets[XLSX.read(new Uint8Array(e.target.result), {type: 'array'}).SheetNames[0]], {header: 1});
-        google.script.run.withSuccessHandler(res => { alert(res); location.reload(); }).processExcelData(rows, t, j);
+        google.script.run.withSuccessHandler(res => { Swal.fire('Berhasil', res, 'success').then(() => location.reload()); }).processExcelData(rows, t, j);
       };
       r.readAsArrayBuffer(f);
     }
