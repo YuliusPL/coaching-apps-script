@@ -1,6 +1,6 @@
 /**
  * OWNER COMMAND CENTER - BPR KS
- * Versi: 48.0 (Ultra Performance Engine - OPTIMIZED)
+ * Versi: 70.0 (High Visibility & Detail UI - FINAL)
  */
 
 function doGet() {
@@ -10,12 +10,10 @@ function doGet() {
     .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
 }
 
-// --- OPTIMASI 1: CACHING IDENTITY ---
 function getUserData() {
   var userEmail = Session.getActiveUser().getEmail().toLowerCase();
   var cache = CacheService.getUserCache();
   var cached = cache.get("user_profile");
-  
   if (cached) return JSON.parse(cached);
 
   var ss = SpreadsheetApp.getActiveSpreadsheet();
@@ -23,12 +21,9 @@ function getUserData() {
   if (sheet.getLastRow() === 0) sheet.appendRow(["Email", "Nama", "Tanggal", "Role", "Cabang"]);
 
   var data = sheet.getDataRange().getValues();
-  var user = { email: userEmail, nama: "GUEST", role: "Admin", cabang: "ALL", ok: true };
+  var user = { email: userEmail, nama: "YULIUS PUJI LAKSONO", role: "Admin", cabang: "ALL", ok: true };
 
-  // Hard-lock Owner
-  if (userEmail.includes("yulius") || userEmail === "yulius.puji.laksono@gmail.com") {
-    user = { email: userEmail, nama: "YULIUS PUJI LAKSONO", role: "Admin", cabang: "ALL", ok: true };
-  } else {
+  if (!userEmail.includes("yulius") && userEmail !== "") {
     for (var i = 1; i < data.length; i++) {
       if (data[i][0].toLowerCase() === userEmail) {
         user = { email: data[i][0], nama: data[i][1], role: data[i][3], cabang: data[i][4], ok: true };
@@ -36,26 +31,17 @@ function getUserData() {
       }
     }
   }
-
-  // Simpan di cache selama 20 menit
   cache.put("user_profile", JSON.stringify(user), 1200);
   return user;
 }
 
-// --- OPTIMASI 2: CACHING & DATA COMPRESSION ---
 function getInitialData() {
   var user = getUserData();
-  var cache = CacheService.getScriptCache();
-  var cachedData = cache.get("global_records_v48");
-  
-  var rawArray;
-  if (cachedData) {
-    rawArray = JSON.parse(cachedData);
-  } else {
-    var ss = SpreadsheetApp.getActiveSpreadsheet();
-    rawArray = [];
-    
-    // Batch Reading 3 Kamar sekaligus
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var results = { u: user, achv: [], cair: [] };
+
+  try {
+    // 1. DATA ACHIEVEMENT
     ["Raw_Achv_CS", "Raw_Achv_SPV", "Raw_Achv_Tele"].forEach(shName => {
       var sh = ss.getSheetByName(shName);
       if (!sh || sh.getLastRow() < 2) return;
@@ -65,77 +51,74 @@ function getInitialData() {
       for (var i = 1; i < data.length; i++) {
         var row = data[i]; if (!row[0]) continue;
         var tgl = (row[0] instanceof Date) ? Utilities.formatDate(row[0], "GMT+7", "yyyy-MM-dd") : row[0].toString().substring(0, 10);
-        
-        // Simpan dalam format Array murni (Hemat Karakter JSON)
-        // [Tanggal, Cabang, Nama, Jabatan, Target, Realisasi]
-        rawArray.push([tgl, row[2], row[3], key, Number(row[4])||0, Number(row[6])||0]);
+        if (user.role === "Staff" && row[3] !== user.nama) continue;
+        if (user.role === "BM" && row[2] !== user.cabang) continue;
+        results.achv.push([tgl, row[2], row[3], key, Number(row[4])||0, Number(row[6])||0]);
       }
     });
-    
-    // Simpan di Script Cache (Global) selama 10 menit
-    cache.put("global_records_v48", JSON.stringify(rawArray), 600);
-  }
 
-  // Filter Keamanan dilakukan setelah data ditarik (Server-side filtering cepat)
-  var filtered = rawArray.filter(r => {
-    if (user.role === "Staff") return r[2] === user.nama;
-    if (user.role === "BM") return r[1] === user.cabang;
-    if (user.role === "RH") return user.cabang.split(',').indexOf(r[1]) !== -1;
-    return true; // Admin/Owner
-  });
+    // 2. DATA PENCAIRAN
+    ["Raw_Cair_CS", "Raw_Cair_SPV", "Raw_Cair_Tele"].forEach(shName => {
+      var sh = ss.getSheetByName(shName);
+      if (!sh || sh.getLastRow() < 2) return;
+      var data = sh.getDataRange().getValues();
+      var isT = shName.includes("Tele");
 
-  return { u: user, d: filtered };
+      for (var i = 1; i < data.length; i++) {
+        var r = data[i]; if (!r[0]) continue;
+        var tgl = (r[0] instanceof Date) ? Utilities.formatDate(r[0], "GMT+7", "yyyy-MM-dd") : r[0].toString().substring(0, 10);
+        var rCab = r[3]; var rNam = isT ? "TELEMARKETING" : (r[4]||"").toString().trim();
+        
+        if (user.role === "Staff" && rNam !== user.nama && rNam !== "TELEMARKETING") continue;
+        if (user.role === "BM" && rCab !== user.cabang) continue;
+
+        var items = [];
+        if (shName.includes("SPV")) {
+          if(Number(r[10]) > 0) items.push(["KAB", r[10], r[11]]);
+          if(Number(r[12]) > 0) items.push(["KPLM", r[12], r[14]]);
+          if(Number(r[16]) > 0) items.push(["KABM", r[16], r[17]]);
+          if(Number(r[18]) > 0) items.push(["KPSM", r[18], r[19]]);
+        } else if (isT) {
+          if(Number(r[9]) > 0) items.push(["KAB", r[9], r[10]]);
+          if(Number(r[13]) > 0) items.push(["KPLM", r[13], r[14]]);
+          if(Number(r[15]) > 0) items.push(["KPSM", r[15], r[16]]);
+          if(Number(r[19]) > 0) items.push(["KABM", r[19], r[20]]);
+        }
+        items.forEach(it => { results.cair.push([tgl, rCab, rNam, it[0], Number(it[1]), Number(it[2])]); });
+      }
+    });
+  } catch(e) { results.error = e.message; }
+  return results;
 }
 
-// --- OPTIMASI 3: LOCK SERVICE SAAT UPLOAD ---
 function processExcelData(rows, tgl, tipe) {
   var lock = LockService.getScriptLock();
   try {
-    lock.waitLock(30000); // Tunggu 30 detik jika ada proses lain
-    
+    lock.waitLock(30000);
     var ss = SpreadsheetApp.getActiveSpreadsheet();
-    var mapping = { "1":"Raw_Achv_CS", "2":"Raw_Achv_SPV", "3":"Raw_Achv_Tele" };
+    var mapping = { "1":"Raw_Achv_CS", "2":"Raw_Achv_SPV", "3":"Raw_Achv_Tele", "4":"Raw_Cair_CS", "5":"Raw_Cair_SPV", "6":"Raw_Cair_Tele" };
     var sheet = ss.getSheetByName(mapping[tipe]) || ss.insertSheet(mapping[tipe]);
-    
     var finalData = [];
-    var clean = function(v) { 
-      if (!v) return 0;
-      var n = Number(v.toString().replace(/[^0-9.-]+/g, ""));
-      return isNaN(n) ? 0 : n;
+    var clean = v => { 
+      if(!v || v==="-") return 0; 
+      var n = v.toString().replace(/,/g, "").replace(/"/g, "").replace(/[^0-9.-]+/g, "");
+      return parseFloat(n) || 0; 
     };
-
-    if (tipe === "1" || tipe === "2") {
-      var it = (tipe === "1") ? 5 : 4; var ir = (tipe === "1") ? 8 : 7;
-      for (var i = 2; i < rows.length; i++) {
-        var r = rows[i]; if (!r[1] || r[1].toString().includes("TOTAL")) continue;
-        finalData.push([tgl, r[1], r[2], r[3], clean(r[it]), clean(r[it+1]), clean(r[ir]), clean(r[ir+1])]);
-      }
-    } else if (tipe === "3") {
-      for (var i = 3; i < rows.length; i++) {
-        var r = rows[i]; if (!r[1] || r[1].toString().includes("TOTAL") || r[1] === "") continue;
-        finalData.push([tgl, "000", "TELEMARKETING", r[1], clean(r[2]), clean(r[3]), clean(r[5]), clean(r[6])]);
-      }
+    for (var i = 1; i < rows.length; i++) {
+      var r = rows[i]; if (!r[1] || r[1].toString().includes("TOTAL")) continue;
+      var rowToS = [tgl];
+      for (var c = 0; c < r.length; c++) { rowToS.push(c >= 4 ? clean(r[c]) : r[c]); }
+      finalData.push(rowToS);
     }
-
     if (finalData.length > 0) {
-      // Pembersihan data harian yang ada
       var old = sheet.getDataRange().getValues();
       for(var j=old.length-1; j>=1; j--) {
         var dStr = (old[j][0] instanceof Date) ? Utilities.formatDate(old[j][0], "GMT+7", "yyyy-MM-dd") : old[j][0].toString().substring(0,10);
         if(dStr === tgl) sheet.deleteRow(j+1);
       }
       sheet.getRange(sheet.getLastRow()+1, 1, finalData.length, finalData[0].length).setValues(finalData);
-      
-      // OPTIMASI: Clear Cache setelah upload agar data baru muncul
-      CacheService.getScriptCache().remove("global_records_v48");
       return "✅ Sukses.";
     }
     return "Gagal.";
-  } finally {
-    lock.releaseLock();
-  }
-}
-
-function getMenu() {
-  return [{id:'dashboard', label:'Dashboard', icon:'bi-speedometer2'}, {id:'upload', label:'Admin', icon:'bi-shield-lock-fill'}];
+  } finally { lock.releaseLock(); }
 }
