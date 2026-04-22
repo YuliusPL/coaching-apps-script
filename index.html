@@ -3,7 +3,7 @@
 <head>
   <base target="_top">
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -17,17 +17,10 @@
     .header-box { background: var(--primary); color: white; padding: 18px 20px; border-radius: 0 0 25px 25px; }
     .card-mewah { background: white; border-radius: 20px; padding: 15px; margin-bottom: 12px; border: none; box-shadow: 0 4px 15px rgba(0,0,0,0.02); }
     .hero-stat { background: linear-gradient(135deg, #002D57 0%, #00509D 100%); color: white; padding: 15px !important; border-radius: 25px; }
-    
-    /* Gauge Style */
-    .gauge-container { width: 85px; margin: 0 auto; position: relative; }
+    .gauge-container { width: 90px; margin: 0 auto; position: relative; }
     .gauge-label { position: absolute; top: 60%; left: 50%; transform: translate(-50%, -50%); text-align: center; }
-    
-    /* Jabatan Cards Style */
-    .jab-title { font-weight: 800; font-size: 14px; color: #64748B; margin-bottom: 5px; display: block; }
     .jab-pct { background: var(--primary); color: white; border-radius: 12px; font-size: 20px; font-weight: 800; padding: 5px 0; display: block; margin-bottom: 10px; }
-    .jab-detail { font-size: 10px; line-height: 1.4; text-align: left; border-top: 1px dashed #eee; padding-top: 8px; }
-    .jab-detail b { color: var(--primary); }
-
+    .jab-detail { font-size: 10px; line-height: 1.4; text-align: left; border-top: 1px dashed #eee; padding-top: 8px; color: #64748B; }
     .cair-row { background: #f8fafc; padding: 12px 16px; border-radius: 15px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; border-left: 4px solid var(--accent); }
     .nav-fix { position: fixed; bottom: 12px; left: 12px; right: 12px; background: white; display: flex; justify-content: space-around; padding: 12px 0; border-radius: 22px; box-shadow: 0 10px 35px rgba(0,0,0,0.12); z-index: 1000; }
     .nav-item { text-align: center; color: #94A3B8; text-decoration: none; font-size: 10px; flex: 1; font-weight: 700; cursor: pointer; }
@@ -37,16 +30,19 @@
 </head>
 <body>
 
-  <div id="loader"><div class="spinner-grow text-primary"></div><p class="mt-3 fw-bold">Sinkronisasi Data...</p></div>
+  <div id="loader">
+    <div class="spinner-grow text-primary"></div>
+    <p class="mt-3 fw-bold">Sinkronisasi Command Center...</p>
+  </div>
 
   <div id="app">
     <div class="header-box d-flex justify-content-between align-items-center">
-      <div><p class="small mb-0 opacity-75 fw-bold" style="font-size:9px;">COMMAND CENTER</p><h6 class="fw-bold mb-0" id="u-nama">YULIUS PL</h6></div>
+      <div><p class="small mb-0 opacity-75 fw-bold" style="font-size:9px;">COMMAND CENTER</p><h6 class="fw-bold mb-0" id="u-nama">MEMUAT...</h6></div>
       <button class="btn btn-sm btn-outline-light rounded-pill px-3" style="font-size:10px; font-weight:800;" onclick="location.reload()">REFRESH</button>
     </div>
 
-    <div class="p-3" id="view-port">
-      <div id="dash-content">
+    <div class="p-3">
+      <div id="v-home">
         <div class="card-mewah mb-2 shadow-sm">
           <div class="row g-1">
             <div class="col-6"><input type="date" id="f-start" class="form-control form-control-sm" onchange="runFilter()"></div>
@@ -66,89 +62,73 @@
         </div>
 
         <div class="row g-2 mb-3">
-          <div class="col-4">
-            <div class="card-mewah p-2 text-center" style="height:100%">
-              <span class="jab-title">CS</span>
-              <span class="jab-pct" id="cs-p">0%</span>
-              <div class="jab-detail">
-                Target: <br><b id="cs-tgt">0</b><br>
-                Ach: <br><b id="cs-ach">0</b>
-              </div>
-            </div>
-          </div>
-          <div class="col-4">
-            <div class="card-mewah p-2 text-center" style="height:100%">
-              <span class="jab-title">SPV</span>
-              <span class="jab-pct" id="spv-p" style="background:#10B981">0%</span>
-              <div class="jab-detail">
-                Target: <br><b id="spv-tgt">0</b><br>
-                Ach: <br><b id="spv-ach">0</b>
-              </div>
-            </div>
-          </div>
-          <div class="col-4">
-            <div class="card-mewah p-2 text-center" style="height:100%">
-              <span class="jab-title">TELE</span>
-              <span class="jab-pct" id="tele-p" style="background:#F59E0B">0%</span>
-              <div class="jab-detail">
-                Target: <br><b id="tele-tgt">0</b><br>
-                Ach: <br><b id="tele-ach">0</b>
-              </div>
-            </div>
-          </div>
+          <div class="col-4"><div class="card-mewah p-2 text-center" style="height:100%"><span class="fw-bold small text-muted">CS</span><span class="jab-pct" id="cs-p">0%</span><div class="jab-detail">Tgt:<br><b id="cs-tgt">0</b><br>Ach:<br><b id="cs-ach">0</b></div></div></div>
+          <div class="col-4"><div class="card-mewah p-2 text-center" style="height:100%"><span class="fw-bold small text-muted">SPV</span><span class="jab-pct" id="spv-p" style="background:#10B981">0%</span><div class="jab-detail">Tgt:<br><b id="spv-tgt">0</b><br>Ach:<br><b id="spv-ach">0</b></div></div></div>
+          <div class="col-4"><div class="card-mewah p-2 text-center" style="height:100%"><span class="badge bg-secondary mb-1" style="font-size:8px">TELE</span><span class="jab-pct" id="tele-p" style="background:#F59E0B">0%</span><div class="jab-detail">Tgt:<br><b id="tele-tgt">0</b><br>Ach:<br><b id="tele-ach">0</b></div></div></div>
         </div>
 
         <h6 class="fw-bold mb-2 small text-muted px-2 text-uppercase" style="font-size:9px;">Rincian Total Pencairan</h6>
         <div id="cair-list"></div>
       </div>
+
+      <div id="v-admin" style="display:none">
+        <div class="card-mewah shadow">
+          <h6 class="fw-bold mb-4 text-primary">ADMIN PANEL</h6>
+          <input type="date" id="u-t" class="form-control mb-3">
+          <select id="u-j" class="form-select mb-3">
+            <option value="1">Achv CS</option><option value="2">Achv SPV</option><option value="3">Achv Tele</option>
+            <option value="4">Cair CS</option><option value="5">Cair SPV</option><option value="6">Cair Tele</option>
+          </select>
+          <input type="file" id="u-f" class="form-control mb-4">
+          <button class="btn btn-primary w-100 fw-bold py-3 shadow" onclick="execU()">UNGGAH DATA</button>
+        </div>
+      </div>
     </div>
   </div>
 
   <div class="nav-fix">
-    <a onclick="location.reload()" class="nav-item active"><i class="bi bi-speedometer2" style="font-size:20px; display:block;"></i>Home</a>
-    <a onclick="showUpl()" class="nav-item"><i class="bi bi-shield-lock-fill" style="font-size:20px; display:block;"></i>Admin</a>
+    <a onclick="switchPage('home')" class="nav-item active" id="nav-h"><i class="bi bi-speedometer2" style="font-size:20px; display:block;"></i>Home</a>
+    <a onclick="switchPage('admin')" class="nav-item" id="nav-a"><i class="bi bi-shield-lock-fill" style="font-size:20px; display:block;"></i>Admin</a>
   </div>
 
   <script>
-    let dbAch = [], dbCair = [], myChart = null;
+    let rawAch = [], rawCair = [], myChart = null;
 
-    window.onload = function() {
+    window.onload = function() { initData(); };
+
+    function initData() {
       google.script.run.withSuccessHandler(res => {
-        dbAch = res.achv; dbCair = res.cair;
+        rawAch = res.achv; rawCair = res.cair;
         document.getElementById('u-nama').innerText = res.u.nama;
-        const cabs = [...new Set(dbAch.map(r => r[1]))].filter(Boolean).sort();
         const sc = document.getElementById('f-c'); sc.innerHTML = '<option value="">Semua Cabang</option>';
-        cabs.forEach(c => sc.add(new Option(c, c)));
+        res.listC.sort().forEach(c => sc.add(new Option(c, c)));
         runFilter(true);
         document.getElementById('loader').style.display = 'none';
-      }).getInitialData();
-    };
+      }).getDashboardData();
+    }
 
     function runFilter(resetStaff = false) {
       const s = document.getElementById('f-start').value || "1900-01-01", e = document.getElementById('f-end').value || "2100-12-31";
       const c = document.getElementById('f-c').value, n = document.getElementById('f-n').value;
 
-      const fAch = dbAch.filter(r => r[0] >= s && r[0] <= e && (c==="" || r[1]===c) && (n==="" || r[2]===n));
+      const fAch = rawAch.filter(r => r[0] >= s && r[0] <= e && (c==="" || r[1]===c) && (n==="" || r[2]===n));
       if (resetStaff) {
-        const staff = [...new Set(fAch.map(r => r[2]))].filter(x => x && x !== "TELEMARKETING").sort();
         const sn = document.getElementById('f-n'); sn.innerHTML = '<option value="">Semua Staff</option>';
-        staff.forEach(x => sn.add(new Option(x, x)));
+        [...new Set(fAch.map(r => r[2]))].filter(x => x && x !== "TELEMARKETING").sort().forEach(x => sn.add(new Option(x, x)));
       }
 
-      let resA = { global: { r: 0, t: 0 }, cs: { r: 0, t: 0 }, spv: { r: 0, t: 0 }, tele: { r: 0, t: 0 } };
-      fAch.forEach(r => { resA.global.r += r[5]; resA.global.t += r[4]; resA[r[3]].r += r[5]; resA[r[3]].t += r[4]; });
+      let resA = { global:{r:0,t:0}, cs:{r:0,t:0}, spv:{r:0,t:0}, tele:{r:0,t:0} };
+      fAch.forEach(r => { resA.global.r += r[5]; resA.global.t += r[4]; if(resA[r[3]]) { resA[r[3]].r += r[5]; resA[r[3]].t += r[4]; } });
 
-      const fCair = dbCair.filter(r => r[0] >= s && r[0] <= e && (c==="" || r[1]===c) && (n==="" || r[2]===n));
+      const fCair = rawCair.filter(r => r[0] >= s && r[0] <= e && (c==="" || r[1]===c) && (n==="" || r[2]===n));
       let resC = {};
       fCair.forEach(r => { if(!resC[r[3]]) resC[r[3]] = { q: 0, v: 0 }; resC[r[3]].q += r[4]; resC[r[3]].v += r[5]; });
 
-      // UI Update Global
       document.getElementById('g-r').innerText = "Rp " + resA.global.r.toLocaleString('id-ID');
       document.getElementById('g-t').innerText = "Rp " + resA.global.t.toLocaleString('id-ID');
       let pG = resA.global.t > 0 ? (resA.global.r / resA.global.t * 100).toFixed(1) : 0;
       document.getElementById('g-p').innerText = pG + "%";
 
-      // UI Update Jabatan Cards
       ['cs','spv','tele'].forEach(k => {
         let p = resA[k].t > 0 ? (resA[k].r / resA[k].t * 100).toFixed(1) : 0;
         document.getElementById(k+'-p').innerText = p + "%";
@@ -156,27 +136,31 @@
         document.getElementById(k+'-ach').innerText = "Rp " + resA[k].r.toLocaleString('id-ID');
       });
 
-      let cairHtml = "";
+      let h = "";
       Object.keys(resC).sort().forEach(p => {
-        cairHtml += `<div class="cair-row"><div><b style="font-size:12px;">${p}</b><br><small class="text-muted" style="font-size:10px;">${resC[p].q.toLocaleString('id-ID')} Item</small></div><div class="text-end"><span class="text-primary fw-bold" style="font-size:13px;">Rp ${resC[p].v.toLocaleString('id-ID')}</span><br><small style="font-size:9px; color:#94A3B8;">Total Pencairan</small></div></div>`;
+        h += `<div class="cair-row"><div><b style="font-size:12px;">${p}</b><br><small class="text-muted">${resC[p].q.toLocaleString('id-ID')} Item</small></div><div class="text-end"><span class="text-primary fw-bold">Rp ${resC[p].v.toLocaleString('id-ID')}</span></div></div>`;
       });
-      document.getElementById('cair-list').innerHTML = cairHtml || "<p class='text-center py-2 small text-muted'>Data Pencairan Kosong</p>";
+      document.getElementById('cair-list').innerHTML = h || "<p class='text-center py-2 small text-muted'>Data Kosong</p>";
       drawGauge(Number(pG));
     }
 
     function drawGauge(pct) {
       const ctx = document.getElementById('gChart').getContext('2d');
       if(myChart) myChart.destroy();
-      myChart = new Chart(ctx, { type: 'doughnut', data: { datasets: [{ data: [pct, 100-pct], backgroundColor: ['#00A8E8', 'rgba(255,255,255,0.1)'], borderWidth: 0, cutout: '80%', circumference: 240, rotation: 240 }] }, options: { animation: { duration: 500 }, plugins: { tooltip: {enabled: false} } } });
+      myChart = new Chart(ctx, { type: 'doughnut', data: { datasets: [{ data: [pct, 100-pct], backgroundColor: ['#00A8E8', 'rgba(0,0,0,0.05)'], borderWidth: 0, cutout: '80%', circumference: 240, rotation: 240 }] }, options: { animation: { duration: 500 }, plugins: { tooltip: {enabled: false} } } });
     }
 
-    function showUpl() {
-      document.getElementById('view-port').innerHTML = `<div class="card-mewah shadow"><h6 class="fw-bold mb-4 text-primary">ADMIN PANEL</h6><input type="date" id="u-t" class="form-control mb-3"><select id="u-j" class="form-select mb-3"><option value="1">Achv CS</option><option value="2">Achv SPV</option><option value="3">Achv Tele</option><option value="4">Pencairan CS</option><option value="5">Pencairan SPV</option><option value="6">Pencairan Tele</option></select><input type="file" id="u-f" class="form-control mb-4"><button class="btn btn-primary w-100 fw-bold py-3 shadow" onclick="execU()">UNGGAH DATA</button></div>`;
+    function switchPage(p) {
+      document.getElementById('v-home').style.display = (p==='home'?'block':'none');
+      document.getElementById('v-admin').style.display = (p==='admin'?'block':'none');
+      document.getElementById('nav-h').classList.toggle('active', p==='home');
+      document.getElementById('nav-a').classList.toggle('active', p==='admin');
     }
 
     function execU() {
       const f = document.getElementById('u-f').files[0], t = document.getElementById('u-t').value, j = document.getElementById('u-j').value;
       if(!f || !t) return alert("Lengkapi data!");
+      Swal.fire({ title: 'Memproses...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
       const r = new FileReader();
       r.onload = function(e) {
         const rows = XLSX.utils.sheet_to_json(XLSX.read(new Uint8Array(e.target.result), {type: 'array'}).Sheets[XLSX.read(new Uint8Array(e.target.result), {type: 'array'}).SheetNames[0]], {header: 1});
