@@ -1,6 +1,6 @@
 /**
  * OWNER COMMAND CENTER - BPR KS
- * Versi: 139.0 (ULTIMATE PIPELINE - BASE FROM GITHUB - ADDITIVE ONLY)
+ * Versi: 146.0 (STABLE LOADING RESTORED - VISUAL REFINEMENT ONLY)
  */
 
 function doGet() {
@@ -20,8 +20,8 @@ function getUserData() {
     for (var i = 1; i < data.length; i++) {
       if (data[i][0] && data[i][0].toLowerCase() === email) return { email: data[i][0], nama: data[i][1], role: data[i][3], cabang: data[i][4] };
     }
-    return { email: email, nama: "ADMIN", role: "Admin", cabang: "ALL" };
-  } catch(e) { return { nama: "USER", role: "Admin", cabang: "ALL" }; }
+  } catch(e) {}
+  return { nama: "ADMIN", role: "Admin", cabang: "ALL" };
 }
 
 function isPureBranch(val) {
@@ -39,7 +39,7 @@ function getDashboardData() {
   var res = { u: getUserData(), achv: [], cair: [], pipeline: [], listCHome: [], listCPipe: [], listS: [], listSPV: [] };
 
   try {
-    // 1. DASHBOARD HOME DATA (ACHIEVEMENT)
+    // 1. DATA DASHBOARD HOME (LOCKED)
     ["Raw_Achv_CS", "Raw_Achv_SPV", "Raw_Achv_Tele"].forEach(name => {
       var sh = ss.getSheetByName(name); if (!sh || sh.getLastRow() < 2) return;
       var data = sh.getDataRange().getValues();
@@ -53,7 +53,7 @@ function getDashboardData() {
       });
     });
 
-    // 2. DASHBOARD HOME DATA (PENCAIRAN)
+    // 2. DATA PENCAIRAN (LOCKED)
     ["Raw_Cair_CS", "Raw_Cair_SPV", "Raw_Cair_Tele"].forEach(name => {
       var sh = ss.getSheetByName(name); if (!sh || sh.getLastRow() < 2) return;
       var data = sh.getDataRange().getValues();
@@ -68,27 +68,20 @@ function getDashboardData() {
       });
     });
 
-    // 3. PIPELINE MODULE (TARGET AREA)
+    // 3. DATA PIPELINE (SIMPLE & FAST)
     var shP = ss.getSheetByName('Raw_Pipeline');
     if (shP && shP.getLastRow() >= 1) {
       var dataP = shP.getDataRange().getValues();
       dataP.forEach(r => {
         if (!r[2] || String(r[2]).toLowerCase().includes("debitur") || !r[0]) return;
         var tglP = (r[0] instanceof Date) ? Utilities.formatDate(r[0], "GMT+7", "yyyy-MM-dd") : String(r[0]).substring(0,10);
-        var debP = String(r[2]).trim(); 
-        var cabP = String(r[3]).trim(); 
-        var salP = String(r[7]).trim(); 
-        var spvP = String(r[8]).trim(); 
-        var plaP = Number(String(r[10]||"0").replace(/[^0-9.-]+/g,"")) || 0;
-
+        var cabP = String(r[3]).trim();
         if (isPureBranch(cabP)) {
           if (res.listCPipe.indexOf(cabP) === -1) res.listCPipe.push(cabP);
-          if (salP && res.listS.indexOf(salP) === -1) res.listS.push(salP);
-          if (spvP && res.listSPV.indexOf(spvP) === -1) res.listSPV.push(spvP);
-          
           res.pipeline.push({
-            tgl: tglP, jen: String(r[1]||"-"), deb: debP, cab: cabP, 
-            st: String(r[4]).trim(), kep: String(r[6]).trim(), sal: salP, spv: spvP, pla: plaP
+            tgl: tglP, jen: String(r[1]||"-"), deb: String(r[2]).trim(), cab: cabP, 
+            st: String(r[4]).trim(), kep: String(r[6]).trim(), sal: String(r[7]).trim(), 
+            spv: String(r[8]).trim(), pla: Number(String(r[10]||"0").replace(/[^0-9.-]+/g,"")) || 0
           });
         }
       });
@@ -124,7 +117,7 @@ function processExcelData(rows, tgl, tipe) {
       sh.clearContents();
       if (filtered.length > 0) sh.getRange(1, 1, filtered.length, filtered[0].length).setValues(filtered);
       sh.getRange(sh.getLastRow() + 1, 1, finalData.length, finalData[0].length).setValues(finalData);
-      return "✅ Berhasil Disimpan.";
+      return "✅ Berhasil.";
     }
   } catch(e) { return "❌ Error: " + e.message; } finally { lock.releaseLock(); }
 }
