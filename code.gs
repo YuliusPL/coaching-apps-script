@@ -1,6 +1,6 @@
 /**
  * OWNER COMMAND CENTER - BPR KS
- * Versi: 146.0 (STABLE LOADING RESTORED - VISUAL REFINEMENT ONLY)
+ * Versi: 149.0 (TURBO ENGINE - CACHE & PRE-AGGREGATION ENABLED)
  */
 
 function doGet() {
@@ -28,18 +28,19 @@ function isPureBranch(val) {
   if (!val) return false;
   var v = val.toString().toUpperCase();
   var blacklist = ["ITEM", "VOLUME", "KAB", "KPLM", "KPSM", "CABANG", "STAFF", "DEBITUR", "PLAFOND"];
-  for (var i = 0; i < blacklist.length; i++) {
-    if (v.indexOf(blacklist[i]) > -1) return false;
-  }
-  return true;
+  return !blacklist.some(word => v.indexOf(word) > -1);
 }
 
 function getDashboardData() {
+  var cache = CacheService.getScriptCache();
+  var cached = cache.get("db_v149");
+  if (cached) return JSON.parse(cached); // SOLUSI: CacheService - baca cepat dari memori
+
   var ss = SpreadsheetApp.getActiveSpreadsheet();
   var res = { u: getUserData(), achv: [], cair: [], pipeline: [], listCHome: [], listCPipe: [], listS: [], listSPV: [] };
 
   try {
-    // 1. DATA DASHBOARD HOME (LOCKED)
+    // 1. DATA HOME
     ["Raw_Achv_CS", "Raw_Achv_SPV", "Raw_Achv_Tele"].forEach(name => {
       var sh = ss.getSheetByName(name); if (!sh || sh.getLastRow() < 2) return;
       var data = sh.getDataRange().getValues();
@@ -53,7 +54,6 @@ function getDashboardData() {
       });
     });
 
-    // 2. DATA PENCAIRAN (LOCKED)
     ["Raw_Cair_CS", "Raw_Cair_SPV", "Raw_Cair_Tele"].forEach(name => {
       var sh = ss.getSheetByName(name); if (!sh || sh.getLastRow() < 2) return;
       var data = sh.getDataRange().getValues();
@@ -68,7 +68,7 @@ function getDashboardData() {
       });
     });
 
-    // 3. DATA PIPELINE (SIMPLE & FAST)
+    // 2. DATA PIPELINE - Optimized
     var shP = ss.getSheetByName('Raw_Pipeline');
     if (shP && shP.getLastRow() >= 1) {
       var dataP = shP.getDataRange().getValues();
@@ -78,16 +78,16 @@ function getDashboardData() {
         var cabP = String(r[3]).trim();
         if (isPureBranch(cabP)) {
           if (res.listCPipe.indexOf(cabP) === -1) res.listCPipe.push(cabP);
-          res.pipeline.push({
-            tgl: tglP, jen: String(r[1]||"-"), deb: String(r[2]).trim(), cab: cabP, 
-            st: String(r[4]).trim(), kep: String(r[6]).trim(), sal: String(r[7]).trim(), 
-            spv: String(r[8]).trim(), pla: Number(String(r[10]||"0").replace(/[^0-9.-]+/g,"")) || 0
-          });
+          // Pre-aggregation: Hanya kirim data penting dalam bentuk Array (ringan)
+          res.pipeline.push([tglP, String(r[1]||"-"), String(r[2]).trim(), cabP, String(r[4]).trim(), String(r[6]).trim(), String(r[7]).trim(), String(r[8]).trim(), Number(String(r[10]||"0").replace(/[^0-9.-]+/g,"")) || 0]);
         }
       });
     }
-  } catch(e) {}
-  return res;
+    
+    // Simpan ke Cache selama 3 menit
+    cache.put("db_v149", JSON.stringify(res), 180);
+    return res;
+  } catch(e) { return res; }
 }
 
 function processExcelData(rows, tgl, tipe) {
@@ -117,6 +117,7 @@ function processExcelData(rows, tgl, tipe) {
       sh.clearContents();
       if (filtered.length > 0) sh.getRange(1, 1, filtered.length, filtered[0].length).setValues(filtered);
       sh.getRange(sh.getLastRow() + 1, 1, finalData.length, finalData[0].length).setValues(finalData);
+      CacheService.getScriptCache().remove("db_v149"); // Hapus cache saat ada data baru
       return "✅ Berhasil.";
     }
   } catch(e) { return "❌ Error: " + e.message; } finally { lock.releaseLock(); }
