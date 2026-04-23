@@ -1,6 +1,6 @@
 /**
  * OWNER COMMAND CENTER - BPR KS
- * Versi: 149.0 (TURBO ENGINE - CACHE & PRE-AGGREGATION ENABLED)
+ * Versi: 177.0 (HOME RESTORATION - COORDINATE PRECISION - NO INITIATIVE)
  */
 
 function doGet() {
@@ -24,41 +24,41 @@ function getUserData() {
   return { nama: "ADMIN", role: "Admin", cabang: "ALL" };
 }
 
-function isPureBranch(val) {
-  if (!val) return false;
+function isJunkBranch(val) {
+  if (!val) return true;
   var v = val.toString().toUpperCase();
-  var blacklist = ["ITEM", "VOLUME", "KAB", "KPLM", "KPSM", "CABANG", "STAFF", "DEBITUR", "PLAFOND"];
-  return !blacklist.some(word => v.indexOf(word) > -1);
+  var junk = ["ITEM", "VOLUME", "CABANG", "STAFF", "DEBITUR", "PLAFOND", "APK NAIK", "APP BLM CAIR", "BELUM"];
+  return junk.some(word => v.indexOf(word) > -1);
 }
 
 function getDashboardData() {
   var cache = CacheService.getScriptCache();
-  var cached = cache.get("db_v149");
-  if (cached) return JSON.parse(cached); // SOLUSI: CacheService - baca cepat dari memori
+  var cached = cache.get("db_v177");
+  if (cached) return JSON.parse(cached);
 
   var ss = SpreadsheetApp.getActiveSpreadsheet();
-  var res = { u: getUserData(), achv: [], cair: [], pipeline: [], listCHome: [], listCPipe: [], listS: [], listSPV: [] };
+  var res = { u: getUserData(), achv: [], cair: [], pipeline: [], listCHome: [], listCPipe: [], listS: [] };
 
   try {
-    // 1. DATA HOME
+    // 1. DATA HOME (RESTORED - DONT TOUCH THE INDEX)
     ["Raw_Achv_CS", "Raw_Achv_SPV", "Raw_Achv_Tele"].forEach(name => {
-      var sh = ss.getSheetByName(name); if (!sh || sh.getLastRow() < 2) return;
+      var sh = ss.getSheetByName(name); if (!sh || sh.getLastRow() < 1) return;
       var data = sh.getDataRange().getValues();
       var key = name.split('_')[2].toLowerCase();
-      data.slice(1).forEach(r => {
-        if(!r[1]) return;
+      data.forEach(r => {
+        if(!r[1] || r[1] === "CABANG") return;
         var tgl = (r[0] instanceof Date) ? Utilities.formatDate(r[0], "GMT+7", "yyyy-MM-dd") : String(r[0]).substring(0,10);
         var cab = String(r[1]).trim();
-        if (isPureBranch(cab) && res.listCHome.indexOf(cab) === -1) res.listCHome.push(cab);
+        if (!isJunkBranch(cab) && res.listCHome.indexOf(cab) === -1) res.listCHome.push(cab);
         res.achv.push([tgl, cab, String(r[2]).trim(), key, Number(r[3])||0, Number(r[4])||0]);
       });
     });
 
     ["Raw_Cair_CS", "Raw_Cair_SPV", "Raw_Cair_Tele"].forEach(name => {
-      var sh = ss.getSheetByName(name); if (!sh || sh.getLastRow() < 2) return;
+      var sh = ss.getSheetByName(name); if (!sh || sh.getLastRow() < 1) return;
       var data = sh.getDataRange().getValues();
-      data.slice(1).forEach(r => {
-        if(!r[1]) return;
+      data.forEach(r => {
+        if(!r[1] || r[1] === "CABANG") return;
         var tgl = (r[0] instanceof Date) ? Utilities.formatDate(r[0], "GMT+7", "yyyy-MM-dd") : String(r[0]).substring(0,10);
         var mapP = [{n:"KABHTSP",i:3,v:4},{n:"KAB",i:5,v:6},{n:"KPLM",i:7,v:8},{n:"KABM",i:9,v:10},{n:"KPSM",i:11,v:12},{n:"KBMBL",i:13,v:14},{n:"KABEKS",i:15,v:16}];
         mapP.forEach(p => {
@@ -68,24 +68,37 @@ function getDashboardData() {
       });
     });
 
-    // 2. DATA PIPELINE - Optimized
+    // 2. DATA PIPELINE - PRECISION MAPPING BASED ON USER SCREENSHOT
     var shP = ss.getSheetByName('Raw_Pipeline');
     if (shP && shP.getLastRow() >= 1) {
       var dataP = shP.getDataRange().getValues();
       dataP.forEach(r => {
-        if (!r[2] || String(r[2]).toLowerCase().includes("debitur") || !r[0]) return;
-        var tglP = (r[0] instanceof Date) ? Utilities.formatDate(r[0], "GMT+7", "yyyy-MM-dd") : String(r[0]).substring(0,10);
-        var cabP = String(r[3]).trim();
-        if (isPureBranch(cabP)) {
-          if (res.listCPipe.indexOf(cabP) === -1) res.listCPipe.push(cabP);
-          // Pre-aggregation: Hanya kirim data penting dalam bentuk Array (ringan)
-          res.pipeline.push([tglP, String(r[1]||"-"), String(r[2]).trim(), cabP, String(r[4]).trim(), String(r[6]).trim(), String(r[7]).trim(), String(r[8]).trim(), Number(String(r[10]||"0").replace(/[^0-9.-]+/g,"")) || 0]);
+        if (!r[0] || !r[2] || String(r[2]).toLowerCase().includes("debitur")) return;
+        
+        // Fix Serial Excel (Col B)
+        var rawB = r[1], msec;
+        if (typeof rawB === 'number') msec = (rawB - 25569) * 86400 * 1000;
+        else if (rawB instanceof Date) msec = rawB.getTime();
+        else msec = new Date().getTime();
+
+        var tglIn = (r[0] instanceof Date) ? Utilities.formatDate(r[0], "GMT+7", "yyyy-MM-dd") : String(r[0]).substring(0,10);
+        var deb   = String(r[2]).trim(); // C
+        var cab   = String(r[3]).trim(); // D (CIANJUR, GARUT, etc)
+        var stat  = String(r[4]).trim(); // E (APK NAIK, CAIR)
+        var mix   = String(r[5]).trim(); // F (KAB, KABM)
+        var kep   = String(r[6]).trim(); // G (REJECT, APPROVE)
+        var sal   = String(r[7] || "-").trim(); // H (NAMA SALES)
+        var pla   = Number(String(r[10]||"0").replace(/[^0-9.-]+/g,"")) || 0; // K (PLAFOND)
+
+        if (cab && !isJunkBranch(cab)) {
+          if (res.listCPipe.indexOf(cab) === -1) res.listCPipe.push(cab);
+          if (sal !== "-" && res.listS.indexOf(sal) === -1) res.listS.push(sal);
         }
+        res.pipeline.push([tglIn, msec, deb, stat, mix, kep, sal, pla, cab]);
       });
     }
     
-    // Simpan ke Cache selama 3 menit
-    cache.put("db_v149", JSON.stringify(res), 180);
+    cache.put("db_v177", JSON.stringify(res), 300);
     return res;
   } catch(e) { return res; }
 }
@@ -98,16 +111,13 @@ function processExcelData(rows, tgl, tipe) {
     var map = { "1":"Raw_Achv_CS", "2":"Raw_Achv_SPV", "3":"Raw_Achv_Tele", "4":"Raw_Cair_CS", "5":"Raw_Cair_SPV", "6":"Raw_Cair_Tele", "7":"Raw_Pipeline" };
     var sh = ss.getSheetByName(map[tipe]) || ss.insertSheet(map[tipe]);
     var finalData = [];
-    var clean = v => {
-      if (!v || v === "-" || v === "" || v === 0) return 0;
-      return parseFloat(v.toString().replace(/\./g, "").replace(/,/g, ".")) || 0;
-    };
+    var clean = v => { if (!v || v === "-" || v === "" || v === 0) return 0; return parseFloat(v.toString().replace(/\./g, "").replace(/,/g, ".")) || 0; };
     for (var i = 1; i < rows.length; i++) {
       var r = rows[i]; if (!r[0] || r[0] === "CABANG" || r[0] === "TGL") continue;
       var row = [tgl];
-      for (var c = 0; c < r.length; c++) {
-        var isNum = (tipe == "7" && c == 9) || (tipe != "7" && c >= 2);
-        row.push(isNum ? clean(r[c]) : r[c]);
+      for (var c = 0; c < r.length; c++) { 
+        var isNum = (tipe == "7" && (c == 9 || c == 10)) || (tipe != "7" && c >= 2); 
+        row.push(isNum ? clean(r[c]) : r[c]); 
       }
       finalData.push(row);
     }
@@ -117,8 +127,8 @@ function processExcelData(rows, tgl, tipe) {
       sh.clearContents();
       if (filtered.length > 0) sh.getRange(1, 1, filtered.length, filtered[0].length).setValues(filtered);
       sh.getRange(sh.getLastRow() + 1, 1, finalData.length, finalData[0].length).setValues(finalData);
-      CacheService.getScriptCache().remove("db_v149"); // Hapus cache saat ada data baru
-      return "✅ Berhasil.";
+      CacheService.getScriptCache().remove("db_v177");
+      return "✅ Berhasil Disimpan.";
     }
   } catch(e) { return "❌ Error: " + e.message; } finally { lock.releaseLock(); }
 }
