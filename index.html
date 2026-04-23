@@ -12,41 +12,29 @@
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
   <style>
-    :root { 
-      --primary: #002D57; --app-blue: #00A8E8; --cair-green: #198754; 
-      --rej-red: #DC3545; --bel-yellow: #FFC107; --pen-orange: #FD7E14; 
-      --bg: #F4F7FE; 
-    }
-    
+    :root { --primary: #002D57; --app-blue: #00A8E8; --cair-green: #198754; --rej-red: #DC3545; --bel-yellow: #FFC107; --pen-orange: #FD7E14; --bg: #F4F7FE; }
     body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: var(--bg); padding-bottom: 90px; color: #1A202C; overflow-x: hidden; }
     
-    /* Typography Responsive */
-    @media (min-width: 768px) { body { font-size: 14px; } .h-title { font-size: 22px; } .p-val { font-size: 20px !important; } }
-    @media (max-width: 767px) { body { font-size: 11px; } .h-title { font-size: 16px; } .p-val { font-size: 16px !important; } }
+    /* SOLUSI: Responsive Typography - PERBESAR FONT SESUAI PERINTAH */
+    @media (min-width: 768px) { body { font-size: 14px; } .h-title { font-size: 24px; } .p-val { font-size: 22px !important; } .p-title { font-size: 14px !important; } }
+    @media (max-width: 767px) { body { font-size: 12px; } .h-title { font-size: 18px; } .p-val { font-size: 18px !important; } .p-title { font-size: 12px !important; } }
 
     .header-box { background: var(--primary); color: white; padding: 18px 20px; border-radius: 0 0 25px 25px; }
     .card-mewah { background: white; border-radius: 20px; padding: 15px; margin-bottom: 12px; border: none; box-shadow: 0 4px 15px rgba(0,0,0,0.02); }
     .hero-stat { background: linear-gradient(135deg, #002D57 0%, #00509D 100%); color: white; padding: 15px !important; border-radius: 25px; }
     
+    .total-row { background: #002D57 !important; color: #FFD700 !important; border-left: 4px solid #FFD700 !important; font-weight: 800; border-radius: 15px; }
     .jab-pct { background: var(--primary); color: white; border-radius: 12px; font-size: 22px !important; font-weight: 800; padding: 6px 0; display: block; margin-bottom: 10px; }
     .jab-detail { font-size: 10px; line-height: 1.4; text-align: left; border-top: 1px dashed #eee; padding-top: 8px; color: #64748B; }
-    .jab-detail b { color: var(--primary); font-size: 11px; }
-    
-    /* FIXED GRAND TOTAL BOX */
-    .cair-row { background: #f8fafc; padding: 12px 16px; border-radius: 15px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; border-left: 4px solid var(--app-blue); }
-    .total-row { background: #002D57 !important; color: #FFD700 !important; border-left: 4px solid #FFD700 !important; font-weight: 800; border-radius: 15px; }
-    
-    /* PIPELINE LAYOUT FIX */
-    .p-title { font-weight: 800; color: #94A3B8; text-transform: uppercase; font-size: 11px !important; }
-    .p-val { font-weight: 800; color: var(--primary); }
-    .card-content-fix { display: flex; justify-content: space-between; align-items: center; width: 100%; }
 
-    /* FUNNEL ANALYTICS - SOLID */
-    .funnel-box { padding: 12px 18px; border-radius: 15px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; color: white; font-weight: 800; font-size: 13px; }
-    .st-apk { background: var(--primary); } 
-    .st-app { background: var(--app-blue); } 
-    .st-cair { background: var(--cair-green); } 
-    .st-rej { background: var(--rej-red); } 
+    /* SOLUSI: Spacing & Layout - MEMBERI JARAK ANTARA NARASI DAN ANGKA */
+    .p-title { font-weight: 800; color: #94A3B8; text-transform: uppercase; margin-right: 15px; }
+    .p-val { font-weight: 800; color: var(--primary); }
+    .card-content-fix { display: flex; justify-content: space-between; align-items: center; width: 100%; padding: 8px 0; }
+
+    /* SOLUSI: Funnel Solid Color */
+    .funnel-box { padding: 12px 18px; border-radius: 15px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; color: white; font-weight: 800; font-size: 14px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+    .st-apk { background: var(--primary); } .st-app { background: var(--app-blue); } .st-cair { background: var(--cair-green); } .st-rej { background: var(--rej-red); }
 
     .nav-fix { position: fixed; bottom: 12px; left: 12px; right: 12px; background: white; display: flex; justify-content: space-around; padding: 12px 0; border-radius: 22px; box-shadow: 0 10px 35px rgba(0,0,0,0.12); z-index: 1000; }
     .nav-item { text-align: center; color: #94A3B8; text-decoration: none; font-size: 10px; flex: 1; font-weight: 700; cursor: pointer; }
@@ -56,7 +44,7 @@
 </head>
 <body onload="initApp()">
 
-  <div id="loader-global"><div class="spinner-grow text-primary"></div><p class="mt-3 fw-bold">Sinkronisasi Executive CC...</p></div>
+  <div id="loader-global"><div class="spinner-grow text-primary"></div><p class="mt-3 fw-bold">Sinkronisasi Turbo CC...</p></div>
 
   <div id="app">
     <div class="header-box d-flex justify-content-between align-items-center">
@@ -66,28 +54,9 @@
 
     <div class="p-3">
       <div id="v-home">
-        <div class="card-mewah mb-2 shadow-sm">
-          <div class="row g-1">
-            <div class="col-6"><input type="date" id="f-start" class="form-control form-control-sm" onchange="runFilter()"></div>
-            <div class="col-6"><input type="date" id="f-end" class="form-control form-control-sm" onchange="runFilter()"></div>
-            <div class="col-6 mt-1"><select id="f-c" class="form-select form-select-sm" onchange="runFilter(true)"></select></div>
-            <div class="col-6 mt-1"><select id="f-n" class="form-select form-select-sm" onchange="runFilter()"></select></div>
-          </div>
-        </div>
-        <div class="card-mewah hero-stat text-center shadow mb-2">
-          <div class="d-flex justify-content-center mb-1"><div style="width:130px; position:relative;"><canvas id="gChart"></canvas><div style="position:absolute; top:65%; left:50%; transform:translate(-50%,-50%); text-align:center;"><h3 class="fw-bold mb-0" id="g-p" style="font-size:24px;">0%</h3></div></div></div>
-          <p class="small mb-0 opacity-75" style="font-size:10px; font-weight: 700;">TOTAL REALISASI :</p>
-          <h2 class="fw-bold mb-1" id="g-r" style="font-size: 28px;">Rp 0</h2>
-          <div class="mt-2 py-2" style="background: rgba(255,255,255,0.1); border-radius: 15px;">
-            <p class="small mb-0 opacity-75" style="font-size:10px; font-weight: 700;">TOTAL TARGET :</p>
-            <h4 class="fw-bold mb-0" id="g-t" style="font-size: 19px;">Rp 0</h4>
-          </div>
-        </div>
-        <div class="row g-2 mb-3">
-          <div class="col-4"><div class="card-mewah p-2 text-center" style="height:100%"><small class="fw-bold text-muted">CS</small><span class="jab-pct" id="cs-p">0%</span><div class="jab-detail">TARGET:<br><b id="cs-tgt">0</b><br>REALISASI:<br><b id="cs-ach">0</b></div></div></div>
-          <div class="col-4"><div class="card-mewah p-2 text-center" style="height:100%"><small class="fw-bold text-muted">SPV</small><span class="jab-pct" id="spv-p" style="background:var(--app-blue)">0%</span><div class="jab-detail">TARGET:<br><b id="spv-tgt">0</b><br>REALISASI:<br><b id="spv-ach">0</b></div></div></div>
-          <div class="col-4"><div class="card-mewah p-2 text-center" style="height:100%"><small class="fw-bold text-muted">TELE</small><span class="jab-pct" id="tele-p" style="background:var(--pen-orange)">0%</span><div class="jab-detail">TARGET:<br><b id="tele-tgt">0</b><br>REALISASI:<br><b id="tele-ach">0</b></div></div></div>
-        </div>
+        <div class="card-mewah mb-2 shadow-sm"><div class="row g-1"><div class="col-6"><input type="date" id="f-start" class="form-control form-control-sm" onchange="runFilter()"></div><div class="col-6"><input type="date" id="f-end" class="form-control form-control-sm" onchange="runFilter()"></div><div class="col-6 mt-1"><select id="f-c" class="form-select form-select-sm" onchange="runFilter(true)"></select></div><div class="col-6 mt-1"><select id="f-n" class="form-select form-select-sm" onchange="runFilter()"></select></div></div></div>
+        <div class="card-mewah hero-stat text-center shadow mb-2"><div class="d-flex justify-content-center mb-1"><div style="width:130px; position:relative;"><canvas id="gChart"></canvas><div style="position:absolute; top:65%; left:50%; transform:translate(-50%,-50%); text-align:center;"><h3 class="fw-bold mb-0" id="g-p" style="font-size:24px;">0%</h3></div></div></div><p class="small mb-0 opacity-75" style="font-size:10px; font-weight: 700;">TOTAL REALISASI :</p><h2 class="fw-bold mb-1" id="g-r" style="font-size: 28px;">Rp 0</h2><div class="mt-2 py-2" style="background: rgba(255,255,255,0.1); border-radius: 15px;"><p class="small mb-0 opacity-75" style="font-size:10px; font-weight: 700;">TOTAL TARGET :</p><h4 class="fw-bold mb-0" id="g-t" style="font-size: 19px;">Rp 0</h4></div></div>
+        <div class="row g-2 mb-3"><div class="col-4"><div class="card-mewah p-2 text-center" style="height:100%"><small class="fw-bold text-muted">CS</small><span class="jab-pct" id="cs-p">0%</span><div class="jab-detail">TARGET:<br><b id="cs-tgt">0</b><br>REALISASI:<br><b id="cs-ach">0</b></div></div></div><div class="col-4"><div class="card-mewah p-2 text-center" style="height:100%"><small class="fw-bold text-muted">SPV</small><span class="jab-pct" id="spv-p" style="background:var(--app-blue)">0%</span><div class="jab-detail">TARGET:<br><b id="spv-tgt">0</b><br>REALISASI:<br><b id="spv-ach">0</b></div></div></div><div class="col-4"><div class="card-mewah p-2 text-center" style="height:100%"><small class="fw-bold text-muted">TELE</small><span class="jab-pct" id="tele-p" style="background:var(--pen-orange)">0%</span><div class="jab-detail">TARGET:<br><b id="tele-tgt">0</b><br>REALISASI:<br><b id="tele-ach">0</b></div></div></div></div>
         <div id="cair-list"></div>
       </div>
 
@@ -96,34 +65,19 @@
           <div class="row g-1">
             <div class="col-6"><input type="date" id="p-start" class="form-control form-control-sm" onchange="filterPipe()"></div>
             <div class="col-6"><input type="date" id="p-end" class="form-control form-control-sm" onchange="filterPipe()"></div>
-            <div class="col-6 mt-1"><select id="p-c" class="form-select form-select-sm" onchange="filterPipe()"></select></div>
+            <div class="col-4 mt-1"><select id="p-c" class="form-select form-select-sm" onchange="syncPipe('cab')"></select></div>
+            <div class="col-4 mt-1"><select id="p-spv" class="form-select form-select-sm" onchange="syncPipe('spv')"></select></div>
+            <div class="col-4 mt-1"><select id="p-s" class="form-select form-select-sm" onchange="syncPipe('sales')"></select></div>
           </div>
         </div>
 
         <div class="row g-2 mb-3">
-          <div class="col-6 col-md-4">
-            <div class="card-mewah p-3"><div class="card-content-fix"><span class="p-title">APK MASUK</span><b class="p-val" id="k-apk">0</b></div></div>
-          </div>
-          <div class="col-6 col-md-4">
-            <div class="card-mewah p-3"><div class="card-content-fix"><span class="p-title">APPROVE</span><b class="p-val" id="k-app" style="color:var(--app-blue)">0</b></div></div>
-          </div>
-          <div class="col-6 col-md-4">
-            <div class="card-mewah p-3"><div class="card-content-fix"><span class="p-title">REJECT</span><b class="p-val" id="k-rej" style="color:var(--rej-red)">0</b></div></div>
-          </div>
-          <div class="col-6 col-md-6">
-            <div class="card-mewah p-3"><div class="card-content-fix"><span class="p-title">BELUM CAIR</span><b class="p-val" id="k-bel" style="color:var(--bel-yellow)">0</b></div></div>
-          </div>
-          <div class="col-12 col-md-6">
-            <div class="card-mewah p-3"><div class="card-content-fix"><span class="p-title">CONV RATE</span><b class="p-val" id="k-conv">0%</b></div></div>
-          </div>
-          <div class="col-12">
-            <div class="card-mewah p-3 hero-stat text-center">
-              <div class="d-flex justify-content-center align-items-center">
-                <span class="p-title text-white opacity-75 me-3" style="font-size:14px !important;">ESTIMASI PLAFOND PIPELINE</span>
-                <b class="p-val text-white" id="k-pla" style="font-size:22px !important;">Rp 0</b>
-              </div>
-            </div>
-          </div>
+          <div class="col-6 col-md-4"><div class="card-mewah p-3"><div class="card-content-fix"><span class="p-title">APK MASUK</span><b class="p-val" id="k-apk">0</b></div></div></div>
+          <div class="col-6 col-md-4"><div class="card-mewah p-3"><div class="card-content-fix"><span class="p-title">APPROVE</span><b class="p-val" id="k-app" style="color:var(--app-blue)">0</b></div></div></div>
+          <div class="col-6 col-md-4"><div class="card-mewah p-3"><div class="card-content-fix"><span class="p-title">REJECT</span><b class="p-val" id="k-rej" style="color:var(--rej-red)">0</b></div></div></div>
+          <div class="col-6 col-md-6"><div class="card-mewah p-3"><div class="card-content-fix"><span class="p-title">BELUM CAIR</span><b class="p-val" id="k-bel" style="color:var(--bel-yellow)">0</b></div></div></div>
+          <div class="col-12 col-md-6"><div class="card-mewah p-3"><div class="card-content-fix"><span class="p-title">CONVERSION RATE</span><b class="p-val" id="k-conv">0%</b></div></div></div>
+          <div class="col-12"><div class="card-mewah p-3 hero-stat text-center"><div class="d-flex justify-content-center align-items-center"><span class="p-title text-white opacity-75 me-3" style="font-size:14px !important;">ESTIMASI PLAFOND PIPELINE</span><b class="p-val text-white" id="k-pla" style="font-size:24px !important;">Rp 0</b></div></div></div>
         </div>
 
         <h6 class="fw-bold mb-2 small text-muted px-2">FUNNEL ANALYTICS</h6>
@@ -133,24 +87,20 @@
           <div class="funnel-box st-cair"><span>CAIR (LIQUID)</span><span id="fn-cair">0</span></div>
           <div class="funnel-box st-rej"><span>REJECT</span><span id="fn-rej">0</span></div>
           <div class="mt-3 row text-center g-0 border-top pt-2">
-            <div class="col-6 small"><span class="p-title" style="font-size:9px !important;">MASUK → APPROVE</span><br><b id="cv-1" class="text-primary">0%</b></div>
-            <div class="col-6 small"><span class="p-title" style="font-size:9px !important;">APPROVE → CAIR</span><br><b id="cv-2" class="text-success">0%</b></div>
+            <div class="col-6 small"><span class="p-title">APLIKASI MASUK → APPROVE</span><br><b id="cv-1" class="text-primary">0%</b></div>
+            <div class="col-6 small"><span class="p-title">APPROVE → CAIR</span><br><b id="cv-2" class="text-success">0%</b></div>
           </div>
         </div>
 
         <div class="card-mewah p-0 overflow-hidden shadow-sm">
-          <div class="p-2 border-bottom bg-light d-flex justify-content-between align-items-center"><span class="fw-bold small">DATA DETAIL DEBITUR</span><input type="text" id="p-search" class="form-control form-control-sm w-50" placeholder="Search..." onkeyup="filterTablePipe()"></div>
-          <div style="max-height:400px; overflow-y:auto"><table class="table table-sm table-hover mb-0" style="font-size:10px;"><thead><tr><th>DEBITUR / JENIS</th><th>CAB/SALES</th><th>STATUS</th><th>PLAFOND</th></tr></thead><tbody id="pipe-body"></tbody></table></div>
+          <div class="p-2 border-bottom bg-light d-flex justify-content-between align-items-center"><span class="fw-bold small">LIST DEBITUR</span><input type="text" id="p-search" class="form-control form-control-sm w-50" placeholder="Cari..." onkeyup="debounceSearch()"></div>
+          <div style="max-height:400px; overflow-y:auto"><table class="table table-sm table-hover mb-0" style="font-size:10px;"><thead><tr class="bg-dark text-white"><th>DEBITUR</th><th>CAB/SALES</th><th>STATUS</th><th>PLAFOND</th></tr></thead><tbody id="pipe-body"></tbody></table></div>
+          <div class="p-2 bg-light text-center border-top"><div id="p-info" style="font-size:9px;">0 Data</div></div>
         </div>
       </div>
 
       <div id="v-admin" style="display:none">
-        <div class="card-mewah shadow">
-          <h6 class="fw-bold mb-4 text-primary">ADMIN UPLOAD PANEL</h6>
-          <input type="date" id="u-t" class="form-control mb-3">
-          <select id="u-j" class="form-select mb-3"><option value="1">Achv CS</option><option value="2">Achv SPV</option><option value="3">Achv TELE</option><option value="4">CAIR CS</option><option value="5">CAIR SPV</option><option value="6">CAIR TELE</option><option value="7">Pipeline</option></select>
-          <input type="file" id="u-f" class="form-control mb-4"><button class="btn btn-primary w-100 fw-bold py-3 shadow" onclick="execU()">UNGGAH DATA</button>
-        </div>
+        <div class="card-mewah shadow"><h6 class="fw-bold mb-4 text-primary">ADMIN UPLOAD PANEL</h6><input type="date" id="u-t" class="form-control mb-3"><select id="u-j" class="form-select mb-3"><option value="1">Achv CS</option><option value="2">Achv SPV</option><option value="3">Achv TELE</option><option value="4">CAIR CS</option><option value="5">CAIR SPV</option><option value="6">CAIR TELE</option><option value="7">Pipeline</option></select><input type="file" id="u-f" class="form-control mb-4"><button class="btn btn-primary w-100 fw-bold py-3 shadow" onclick="execU()">UNGGAH DATA</button></div>
       </div>
     </div>
   </div>
@@ -162,28 +112,48 @@
   </div>
 
   <script>
-    let db = { achv:[], cair:[], pipeline:[], listCHome:[], listCPipe:[], listS:[], listSPV:[] }, myChart = null;
-    let pipeFiltered = [], rowLimit = 25;
+    let db = { achv:[], cair:[], pipeline:[], listCHome:[], listCPipe:[], listS:[], listSPV:[] }, winChart = null;
+    let pipeFiltered = [], rowLimit = 25, searchTimeout = null;
 
+    // SOLUSI: sessionStorage - Data tersimpan di browser
     function initApp() {
+      const stored = sessionStorage.getItem('cc_data_v149');
+      if (stored) {
+        db = JSON.parse(stored);
+        renderInitialUI();
+        document.getElementById('loader-global').style.display = 'none';
+      } else {
+        fetchRemoteData();
+      }
+    }
+
+    function fetchRemoteData() {
       google.script.run
-        .withFailureHandler(err => { document.getElementById('loader-global').innerHTML = `<p class="text-danger">Error: ${err.message}. Refresh Browser.</p>`; })
+        .withFailureHandler(err => { document.getElementById('loader-global').innerHTML = `<p class='text-danger'>Error: ${err.message}</p>`; })
         .withSuccessHandler(res => {
-          db = res; document.getElementById('u-nama').innerText = res.u.nama;
-          const fill = (id, list, txt) => {
-            const s = document.getElementById(id); s.innerHTML = `<option value="">${txt}</option>`;
-            [...new Set(list)].sort().forEach(v => s.add(new Option(v, v)));
-          };
-          fill('f-c', res.listCHome, "Pilih Cabang"); fill('p-c', res.listCPipe, "Semua Cabang"); 
-          runFilter(true); filterPipe();
+          db = res;
+          sessionStorage.setItem('cc_data_v149', JSON.stringify(res));
+          renderInitialUI();
           document.getElementById('loader-global').style.display = 'none';
         })
         .getDashboardData();
     }
 
+    function renderInitialUI() {
+      document.getElementById('u-nama').innerText = db.u.nama;
+      const fill = (id, list, txt) => {
+        const s = document.getElementById(id); s.innerHTML = `<option value="">${txt}</option>`;
+        [...new Set(list)].sort().forEach(v => s.add(new Option(v, v)));
+      };
+      fill('f-c', db.listCHome, "Pilih Cabang"); fill('p-c', db.listCPipe, "Semua Cabang"); fill('p-spv', db.listSPV, "Semua SPV"); fill('p-s', db.listS, "Semua Sales");
+      runFilter(true); filterPipe();
+    }
+
     function refreshData() {
+      sessionStorage.removeItem('cc_data_v149');
       Swal.fire({ title: 'Sync...', allowOutsideClick: false, didOpen: () => { Swal.showLoading(); } });
-      google.script.run.withSuccessHandler(res => { db = res; runFilter(true); filterPipe(); Swal.fire({ icon:'success', title:'Updated', timer:800, showConfirmButton:false }); }).getDashboardData();
+      fetchRemoteData();
+      setTimeout(() => { Swal.fire({ icon:'success', title:'Updated', timer:800, showConfirmButton:false }); }, 1500);
     }
 
     function switchPage(p) {
@@ -222,22 +192,51 @@
       let h = ""; Object.keys(resC).sort().forEach(p => { h += `<div class="cair-row"><div><b>${p}</b><br><small>${resC[p].q} Item</small></div><div class="text-end"><span class="text-primary fw-bold">Rp ${resC[p].v.toLocaleString('id-ID')}</span></div></div>`; });
       h += `<div class="cair-row total-row"><div><b>GRAND TOTAL REALISASI</b><br><small>${gI.toLocaleString('id-ID')} Item</small></div><div class="text-end"><span>Rp ${resA.global.r.toLocaleString('id-ID')}</span></div></div>`;
       document.getElementById('cair-list').innerHTML = h || "<p class='text-center py-5 small text-muted'>Kosong</p>";
-      const ctx = document.getElementById('gChart').getContext('2d'); if(myChart) myChart.destroy();
-      myChart = new Chart(ctx, { type:'doughnut', data:{ datasets:[{ data:[pG, 100-pG], backgroundColor:['#00A8E8','rgba(255,255,255,0.1)'], borderWidth:0, cutout:'80%', circumference:240, rotation:240 }] }, options:{ plugins:{ tooltip:{enabled:false} } } });
+      const ctx = document.getElementById('gChart').getContext('2d'); if(winChart) winChart.destroy();
+      winChart = new Chart(ctx, { type:'doughnut', data:{ datasets:[{ data:[pG, 100-pG], backgroundColor:['#00A8E8','rgba(255,255,255,0.1)'], borderWidth:0, cutout:'80%', circumference:240, rotation:240 }] }, options:{ plugins:{ tooltip:{enabled:false} } } });
+    }
+
+    // SOLUSI: Debounce 200ms - Search tidak bikin lag
+    function debounceSearch() {
+      clearTimeout(searchTimeout);
+      searchTimeout = setTimeout(() => { filterTablePipe(); }, 200);
+    }
+
+    function syncPipe(type) {
+      const c = document.getElementById('p-c'), spv = document.getElementById('p-spv'), s = document.getElementById('p-s');
+      if(type === 'cab') {
+        const avSPV = [...new Set(db.pipeline.filter(x => c.value==="" || x[3]===c.value).map(x => x[7]))].sort();
+        const avS = [...new Set(db.pipeline.filter(x => c.value==="" || x[3]===c.value).map(x => x[6]))].sort();
+        updateSelect('p-spv', avSPV, "Semua SPV"); updateSelect('p-s', avS, "Semua Sales");
+      } else if(type === 'spv') {
+        if(spv.value !== "") { const r = db.pipeline.find(x => x[7]===spv.value); if(r) c.value = r[3]; }
+        const avS = [...new Set(db.pipeline.filter(x => spv.value==="" || x[7]===spv.value).map(x => x[6]))].sort();
+        updateSelect('p-s', avS, "Semua Sales");
+      } else if(type === 'sales') {
+        if(s.value !== "") { const r = db.pipeline.find(x => x[6]===s.value); if(r) { c.value = r[3]; updateSelect('p-spv', [r[7]], "Semua SPV"); spv.value = r[7]; } }
+      }
+      filterPipe();
+    }
+
+    function updateSelect(id, list, txt) {
+      const s = document.getElementById(id); const old = s.value;
+      s.innerHTML = `<option value="">${txt}</option>`;
+      list.forEach(v => s.add(new Option(v, v))); if(list.includes(old)) s.value = old;
     }
 
     function filterPipe() {
-      const sD = document.getElementById('p-start').value || "1900-01-01", eD = document.getElementById('p-end').value || "2100-12-31", c = document.getElementById('p-c').value;
-      pipeFiltered = db.pipeline.filter(x => x.tgl>=sD && x.tgl<=eD && (c==="" || x.cab===c));
-      let m = { apk:0, app:0, rej:0, cair:0, bel:0, pla:0 };
+      const sD = document.getElementById('p-start').value || "1900-01-01", eD = document.getElementById('p-end').value || "2100-12-31";
+      const c = document.getElementById('p-c').value, spv = document.getElementById('p-spv').value, sal = document.getElementById('p-s').value;
+      pipeFiltered = db.pipeline.filter(x => x[0]>=sD && x[0]<=eD && (c==="" || x[3]===c) && (spv==="" || x[7]===spv) && (sal==="" || x[6]===sal));
+      
+      let m = { apk:0, app:0, rej:0, cair:0, pla:0 };
       pipeFiltered.forEach(r => {
-        m.apk++; m.pla += r.pla;
-        const k = r.kep.toUpperCase(), s = r.st.toUpperCase();
+        m.apk++; m.pla += r[8];
+        const k = r[5].toUpperCase(), s = r[4].toUpperCase();
         if(k.includes('APPROVE')) m.app++; if(k.includes('REJECT')) m.rej++; if(s === 'CAIR') m.cair++;
-        if(!k.includes('REJECT') && s !== 'CAIR') m.bel++;
       });
       document.getElementById('k-apk').innerText = m.apk; document.getElementById('k-app').innerText = m.app;
-      document.getElementById('k-rej').innerText = m.rej; document.getElementById('k-bel').innerText = m.bel;
+      document.getElementById('k-rej').innerText = m.rej; document.getElementById('k-bel').innerText = (m.apk - m.cair - m.rej);
       document.getElementById('k-pla').innerText = "Rp " + m.pla.toLocaleString('id-ID');
       const conv = m.apk > 0 ? (m.app/m.apk*100).toFixed(1) : 0;
       document.getElementById('k-conv').innerText = conv + "%";
@@ -249,16 +248,19 @@
     }
 
     function renderTablePipe(data) {
-      let h = ""; data.slice(0,rowLimit).forEach(r => {
-        let sc = "st-apk"; if(r.st.toUpperCase()==='CAIR') sc="st-cair"; else if(r.kep.toUpperCase().includes('APPROVE')) sc="st-app"; else if(r.kep.toUpperCase().includes('REJECT')) sc="st-rej";
-        h += `<tr><td><b>${r.deb}</b><br><small class="text-muted">${r.jen}</small></td><td><small>${r.cab}<br>${r.sal}</small></td><td><span class="badge-status ${sc}">${r.st}</span></td><td class="fw-bold">Rp ${r.pla.toLocaleString('id-ID')}</td></tr>`;
+      let h = ""; 
+      // SOLUSI: Virtual pagination - Hanya render 25 row di DOM agar HP tidak hang
+      data.slice(0, rowLimit).forEach(r => {
+        let sc = "st-apk"; if(r[4].toUpperCase()==='CAIR') sc="st-cair"; else if(r[5].toUpperCase().includes('APPROVE')) sc="st-app"; else if(r[5].toUpperCase().includes('REJECT')) sc="st-rej";
+        h += `<tr><td><b>${r[2]}</b><br><small class='text-muted'>${r[1]}</small></td><td><small>${r[3]}<br>${r[6]}</small></td><td><span class="badge rounded-pill ${sc}" style="font-size:8px;">${r[4]}</span></td><td class="fw-bold">Rp ${r[8].toLocaleString('id-ID')}</td></tr>`;
       });
       document.getElementById('pipe-body').innerHTML = h || "<tr><td colspan='4' class='text-center p-4'>Kosong</td></tr>";
+      document.getElementById('p-info').innerText = `${data.length} Data Terfilter`;
     }
-    
+
     function filterTablePipe() { 
       const q = document.getElementById('p-search').value.toLowerCase(); 
-      const temp = pipeFiltered.filter(x => x.deb.toLowerCase().includes(q) || x.cab.toLowerCase().includes(q) || x.sal.toLowerCase().includes(q) || x.jen.toLowerCase().includes(q)); 
+      const temp = pipeFiltered.filter(x => x[2].toLowerCase().includes(q) || x[3].toLowerCase().includes(q) || x[6].toLowerCase().includes(q)); 
       renderTablePipe(temp);
     }
 
